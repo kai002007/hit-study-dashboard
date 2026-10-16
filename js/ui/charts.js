@@ -7,7 +7,7 @@ import { SoundKit, formatDateISO, getToday, notify, parseSleepTime, pushUndo } f
 import { getSuggestedToday } from "./checkin.js";
 
 // 热力图默认近 13 周；展开后全年 53 周（运行时切换）
-let heatmapFullView = true;
+let heatmapFullView = false;
 
 // ==================== 11.4 关键节点表（S2-2） ====================
 
@@ -342,9 +342,9 @@ function renderMonthlyTrack(subjectKey) {
 
   const refLines = `
     <line class="ref-line ref-line-target" x1="${padL}" y1="${yTarget}" x2="${W - padR}" y2="${yTarget}" />
-    <text class="ref-label" x="${W - padR}" y="${yTarget - 3}" text-anchor="end">目标 ${cfg.target}</text>
-    <line class="ref-line" x1="${padL}" y1="${yFallback}" x2="${W - padR}" y2="${yFallback}" />
-    <text class="ref-label" x="${W - padR}" y="${yFallback - 3}" text-anchor="end">底线 ${cfg.fallback}</text>
+    <text class="ref-label ref-label-target" x="${W - padR}" y="${yTarget - 3}" text-anchor="end">目标 ${cfg.target}</text>
+    <line class="ref-line ref-line-fallback" x1="${padL}" y1="${yFallback}" x2="${W - padR}" y2="${yFallback}" />
+    <text class="ref-label ref-label-fallback" x="${padL}" y="${yFallback - 3}" text-anchor="start">底线 ${cfg.fallback}</text>
   `;
 
   const firstLabel = scores[0].date.slice(5).replace("-", ".");

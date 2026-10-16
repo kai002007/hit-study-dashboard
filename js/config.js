@@ -9,6 +9,9 @@ const STAGE0_START_DATE = "2026-09-21";
 const MELTDOWN_THRESHOLD = 3.5;      // 连续 2 周均值 < 3.5 触发熔断预警
 const STATUS_DROP_THRESHOLD = 0.5;   // 滑动平均下降 ≥ 0.5 触发下滑预警
 
+// 日学习上限（批次22 R3）：按星期几索引，周一=0 → 周日=6，单位 h；调用处用 DAILY_CAP[(date.getDay() + 6) % 7]
+const DAILY_CAP = [2.5, 6.0, 5.5, 5.0, 6.5, 8.0, 6.5];
+
 // ==================== 1. 数据常量（由 CSV 转写） ====================
 
 const STAGES = [
@@ -272,6 +275,7 @@ export {
   STAGE0_START_DATE,
   MELTDOWN_THRESHOLD,
   STATUS_DROP_THRESHOLD,
+  DAILY_CAP,
   STAGES,
   QUOTAS,
   DEFAULT_CONFIGS,

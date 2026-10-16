@@ -3994,6 +3994,7 @@ body::before {
   border-radius: var(--radius-md);
   padding: var(--gap-md);
   box-shadow: var(--shadow-md);
+  margin-top: 16px; /* 批次22 ⑫：与上方扇形卡留距，防曲线上缘被盖 */
   margin-bottom: var(--gap-md);
 }
 
@@ -8199,3 +8200,40 @@ body[data-theme="minimal-white"] .pie-percent {
 .global-stats-header-actions .stage-review-back-btn { white-space: nowrap; flex-shrink: 0; }
 
 
+
+/* ==================== 批次22：⑨日历header窄屏 / ⑩日历格防截断 / ⑪io页8键统一 / ⑬双线区分 / ⑭系数页呼吸感 ==================== */
+/* ⑨ 日历页窄屏 header：X 钉右上角，三导航键等分整行 */
+@media (max-width: 640px) {
+  #calendar-page .global-stats-header { position: relative; padding-right: 60px; }
+  #calendar-page .global-stats-close-btn { position: absolute; top: 12px; right: 12px; }
+  #calendar-page .global-stats-header-actions { width: 100%; gap: 6px; }
+  #calendar-page .global-stats-header-actions .stage-review-back-btn { flex: 1; min-width: 0; padding-left: 4px; padding-right: 4px; font-size: 12px; text-align: center; }
+}
+/* ⑩ 日历格文字防截断（阶段标签已去"阶段"前缀，工时/项数合并一行） */
+.cal-cell { line-height: 1.3; }
+.cal-stage { font-size: 10px; line-height: 1.25; white-space: normal; }
+@media (max-width: 640px) {
+  .cal-cell { padding: 4px 3px; }
+  .cal-cell .cal-hours { margin-top: 1px; }
+  .cal-cell .cal-stage { margin-top: 1px; }
+}
+/* ⑪ 导入导出页 8 键统一规格（id 选择器压过蓝/绿/紫渐变旧装饰） */
+#io-page .settings-action-card { background: var(--bg-card); border-color: var(--border-subtle); color: var(--text-primary); }
+#io-page .settings-action-card:hover { background: var(--bg-subtle); border-color: var(--purple-400); box-shadow: none; }
+#io-page .settings-action-card svg { stroke: var(--purple-400); }
+#io-page .settings-action-card .settings-action-title { color: var(--text-primary); }
+#io-page .settings-action-card .settings-action-desc { color: var(--text-tertiary); }
+/* ⑬ 月测分目标/底线双线区分（目标绿实线右标签，底线琥珀虚线左标签，色弱可读） */
+.monthly-track-chart .ref-line-fallback { stroke: #f59e0b; stroke-dasharray: 2 3; opacity: 0.9; }
+.monthly-track-chart .ref-label-target { fill: #4ade80; }
+.monthly-track-chart .ref-label-fallback { fill: #f59e0b; }
+/* ⑭ 系数页输入框呼吸感：max-width 收窄，手机端不贴边 */
+#coeff-page .global-stats-goal-input { max-width: 260px; }
+#coeff-page .global-stats-section { padding: 18px; }
+@media (max-width: 640px) {
+  #coeff-page .global-stats-goal-input { max-width: calc(100% - 8px); }
+  #coeff-page .global-stats-section { padding: 16px 14px; }
+}
+/* 批次22 修正（用户终审）：io 页六导出键形状完全一致 + 备份提醒卡横占两列 */
+#io-page .md-export-card, #io-page .csv-export-card { min-height: 104px; }
+#io-page #backup-reminder-wrapper { grid-column: 1 / -1; }

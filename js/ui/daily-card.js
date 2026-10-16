@@ -1,6 +1,6 @@
 // ==================== js/ui/daily-card.js ====================
 // 批次20（ESM-b）自 script.js 整切：日卡系统域（S4-1 状态分/渲染/保存/事件）。函数体逐字节不变。
-import { MELTDOWN_THRESHOLD, STAGE0_START_DATE, STATUS_DROP_THRESHOLD } from "../config.js";
+import { MELTDOWN_THRESHOLD, STAGE0_START_DATE, STATUS_DROP_THRESHOLD, DAILY_CAP } from "../config.js";
 import { STORAGE_KEYS, getDailyCard, getDailyCards, saveDailyCard } from "../storage.js";
 import { fmtHours, getDailyHours } from "../aggregation.js";
 import { bindClick, daysBetween, formatDateISO, getToday, notify, parseDate, pushUndo } from "./base.js";
@@ -61,6 +61,27 @@ function isSundayAfternoon() {
   return now.getDay() === 0 && now.getHours() >= 12;
 }
 
+function getTodayCap() {
+  // DAILY_CAP 索引：周一=0 → 周日=6
+  return DAILY_CAP[(new Date().getDay() + 6) % 7];
+}
+
+function paintDailyRatio(hours, cap) {
+  // 新比值口径（批次22 R3）：今日学习时长 ÷ 上限值，百分比显示
+  const ratioEl = document.getElementById("daily-ratio");
+  if (!ratioEl) return;
+  ratioEl.className = "daily-ratio-display";
+  if (cap > 0) {
+    const ratio = hours / cap;
+    ratioEl.textContent = Math.round(ratio * 100) + "%";
+    if (ratio >= 0.9) ratioEl.classList.add("ratio-good");
+    else if (ratio >= 0.6) ratioEl.classList.add("ratio-ok");
+    else ratioEl.classList.add("ratio-bad");
+  } else {
+    ratioEl.textContent = "--";
+  }
+}
+
 function renderDailyCard() {
   const el = document.getElementById("daily-card");
   if (!el) return;
@@ -68,13 +89,9 @@ function renderDailyCard() {
   const todayStr = getToday();
   const card = getDailyCard(todayStr);
 
-  const planInput = document.getElementById("daily-plan-hours");
   const actualInput = document.getElementById("daily-actual-hours");
   const blockerInput = document.getElementById("daily-blocker");
 
-  if (planInput && !planInput.dataset.userEdited) {
-    planInput.value = card && card.planHours ? card.planHours : "";
-  }
   if (actualInput && !actualInput.dataset.userEdited) {
     const prevAdj = card && Number.isFinite(Number(card.adjustment)) ? Number(card.adjustment) : 0;
     actualInput.value = prevAdj !== 0 ? prevAdj : "";
@@ -83,23 +100,20 @@ function renderDailyCard() {
     blockerInput.value = card ? card.blocker : "";
   }
 
-  // 比值
-  const ratioEl = document.getElementById("daily-ratio");
-  if (ratioEl) {
-    const plan = Number(planInput ? planInput.value : 0) || 0;
-    const actual = Number(actualInput ? actualInput.value : 0) || 0;
-    if (plan > 0) {
-      const ratio = actual / plan;
-      ratioEl.textContent = ratio.toFixed(2);
-      ratioEl.className = "daily-ratio-display";
-      if (ratio >= 0.9) ratioEl.classList.add("ratio-good");
-      else if (ratio >= 0.6) ratioEl.classList.add("ratio-ok");
-      else ratioEl.classList.add("ratio-bad");
-    } else {
-      ratioEl.textContent = "--";
-      ratioEl.className = "daily-ratio-display";
-    }
+  // 今日学习时长 / 上限值 / 新比值（只读三件套，随打卡与调整自动重算）
+  const dh = getDailyHours(todayStr);
+  const cap = getTodayCap();
+  const hoursEl = document.getElementById("daily-today-hours");
+  if (hoursEl) hoursEl.textContent = fmtHours(dh.hours) + " h";
+  const capEl = document.getElementById("daily-cap");
+  if (capEl) capEl.textContent = cap + " h";
+  // 调整额输入未保存时的即时预览：已存工时 + (输入值 - 已存调整额)
+  let previewHours = dh.hours;
+  if (actualInput && actualInput.dataset.userEdited === "true") {
+    const prevAdj = card && Number.isFinite(Number(card.adjustment)) ? Number(card.adjustment) : 0;
+    previewHours = dh.hours - prevAdj + (Number(actualInput.value) || 0);
   }
+  paintDailyRatio(previewHours, cap);
 
   // 状态分按钮高亮
   const picker = document.getElementById("status-score-picker");
@@ -163,7 +177,6 @@ function renderDailyCard() {
 
 function handleSaveDailyCard() {
   const todayStr = getToday();
-  const planInput = document.getElementById("daily-plan-hours");
   const actualInput = document.getElementById("daily-actual-hours");
   const blockerInput = document.getElementById("daily-blocker");
   const picker = document.getElementById("status-score-picker");
@@ -177,11 +190,12 @@ function handleSaveDailyCard() {
   }
 
   // 白皮书§4.3（批次14b 定稿）：输入框语义=当日调整额（默认 0、可负、仅当日生效）；编辑过即落盘，未编辑保留原 adjustment
+  // 批次22 R3：planHours 字段保留不删（旧备份兼容），新卡落 0
   const prevCard = getDailyCard(todayStr);
   const actualEdited = !!(actualInput && actualInput.dataset.userEdited === "true");
   const prevAdj = prevCard && Number.isFinite(Number(prevCard.adjustment)) ? Number(prevCard.adjustment) : 0;
   const data = {
-    planHours: planInput ? Number(planInput.value) || 0 : 0,
+    planHours: 0,
     adjustment: actualEdited
       ? (actualInput ? Number(actualInput.value) || 0 : 0)
       : prevAdj,
@@ -228,34 +242,22 @@ function bindDailyCardEvents() {
     });
   }
 
-  const planInput = document.getElementById("daily-plan-hours");
   const actualInput = document.getElementById("daily-actual-hours");
   const blockerInput = document.getElementById("daily-blocker");
 
-  function updateRatio() {
-    const plan = Number(planInput ? planInput.value : 0) || 0;
-    const actual = Number(actualInput ? actualInput.value : 0) || 0;
-    const ratioEl = document.getElementById("daily-ratio");
-    if (!ratioEl) return;
-    if (plan > 0) {
-      const ratio = actual / plan;
-      ratioEl.textContent = ratio.toFixed(2);
-      ratioEl.className = "daily-ratio-display";
-      if (ratio >= 0.9) ratioEl.classList.add("ratio-good");
-      else if (ratio >= 0.6) ratioEl.classList.add("ratio-ok");
-      else ratioEl.classList.add("ratio-bad");
-    } else {
-      ratioEl.textContent = "--";
-      ratioEl.className = "daily-ratio-display";
-    }
-  }
-
-  [planInput, actualInput, blockerInput].forEach(inp => {
+  [actualInput, blockerInput].forEach(inp => {
     if (inp && !inp.dataset.bound) {
       inp.dataset.bound = "1";
       inp.addEventListener("input", function() {
         this.dataset.userEdited = "true";
-        updateRatio();
+        // 调整额输入即时预览新比值（今日时长÷上限口径）
+        if (inp === actualInput) {
+          const todayStr = getToday();
+          const card = getDailyCard(todayStr);
+          const dh = getDailyHours(todayStr);
+          const prevAdj = card && Number.isFinite(Number(card.adjustment)) ? Number(card.adjustment) : 0;
+          paintDailyRatio(dh.hours - prevAdj + (Number(actualInput.value) || 0), getTodayCap());
+        }
       });
     }
   });

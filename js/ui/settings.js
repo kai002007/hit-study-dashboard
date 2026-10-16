@@ -1,6 +1,6 @@
 // ==================== js/ui/settings.js ====================
 // 批次20（ESM-b）自 script.js 整切：设置页域（主题六套/CSV 导出/自定义命令/热力图气泡绑定）。函数体逐字节不变。
-import { METRIC_CONFIGS, THEME_ORDER } from "../config.js";
+import { DAILY_CAP, METRIC_CONFIGS, THEME_ORDER } from "../config.js";
 import { WEEKLY_REVIEW_STORAGE_KEY, getCheckins, getCustomCommands, getDailyCards, getTheme, loadCustomGoals, loadData, saveCustomCommands, setTheme } from "../storage.js";
 import { getDailyHours } from "../aggregation.js";
 import { SoundKit, bindClick, notify } from "./base.js";
@@ -267,17 +267,18 @@ function exportDailyCardsCSV() {
 
   const ts = getExportTimestamp();
   const rows = [
-    ["日期", "计划h", "实际h", "比值", "状态分", "卡点"]
+    ["日期", "上限h", "实际h", "比值", "状态分", "卡点"]
   ];
 
   dates.forEach(dateStr => {
     const c = all[dateStr];
-    const plan = Number(c.planHours) || 0;
+    // 批次22 R3：计划h 口径废弃，改导出当日上限（DAILY_CAP 按星期几索引，周一=0）
+    const cap = DAILY_CAP[(new Date(dateStr + "T00:00:00").getDay() + 6) % 7];
     const actual = getDailyHours(dateStr).hours;
-    const ratio = plan > 0 ? (actual / plan).toFixed(2) : "";
+    const ratio = cap > 0 ? (actual / cap).toFixed(2) : "";
     rows.push([
       dateStr,
-      plan,
+      cap,
       actual,
       ratio,
       c.statusScore || "",

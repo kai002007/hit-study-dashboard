@@ -157,9 +157,9 @@ check("断言8 storage/aggregation 接入 ui 层 import",
 
 // ---- 断言9：两 let 搬迁落位（赋值唯一性）----
 const stageSrc = raw["js/ui/stage.js"], chartsSrc = raw["js/ui/charts.js"], dashSrc = raw["js/ui/dashboard.js"];
-check("断言9 跨模块可变状态归位",
+check("断言9 跨模块可变状态归位（批次22 R3 起热力图默认近13周，初值有意改 false）",
   stageSrc.indexOf("let currentViewStageId = null;") !== -1 &&
-  chartsSrc.indexOf("let heatmapFullView = true;") !== -1 &&
+  chartsSrc.indexOf("let heatmapFullView = false;") !== -1 &&
   dashSrc.indexOf("currentViewStageId") === -1 && dashSrc.indexOf("heatmapFullView") === -1 &&
   (stageSrc.match(/currentViewStageId =[^=]/g) || []).length === 4 &&
   (chartsSrc.match(/heatmapFullView =[^=]/g) || []).length === 2, true);

@@ -134,9 +134,8 @@ function renderCalendarPage() {
     if (ds > todayStr) cls.push("cal-cell-future");
     cells += `<div class="${cls.join(" ")}" data-cal-date="${ds}">` +
       `<div class="cal-date">${d}</div>` +
-      (hours > 0 ? `<div class="cal-hours">${fmtHours(hours)}h</div>` : "") +
-      (count > 0 ? `<div class="cal-count">${count} 项</div>` : "") +
-      `<div class="cal-stage">${getStageIdByDate(ds)}</div></div>`;
+      (hours > 0 || count > 0 ? `<div class="cal-hours">${hours > 0 ? fmtHours(hours) + "h" : ""}${hours > 0 && count > 0 ? " · " : ""}${count > 0 ? count + "项" : ""}</div>` : "") +
+      `<div class="cal-stage">${getStageIdByDate(ds).replace(/^阶段/, "")}</div></div>`;
   }
   body.innerHTML = `<h3 class="stage-review-section-title">${y} 年 ${m + 1} 月</h3>` +
     `<div class="cal-grid">${headCells}${cells}</div>` +

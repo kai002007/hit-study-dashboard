@@ -1,6 +1,6 @@
 // ==================== js/ui/command.js ====================
 // 批次20（ESM-b）自 script.js 整切：命令面板域（S8-1 面板/S8-3 Markdown导出/快捷键提示/数字键切Tab）。函数体逐字节不变。
-import { METRIC_CONFIGS } from "../config.js";
+import { DAILY_CAP, METRIC_CONFIGS } from "../config.js";
 import { WEEKLY_REVIEW_STORAGE_KEY, exportBackup, getCheckins, getCustomCommands, getDailyCards, loadCustomGoals, loadData } from "../storage.js";
 import { getDailyHours } from "../aggregation.js";
 import { SoundKit, notify, performUndo } from "./base.js";
@@ -387,18 +387,19 @@ function exportDailyCardsMarkdown() {
     `导出时间：${ts.human}`,
     `共 ${dates.length} 天记录`,
     "",
-    "| 日期 | 计划h | 实际h | 比值 | 状态分 | 卡点 |",
+    "| 日期 | 上限h | 实际h | 比值 | 状态分 | 卡点 |",
     "|---|---|---|---|---|---|"
   ];
 
   dates.forEach(dateStr => {
     const c = all[dateStr];
-    const plan = Number(c.planHours) || 0;
+    // 批次22 R3：计划h 口径废弃，改导出当日上限（DAILY_CAP 按星期几索引，周一=0）
+    const cap = DAILY_CAP[(new Date(dateStr + "T00:00:00").getDay() + 6) % 7];
     const actual = getDailyHours(dateStr).hours;
-    const ratio = plan > 0 ? (actual / plan).toFixed(2) : "--";
+    const ratio = cap > 0 ? (actual / cap).toFixed(2) : "--";
     const score = c.statusScore || "-";
     const blocker = (c.blocker || "").replace(/\|/g, "\\|") || "-";
-    lines.push(`| ${dateStr} | ${plan} | ${actual} | ${ratio} | ${score} | ${blocker} |`);
+    lines.push(`| ${dateStr} | ${cap} | ${actual} | ${ratio} | ${score} | ${blocker} |`);
   });
 
   const content = lines.join("\n") + "\n";

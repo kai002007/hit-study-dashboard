@@ -176,15 +176,19 @@
 
               <div class="daily-card-body">
                 <div class="daily-field">
-                  <label for="daily-plan-hours">计划 h</label>
-                  <input type="number" id="daily-plan-hours" step="0.1" min="0" placeholder="4.5">
+                  <label>今日学习时长</label>
+                  <span class="daily-ratio-display" id="daily-today-hours">--</span>
+                </div>
+                <div class="daily-field">
+                  <label>上限值</label>
+                  <span class="daily-ratio-display" id="daily-cap">--</span>
                 </div>
                 <div class="daily-field">
                   <label for="daily-actual-hours">调整额 h</label>
                   <input type="number" id="daily-actual-hours" step="0.1" placeholder="0">
                 </div>
                 <div class="daily-field">
-                  <label>比值</label>
+                  <label>比值（今日÷上限）</label>
                   <span class="daily-ratio-display" id="daily-ratio">--</span>
                 </div>
                 <div class="daily-field daily-field-status">
@@ -1126,16 +1130,6 @@
                   <span class="settings-action-title">导入备份</span>
                   <span class="settings-action-desc">从 JSON 文件恢复数据</span>
                 </button>
-                <button class="settings-action-card md-export-card" id="export-checkins-md-btn" type="button">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
-                    <line x1="9" y1="12" x2="15" y2="12"/>
-                    <line x1="9" y1="16" x2="15" y2="16"/>
-                  </svg>
-                  <span class="settings-action-title">导出打卡明细</span>
-                  <span class="settings-action-desc">Markdown · 全部指标记录</span>
-                </button>
                 <button class="settings-action-card md-export-card" id="export-daily-md-btn" type="button">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -1145,27 +1139,6 @@
                   </svg>
                   <span class="settings-action-title">导出日卡</span>
                   <span class="settings-action-desc">Markdown · 状态分记录</span>
-                </button>
-                <button class="settings-action-card md-export-card" id="export-weekly-md-btn" type="button">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                  </svg>
-                  <span class="settings-action-title">导出周报</span>
-                  <span class="settings-action-desc">Markdown · 复盘记录</span>
-                </button>
-                <button class="settings-action-card csv-export-card" id="export-checkins-csv-btn" type="button">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 0 2-2h2"/>
-                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
-                    <line x1="8" y1="11" x2="16" y2="11"/>
-                    <line x1="8" y1="15" x2="16" y2="15"/>
-                    <line x1="8" y1="19" x2="12" y2="19"/>
-                  </svg>
-                  <span class="settings-action-title">导出打卡明细 CSV</span>
-                  <span class="settings-action-desc">Excel · 全部指标记录</span>
                 </button>
                 <button class="settings-action-card csv-export-card" id="export-daily-csv-btn" type="button">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1178,6 +1151,16 @@
                   <span class="settings-action-title">导出日卡 CSV</span>
                   <span class="settings-action-desc">Excel · 状态分记录</span>
                 </button>
+                <button class="settings-action-card md-export-card" id="export-weekly-md-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                  <span class="settings-action-title">导出周报</span>
+                  <span class="settings-action-desc">Markdown · 复盘记录</span>
+                </button>
                 <button class="settings-action-card csv-export-card" id="export-weekly-csv-btn" type="button">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -1187,6 +1170,27 @@
                   </svg>
                   <span class="settings-action-title">导出周报 CSV</span>
                   <span class="settings-action-desc">Excel · 复盘记录</span>
+                </button>
+                <button class="settings-action-card md-export-card" id="export-checkins-md-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                    <line x1="9" y1="12" x2="15" y2="12"/>
+                    <line x1="9" y1="16" x2="15" y2="16"/>
+                  </svg>
+                  <span class="settings-action-title">导出打卡明细</span>
+                  <span class="settings-action-desc">Markdown · 全部指标记录</span>
+                </button>
+                <button class="settings-action-card csv-export-card" id="export-checkins-csv-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 0 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                    <line x1="8" y1="11" x2="16" y2="11"/>
+                    <line x1="8" y1="15" x2="16" y2="15"/>
+                    <line x1="8" y1="19" x2="12" y2="19"/>
+                  </svg>
+                  <span class="settings-action-title">导出打卡明细 CSV</span>
+                  <span class="settings-action-desc">Excel · 全部指标记录</span>
                 </button>
               <input type="file" class="backup-file-input" id="backup-file-input" accept=".json">
               <div id="backup-reminder-wrapper"></div>

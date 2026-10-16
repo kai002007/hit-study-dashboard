@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>学习目标管理台 · 仪表盘</title>
+  <meta name="theme-color" content="#9333ea">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="作战台">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM5MzMzZWEiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRmNDZlNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTA4IiBmaWxsPSIjMGYwYTFhIi8+PHJlY3QgeD0iNjQiIHk9IjY0IiB3aWR0aD0iMzg0IiBoZWlnaHQ9IjM4NCIgcng9IjgwIiBmaWxsPSJ1cmwoI2cpIi8+PHBvbHlsaW5lIHBvaW50cz0iMTQwIDI2MCAyMjAgMzQwIDM3MCAxOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM5MzMzZWEiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRmNDZlNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTA4IiBmaWxsPSIjMGYwYTFhIi8+PHJlY3QgeD0iNjQiIHk9IjY0IiB3aWR0aD0iMzg0IiBoZWlnaHQ9IjM4NCIgcng9IjgwIiBmaWxsPSJ1cmwoI2cpIi8+PHBvbHlsaW5lIHBvaW50cz0iMTQwIDI2MCAyMjAgMzQwIDM3MCAxOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- PC 端左侧固定边栏 -->
+    <nav class="sidebar-nav" aria-label="主导航">
+      <div class="sidebar-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        学习作战台
+      </div>
+      <ul class="nav-list">
+        <li>
+          <button class="nav-item active" data-tab="today" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            今日作战
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-tab="progress" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            进度看板
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-tab="weekly" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            周报复盘
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-tab="settings" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            我的设置
+          </button>
+        </li>
+      </ul>
+      <div class="sidebar-footer">学习目标管理台 v2</div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <div class="app">
+        <!-- Tab 1：今日作战 -->
+        <section class="tab-panel active" id="tab-today" aria-label="今日作战">
+          <!-- 顶部阶段标题区 -->
+          <header class="stage-header">
+            <div class="stage-switcher-bar">
+              <button class="stage-switcher-btn" id="stage-switcher-btn" type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <span class="stage-switcher-label">阶段</span>
+                <span class="stage-switcher-current" id="stage-switcher-current">阶段0</span>
+              </button>
+            </div>
+            <div class="stage-badge">
+              <span class="stage-main" id="stage-main">阶段0</span>
+              <span class="stage-sub" id="stage-sub">国庆13天（子阶段）</span>
+            </div>
+            <h1 class="stage-title" id="stage-title">CMC竞赛期：高数重建三阶段＋竞赛三步法</h1>
+            <p class="stage-meta" id="stage-meta">
+              2026.9.21 – 2026.11.14 · 剩余 <strong id="stage-days">43</strong> 天
+            </p>
+            <div class="today-line" id="today-line">
+              <div class="today-line-main">
+                <span class="today-line-date">--</span>
+                <span class="today-line-weekday">--</span>
+              </div>
+              <div class="today-line-sub"></div>
+            </div>
+            <div class="next-milestone milestone-normal" id="next-milestone">
+              <span class="milestone-icon">🎯</span>
+              <span>距下一个节点：--</span>
+            </div>
+            <a href="#" class="stage-doc-link" id="stage-doc-link">查看总纲：第四章 §4.1–§4.3</a>
+          </header>
+
+          <!-- 周配额概览区 -->
+          <section class="quota-section">
+            <div class="quota-cards">
+              <div class="quota-card">
+                <span class="quota-label">本周总配额</span>
+                <span class="quota-value" id="quota-total">30 h</span>
+                <div class="quota-progress">
+                  <div class="quota-progress-bar" id="quota-progress-bar" style="width: 0%;"></div>
+                </div>
+                <span class="quota-note">阶段0常规周配额</span>
+              </div>
+              <div class="quota-card quota-card-sub">
+                <span class="quota-label">国庆本周参考</span>
+                <span class="quota-value" id="quota-sub-total">31.5 h</span>
+                <div class="quota-progress">
+                  <div class="quota-progress-bar quota-progress-bar-sub" id="quota-sub-progress-bar" style="width: 0%;"></div>
+                </div>
+                <span class="quota-note">每日 4.5h 封顶</span>
+              </div>
+              <div class="quota-card quota-card-used">
+                <span class="quota-label">本周已用学时</span>
+                <span class="quota-value" id="quota-used">0 h</span>
+                <div class="quota-progress">
+                  <div class="quota-progress-bar quota-progress-bar-used" id="quota-used-progress-bar" style="width: 0%;"></div>
+                </div>
+                <span class="quota-note">待日卡数据接入</span>
+              </div>
+            </div>
+
+            <!-- 模块列表 -->
+            <div class="module-list" id="module-list">
+              <h2 class="section-title">阶段0 模块周配额</h2>
+              <ul>
+                <li class="module-item">
+                  <span class="module-name">竞赛专项</span>
+                  <span class="module-hours">12 h</span>
+                  <span class="module-note">周一至五每日1.5h三步法＋周六限时章节测2h与复盘1h＋周日1.5h</span>
+                </li>
+                <li class="module-item">
+                  <span class="module-name">模电数电专项</span>
+                  <span class="module-hours">3 h</span>
+                  <span class="module-note">10.28／11.12结课为推算口径；边学边总复习，目标90+会解题</span>
+                </li>
+                <li class="module-item">
+                  <span class="module-name">概率（课内＋作业）</span>
+                  <span class="module-hours">4 h</span>
+                  <span class="module-note">课内即备考，不欠账，目标90+</span>
+                </li>
+                <li class="module-item">
+                  <span class="module-name">其他课</span>
+                  <span class="module-hours">4 h</span>
+                  <span class="module-note">大物／外语／复变／力学；大物、外语各≥1.5h/周</span>
+                </li>
+                <li class="module-item">
+                  <span class="module-name">英语</span>
+                  <span class="module-hours">4 h</span>
+                  <span class="module-note">单词两段式＋每日30min听力</span>
+                </li>
+                <li class="module-item">
+                  <span class="module-name">缓冲</span>
+                  <span class="module-hours">2 h</span>
+                  <span class="module-note">低谷日</span>
+                </li>
+                <li class="module-item">
+                  <span class="module-name">周检</span>
+                  <span class="module-hours">1 h</span>
+                  <span class="module-note">周日晚间</span>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- 核心目标指标卡片区 -->
+          <section class="metrics-section">
+            <div class="metrics-toolbar">
+              <button class="new-goal-btn" id="new-goal-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                新建学习目标
+              </button>
+            </div>
+
+            <!-- 今日日卡（S4-1） -->
+            <section class="daily-card" id="daily-card">
+              <div class="daily-card-header">
+                <h3 class="daily-card-title"><span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span> 今日日卡</h3>
+                <div class="daily-card-tags" id="daily-card-tags"></div>
+              </div>
+
+              <div class="daily-card-body">
+                <div class="daily-field">
+                  <label for="daily-plan-hours">计划 h</label>
+                  <input type="number" id="daily-plan-hours" step="0.1" min="0" placeholder="4.5">
+                </div>
+                <div class="daily-field">
+                  <label for="daily-actual-hours">调整额 h</label>
+                  <input type="number" id="daily-actual-hours" step="0.1" placeholder="0">
+                </div>
+                <div class="daily-field">
+                  <label>比值</label>
+                  <span class="daily-ratio-display" id="daily-ratio">--</span>
+                </div>
+                <div class="daily-field daily-field-status">
+                  <label>状态分（1–5）</label>
+                  <div class="status-score-picker" id="status-score-picker">
+                    <button type="button" class="status-score-btn" data-score="1">1</button>
+                    <button type="button" class="status-score-btn" data-score="2">2</button>
+                    <button type="button" class="status-score-btn" data-score="3">3</button>
+                    <button type="button" class="status-score-btn" data-score="4">4</button>
+                    <button type="button" class="status-score-btn" data-score="5">5</button>
+                  </div>
+                </div>
+                <div class="daily-field daily-field-blocker">
+                  <label for="daily-blocker">卡点</label>
+                  <input type="text" id="daily-blocker" placeholder="今天卡在哪里……">
+                </div>
+              </div>
+
+              <div class="daily-card-footer">
+                <div class="daily-card-insight" id="daily-card-insight">近 7 天状态分均值：--</div>
+                <button type="button" class="daily-save-btn" id="daily-save-btn">保存日卡</button>
+              </div>
+            </section>
+
+            <!-- 今日作战 Top 3（S6-1） -->
+            <section class="top-tasks-card" id="top-tasks-card">
+              <div class="top-tasks-header">
+                <h3 class="top-tasks-title"><span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> 今日 Top 3</h3>
+                <span class="top-tasks-subtitle" id="top-tasks-subtitle">--</span>
+              </div>
+              <div class="top-tasks-list" id="top-tasks-list">
+                <!-- 由 renderTop3Tasks() 动态渲染 -->
+              </div>
+            </section>
+
+            <div class="metrics-section-header">
+              <h2 class="section-title">本周核心目标指标</h2>
+            </div>
+            <div id="missed-banner-wrapper"></div>
+            <div class="metrics-grid" id="metrics-grid">
+              <!-- 1. 周有效产能（自动汇总） -->
+              <article class="metric-card metric-card-bar metric-card-summary" data-metric="weekly-capacity">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                      周有效产能
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-warning" id="weekly-capacity-status">待启动</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="weekly-capacity-current">0</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="weekly-capacity-target">30 h</span>
+                      <span class="metric-bar-percent" id="weekly-capacity-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track metric-bar-track-gauge">
+                      <div class="metric-bar-gauge-zones">
+                        <span class="gauge-zone gauge-zone-danger" style="width: 70%;"></span>
+                        <span class="gauge-zone gauge-zone-warning" style="width: 30%;"></span>
+                      </div>
+                      <div class="metric-bar-fill status-danger" id="weekly-capacity-progress"></div>
+                    </div>
+                    <div class="metric-bar-gauge-labels">
+                      <span class="gauge-label gauge-label-start">0h</span>
+                      <span class="gauge-label gauge-label-bottom">底线 21h</span>
+                      <span class="gauge-label gauge-label-target">目标 30h</span>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span id="weekly-capacity-today">今日已积累 0h</span>
+                      <span class="metric-estimate estimate-none" id="weekly-capacity-note">自动汇总听力、模考等卡片学时</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 2. 阶段0周检5数字（自动判断） -->
+              <article class="metric-card metric-card-bar metric-card-summary" data-metric="weekly-check">
+                <div class="metric-header" style="margin-bottom: 16px;">
+                  <h3 class="metric-name">
+                    <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+                    阶段0周检5数字
+                    <span class="weekly-check-day-hint" id="weekly-check-day-hint"></span>
+                  </h3>
+                  <span class="metric-status status-warning" id="weekly-check-status">待检</span>
+                </div>
+
+                <div class="weekly-check-strip">
+                  <div class="weekly-check-strip-item">
+                    <div class="strip-item-header">
+                      <span class="strip-item-label" id="weekly-check-item-0-label">总小时≥21</span>
+                      <span class="mini-dot status-danger" id="weekly-check-item-0-dot"></span>
+                    </div>
+                    <div class="strip-item-bar">
+                      <div class="strip-item-bar-fill status-danger" id="weekly-check-item-0-bar"></div>
+                    </div>
+                    <div class="strip-item-values" id="weekly-check-item-0-values">本周 0h · 目标 21h</div>
+                  </div>
+
+                  <div class="weekly-check-strip-item">
+                    <div class="strip-item-header">
+                      <span class="strip-item-label" id="weekly-check-item-1-label">达标天≥5/7</span>
+                      <span class="mini-dot status-danger" id="weekly-check-item-1-dot"></span>
+                    </div>
+                    <div class="strip-item-bar">
+                      <div class="strip-item-bar-fill status-danger" id="weekly-check-item-1-bar"></div>
+                    </div>
+                    <div class="strip-item-values" id="weekly-check-item-1-values">本周 0天 · 目标 5天</div>
+                  </div>
+
+                  <div class="weekly-check-strip-item">
+                    <div class="strip-item-header">
+                      <span class="strip-item-label" id="weekly-check-item-2-label">竞赛≥10.5h</span>
+                      <span class="mini-dot status-danger" id="weekly-check-item-2-dot"></span>
+                    </div>
+                    <div class="strip-item-bar">
+                      <div class="strip-item-bar-fill status-danger" id="weekly-check-item-2-bar"></div>
+                    </div>
+                    <div class="strip-item-values" id="weekly-check-item-2-values">本周 0h · 目标 10.5h</div>
+                  </div>
+
+                  <div class="weekly-check-strip-item">
+                    <div class="strip-item-header">
+                      <span class="strip-item-label" id="weekly-check-item-3-label">周总投入≥28h</span>
+                      <span class="mini-dot status-danger" id="weekly-check-item-3-dot"></span>
+                    </div>
+                    <div class="strip-item-bar">
+                      <div class="strip-item-bar-fill status-danger" id="weekly-check-item-3-bar"></div>
+                    </div>
+                    <div class="strip-item-values" id="weekly-check-item-3-values">本周 0h · 目标 28h</div>
+                  </div>
+
+                  <div class="weekly-check-strip-item">
+                    <div class="strip-item-header">
+                      <span class="strip-item-label" id="weekly-check-item-4-label">单词复习7/7</span>
+                      <span class="mini-dot status-danger" id="weekly-check-item-4-dot"></span>
+                    </div>
+                    <div class="strip-item-bar">
+                      <div class="strip-item-bar-fill status-danger" id="weekly-check-item-4-bar"></div>
+                    </div>
+                    <div class="strip-item-values" id="weekly-check-item-4-values">本周 0天 · 目标 7天</div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 6. CMC 竞赛（累计进度） -->
+              <article class="metric-card metric-card-bar" data-metric="cmc">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+                      CMC 竞赛
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-normal" id="cmc-status">未开始</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="cmc-current">0</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="cmc-target">44 天</span>
+                      <span class="metric-bar-percent" id="cmc-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track">
+                      <div class="metric-bar-fill status-danger" id="cmc-progress"></div>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span class="checkin-suggest" id="cmc-suggest">建议今日推进：1 天</span>
+                      <span id="cmc-percent-text">完成度 0%</span>
+                      <span class="metric-estimate estimate-none" id="cmc-estimate">预计完成日：暂无推算</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-actions">
+                    <input type="number" class="checkin-input" id="cmc-input" placeholder="本次推进天数" min="0">
+                    <div class="metric-bar-action-btns">
+                      <button class="checkin-btn" id="cmc-btn">更新进度</button>
+                      <button class="checkin-btn checkin-btn-quick" id="cmc-quick-btn">一键打卡</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-bar-footer">
+                  <div class="trend-chart" id="cmc-trend"></div>
+                  <div class="metric-bar-footer-actions">
+                    <div class="makeup-panel">
+                      <button class="makeup-toggle" id="cmc-makeup-toggle">补记最近6天</button>
+                      <div class="makeup-form" id="cmc-makeup-form" style="display:none;">
+                        <select class="makeup-select" id="cmc-makeup-date">
+                        </select>
+                        <input type="number" class="checkin-input" id="cmc-makeup-input" placeholder="补记推进天数" min="0">
+                        <button class="checkin-btn checkin-btn-makeup" id="cmc-makeup-btn">补记</button>
+                      </div>
+                    </div>
+                    <div class="adjust-plan-row">
+                      <button class="adjust-plan-btn" id="cmc-adjust-btn">调整计划</button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 8. 高数恢复（累计进度） -->
+              <article class="metric-card metric-card-bar" data-metric="advanced-math">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3 8.7 2.7a2.4 2.4 0 0 0-3.4 0l-2.6 2.6a2.4 2.4 0 0 0 0 3.4l12.6 12.6a2.4 2.4 0 0 0 3.4 0l2.6-2.6a2.4 2.4 0 0 0 0-3.4z"/><path d="m14.5 12.5-8 8"/><path d="m2.7 8 5.3-5.3"/></svg></span>
+                      高数恢复
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-warning" id="advanced-math-status">待启动</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="advanced-math-current">0</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="advanced-math-target">70 个</span>
+                      <span class="metric-bar-percent" id="advanced-math-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track">
+                      <div class="metric-bar-fill status-danger" id="advanced-math-progress"></div>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span class="checkin-suggest" id="advanced-math-suggest">建议今日推进：1 个</span>
+                      <span id="advanced-math-percent-text">完成度 0%</span>
+                      <span class="metric-estimate estimate-none" id="advanced-math-estimate">预计完成日：暂无推算</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-actions">
+                    <input type="number" class="checkin-input" id="advanced-math-input" placeholder="本次推进量" min="0">
+                    <div class="metric-bar-action-btns">
+                      <button class="checkin-btn" id="advanced-math-btn">更新进度</button>
+                      <button class="checkin-btn checkin-btn-quick" id="advanced-math-quick-btn">一键打卡</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-bar-footer">
+                  <div class="trend-chart" id="advanced-math-trend"></div>
+                  <div class="metric-bar-footer-actions">
+                    <div class="makeup-panel">
+                      <button class="makeup-toggle" id="advanced-math-makeup-toggle">补记最近6天</button>
+                      <div class="makeup-form" id="advanced-math-makeup-form" style="display:none;">
+                        <select class="makeup-select" id="advanced-math-makeup-date">
+                        </select>
+                        <input type="number" class="checkin-input" id="advanced-math-makeup-input" placeholder="补记数量" min="0">
+                        <button class="checkin-btn checkin-btn-makeup" id="advanced-math-makeup-btn">补记</button>
+                      </div>
+                    </div>
+                    <div class="adjust-plan-row">
+                      <button class="adjust-plan-btn" id="advanced-math-adjust-btn">调整计划</button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 3. 单词（习惯+累计） -->
+              <article class="metric-card metric-card-bar" data-metric="vocabulary">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></span>
+                      单词
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-danger" id="vocabulary-status">未打卡</span>
+                      <span class="streak-badge" id="vocabulary-streak">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        0 天
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="vocabulary-current">0</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="vocabulary-target">35 词</span>
+                      <span class="metric-bar-percent" id="vocabulary-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track">
+                      <div class="metric-bar-fill status-danger" id="vocabulary-progress"></div>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span class="checkin-suggest" id="vocabulary-suggest">今日建议量：35 词</span>
+                      <span id="vocabulary-total">累计 0/2000 词 · 总进度 0%</span>
+                      <span class="metric-estimate estimate-none" id="vocabulary-estimate">预计完成日：暂无推算</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-actions">
+                    <input type="number" class="checkin-input" id="vocabulary-input" placeholder="今日数量" min="0">
+                    <div class="metric-bar-action-btns">
+                      <button class="checkin-btn" id="vocabulary-btn">今日打卡</button>
+                      <button class="checkin-btn checkin-btn-quick" id="vocabulary-quick-btn">一键打卡</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-bar-footer">
+                  <div class="trend-chart" id="vocabulary-trend"></div>
+                  <div class="metric-bar-footer-actions">
+                    <div class="makeup-panel">
+                      <button class="makeup-toggle" id="vocabulary-makeup-toggle">补记最近6天</button>
+                      <div class="makeup-form" id="vocabulary-makeup-form" style="display:none;">
+                        <select class="makeup-select" id="vocabulary-makeup-date">
+                        </select>
+                        <input type="number" class="checkin-input" id="vocabulary-makeup-input" placeholder="补记数量" min="0">
+                        <button class="checkin-btn checkin-btn-makeup" id="vocabulary-makeup-btn">补记</button>
+                      </div>
+                    </div>
+                    <div class="adjust-plan-row">
+                      <button class="adjust-plan-btn" id="vocabulary-adjust-btn">调整计划</button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 4. 听力（习惯） -->
+              <article class="metric-card metric-card-bar" data-metric="listening">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+                      听力
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-danger" id="listening-status">未打卡</span>
+                      <span class="streak-badge" id="listening-streak">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        0 天
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="listening-current">0</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="listening-target">30 min</span>
+                      <span class="metric-bar-percent" id="listening-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track">
+                      <div class="metric-bar-fill status-danger" id="listening-progress"></div>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span class="checkin-suggest" id="listening-suggest">今日建议量：30 min</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-actions">
+                    <input type="number" class="checkin-input" id="listening-input" placeholder="今日分钟数" min="0">
+                    <div class="metric-bar-action-btns">
+                      <button class="checkin-btn" id="listening-btn">今日打卡</button>
+                      <button class="checkin-btn checkin-btn-quick" id="listening-quick-btn">一键打卡</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-bar-footer">
+                  <div class="trend-chart" id="listening-trend"></div>
+                  <div class="metric-bar-footer-actions">
+                    <div class="makeup-panel">
+                      <button class="makeup-toggle" id="listening-makeup-toggle">补记最近6天</button>
+                      <div class="makeup-form" id="listening-makeup-form" style="display:none;">
+                        <select class="makeup-select" id="listening-makeup-date">
+                        </select>
+                        <input type="number" class="checkin-input" id="listening-makeup-input" placeholder="补记分钟数" min="0">
+                        <button class="checkin-btn checkin-btn-makeup" id="listening-makeup-btn">补记</button>
+                      </div>
+                    </div>
+                    <div class="adjust-plan-row">
+                      <button class="adjust-plan-btn" id="listening-adjust-btn">调整计划</button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 7. 全真模考（累计进度） -->
+              <article class="metric-card metric-card-bar" data-metric="mock-exams">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                      全真模考
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-normal" id="mock-exams-status">未开始</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="mock-exams-current">0</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="mock-exams-target">3 次</span>
+                      <span class="metric-bar-percent" id="mock-exams-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track">
+                      <div class="metric-bar-fill status-danger" id="mock-exams-progress"></div>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span class="checkin-suggest" id="mock-exams-suggest">建议按 10.7/11.7/11.11 日程完成</span>
+                      <span id="mock-exams-percent-text">完成度 0%</span>
+                      <span class="metric-estimate estimate-none" id="mock-exams-estimate">预计完成日：暂无推算</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-actions">
+                    <input type="number" class="checkin-input" id="mock-exams-input" placeholder="本次完成次数" min="0">
+                    <div class="metric-bar-action-btns">
+                      <button class="checkin-btn" id="mock-exams-btn">更新进度</button>
+                      <button class="checkin-btn checkin-btn-quick" id="mock-exams-quick-btn">一键打卡</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-bar-footer">
+                  <div class="trend-chart" id="mock-exams-trend"></div>
+                  <div class="metric-bar-footer-actions">
+                    <div class="makeup-panel">
+                      <button class="makeup-toggle" id="mock-exams-makeup-toggle">补记最近6天</button>
+                      <div class="makeup-form" id="mock-exams-makeup-form" style="display:none;">
+                        <select class="makeup-select" id="mock-exams-makeup-date">
+                        </select>
+                        <input type="number" class="checkin-input" id="mock-exams-makeup-input" placeholder="补记次数" min="0">
+                        <button class="checkin-btn checkin-btn-makeup" id="mock-exams-makeup-btn">补记</button>
+                      </div>
+                    </div>
+                    <div class="adjust-plan-row">
+                      <button class="adjust-plan-btn" id="mock-exams-adjust-btn">调整计划</button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 9. 本学期单科（累计进度） -->
+              <article class="metric-card metric-card-bar" data-metric="final-courses">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+                      本学期单科
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-warning" id="final-courses-status">进行中</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="final-courses-current">0</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="final-courses-target">100 节</span>
+                      <span class="metric-bar-percent" id="final-courses-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track">
+                      <div class="metric-bar-fill status-danger" id="final-courses-progress"></div>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span class="checkin-suggest" id="final-courses-suggest">建议今日推进：1 节</span>
+                      <span id="final-courses-percent-text">完成度 0%</span>
+                      <span class="metric-estimate estimate-none" id="final-courses-estimate">预计完成日：暂无推算</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-actions">
+                    <input type="number" class="checkin-input" id="final-courses-input" placeholder="本次推进量" min="0">
+                    <div class="metric-bar-action-btns">
+                      <button class="checkin-btn" id="final-courses-btn">更新进度</button>
+                      <button class="checkin-btn checkin-btn-quick" id="final-courses-quick-btn">一键打卡</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-bar-footer">
+                  <div class="trend-chart" id="final-courses-trend"></div>
+                  <div class="metric-bar-footer-actions">
+                    <div class="makeup-panel">
+                      <button class="makeup-toggle" id="final-courses-makeup-toggle">补记最近6天</button>
+                      <div class="makeup-form" id="final-courses-makeup-form" style="display:none;">
+                        <select class="makeup-select" id="final-courses-makeup-date">
+                        </select>
+                        <input type="number" class="checkin-input" id="final-courses-makeup-input" placeholder="补记数量" min="0">
+                        <button class="checkin-btn checkin-btn-makeup" id="final-courses-makeup-btn">补记</button>
+                      </div>
+                    </div>
+                    <div class="adjust-plan-row">
+                      <button class="adjust-plan-btn" id="final-courses-adjust-btn">调整计划</button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 5. 睡眠（时间习惯） -->
+              <article class="metric-card metric-card-bar" data-metric="sleep">
+                <div class="metric-bar-grid">
+                  <div class="metric-bar-info">
+                    <h3 class="metric-name">
+                      <span class="metric-icon"><svg class="metric-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+                      睡眠
+                    </h3>
+                    <div class="metric-bar-info-meta">
+                      <span class="metric-status status-warning" id="sleep-status">待记录</span>
+                      <span class="streak-badge" id="sleep-streak">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        0 天
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-content">
+                    <div class="metric-bar-numbers">
+                      <span class="metric-current" id="sleep-current">--:--</span>
+                      <span class="metric-separator">/</span>
+                      <span class="metric-target" id="sleep-target">23:00</span>
+                      <span class="metric-bar-percent" id="sleep-percent">0%</span>
+                    </div>
+                    <div class="metric-bar-track">
+                      <div class="metric-bar-fill status-danger" id="sleep-progress"></div>
+                    </div>
+                    <div class="metric-bar-subline">
+                      <span class="checkin-suggest" id="sleep-suggest">建议 23:00 前入睡</span>
+                      <span class="metric-note" id="sleep-note">7:30起 · 状态差时切轻量任务</span>
+                    </div>
+                  </div>
+
+                  <div class="metric-bar-actions">
+                    <input type="time" class="checkin-input" id="sleep-input" placeholder="入睡时间">
+                    <div class="metric-bar-action-btns">
+                      <button class="checkin-btn" id="sleep-btn">今日打卡</button>
+                      <button class="checkin-btn checkin-btn-quick" id="sleep-quick-btn">一键打卡</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-bar-footer">
+                  <div class="trend-chart" id="sleep-trend"></div>
+                  <div class="metric-bar-footer-actions">
+                    <div class="makeup-panel">
+                      <button class="makeup-toggle" id="sleep-makeup-toggle">补记最近6天</button>
+                      <div class="makeup-form" id="sleep-makeup-form" style="display:none;">
+                        <select class="makeup-select" id="sleep-makeup-date">
+                        </select>
+                        <input type="time" class="checkin-input" id="sleep-makeup-input" placeholder="补记时间">
+                        <button class="checkin-btn checkin-btn-makeup" id="sleep-makeup-btn">补记</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <!-- Tab 2：进度看板 -->
+        <section class="tab-panel" id="tab-progress" aria-label="进度看板">
+          <div class="progress-dashboard">
+            <header class="dashboard-header">
+              <div class="dashboard-header-text">
+                <h2 class="section-title">全局进度总览</h2>
+                <p class="dashboard-subtitle">自动汇总 9 张核心指标卡与所有自定义目标的当前进度</p>
+              </div>
+              <div class="dashboard-summary" id="dashboard-summary">
+                <span class="dashboard-summary-item">
+                  <strong id="dashboard-total-count">0</strong>
+                  <span>个目标</span>
+                </span>
+                <span class="dashboard-summary-item">
+                  <strong id="dashboard-completed-count">0</strong>
+                  <span>已完成</span>
+                </span>
+              </div>
+              <button type="button" class="stage-review-open-btn" id="stage-review-open-btn">📜 阶段回顾</button>
+            </header>
+            <!-- 全年打卡热力图（S6-2） -->
+            <div class="year-heatmap" id="year-heatmap">
+              <!-- 由 renderYearHeatmap() 动态渲染 -->
+            </div>
+
+            <div class="weekly-hours-trend" id="weekly-hours-trend">
+              <!-- 由 renderWeeklyHoursTrend() 动态渲染 -->
+            </div>
+            <div class="dashboard-grid" id="progress-dashboard-grid">
+              <!-- 由 renderProgressDashboard() 动态渲染 -->
+            </div>
+
+            <!-- 月测分双曲线（S7-2，批次21 R4 移至看板页末尾） -->
+            <div class="monthly-scores" id="monthly-scores">
+              <!-- 由 renderMonthlyScores() 动态渲染 -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab 3：周报复盘 -->
+        <section class="tab-panel" id="tab-weekly" aria-label="周报复盘">
+          <div class="weekly-review">
+            <header class="dashboard-header weekly-review-header">
+              <div class="dashboard-header-text">
+                <h2 class="section-title">周报复盘</h2>
+                <p class="dashboard-subtitle">本周 <span id="weekly-review-week">2026-W40</span> · 自动汇总周检数据</p>
+              </div>
+              <button type="button" class="weekly-report-btn" id="weekly-report-generate-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                一键生成周报文本
+              </button>
+            </header>
+
+            <!-- 周检5数字 -->
+            <div class="weekly-section">
+              <h3 class="weekly-section-title">阶段0 周检5数字</h3>
+              <div class="weekly-check-grid" id="weekly-review-check-grid">
+                <!-- 由 renderWeeklyReview() 动态渲染 -->
+              </div>
+            </div>
+
+            <!-- KPTA 智能建议卡片（批次 18） -->
+            <div class="weekly-section">
+              <h3 class="weekly-section-title">📊 本周 KPTA 智能建议</h3>
+              <div class="kpta-card" id="kpta-card">
+                <!-- 由 renderKPTACard() 动态渲染 -->
+              </div>
+            </div>
+
+            <!-- 四栏输入表单 -->
+            <form class="weekly-form" id="weekly-review-form">
+              <div class="weekly-form-grid">
+                <div class="weekly-form-field">
+                  <label for="weekly-keep">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                    保持（本周做得好的）
+                  </label>
+                  <textarea id="weekly-keep" rows="4" placeholder="例如：每天单词打卡很稳定，早晨整块时间利用率高..."></textarea>
+                </div>
+                <div class="weekly-form-field">
+                  <label for="weekly-problem">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    问题（卡在哪里）
+                  </label>
+                  <textarea id="weekly-problem" rows="4" placeholder="例如：周三下午犯困导致中断，竞赛三步法执行不连续..."></textarea>
+                </div>
+                <div class="weekly-form-field">
+                  <label for="weekly-try">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    尝试（新方法）
+                  </label>
+                  <textarea id="weekly-try" rows="4" placeholder="例如：下周试试番茄钟+站立，把最难的任务放到上午..."></textarea>
+                </div>
+                <div class="weekly-form-field">
+                  <label for="weekly-plan">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    下周预案（对策）
+                  </label>
+                  <textarea id="weekly-plan" rows="4" placeholder="例如：把竞赛三步法提前到上午，晚上22:15固定听力..."></textarea>
+                </div>
+              </div>
+            </form>
+
+            <!-- 生成结果 -->
+            <div class="weekly-report-output" id="weekly-report-output" style="display: none;">
+              <div class="weekly-report-header">
+                <h3>周报文本</h3>
+                <div class="weekly-report-actions">
+                  <button type="button" class="backup-btn" id="weekly-report-clear-btn">清空</button>
+                  <button type="button" class="backup-btn backup-btn-export" id="weekly-report-copy-btn">复制到剪贴板</button>
+                </div>
+              </div>
+              <textarea id="weekly-report-text" rows="12"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab 4：我的设置 -->
+        <section class="tab-panel" id="tab-settings" aria-label="我的设置">
+          <div class="settings-page">
+            <header class="dashboard-header settings-header">
+              <div class="dashboard-header-text">
+                <h2 class="section-title">我的设置</h2>
+                <p class="dashboard-subtitle">管理数据、根基文件与学习目标</p>
+              </div>
+            </header>
+
+            <!-- 操作卡片 -->
+            <div class="settings-section">
+              <h3 class="weekly-section-title">快捷操作</h3>
+              <div class="settings-actions-grid settings-actions-main">
+                <!-- 1. 全局累计统计 -->
+                <button class="settings-action-card global-stats-card" id="global-stats-open-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                  </svg>
+                  <span class="settings-action-title">全局累计统计</span>
+                  <span class="settings-action-desc">跨阶段 · 总投入 / 分布 / 曲线</span>
+                </button>
+
+                <!-- 日历视图（批次17 R-5a） -->
+                <button class="settings-action-card" id="calendar-open-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span class="settings-action-title">日历视图</span>
+                  <span class="settings-action-desc">按日聚合 · 打卡 / 工时 / 阶段</span>
+                </button>
+
+                <!-- 导入导出（批次21 R1 聚合页） -->
+                <button class="settings-action-card" id="io-open-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                    <polyline points="17 8 12 3 7 8" opacity="0.45"/>
+                  </svg>
+                  <span class="settings-action-title">导入导出</span>
+                  <span class="settings-action-desc">备份恢复 · MD / CSV 导出</span>
+                </button>
+
+                <!-- 外观主题 -->
+                <button class="settings-action-card theme-toggle-card" id="theme-toggle-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="13.5" cy="6.5" r="2.5"/>
+                    <circle cx="17.5" cy="14.5" r="2.5"/>
+                    <circle cx="8.5" cy="17.5" r="2.5"/>
+                    <circle cx="6.5" cy="10.5" r="2.5"/>
+                    <path d="M12 2a10 10 0 0 0 0 20 2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 0 0-5z"/>
+                  </svg>
+                  <span class="settings-action-title" id="theme-toggle-title">外观主题</span>
+                  <span class="settings-action-desc">当前：暗紫</span>
+                </button>
+
+                <!-- 更多功能（批次21 R1 聚合页） -->
+                <button class="settings-action-card" id="more-open-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="5" r="2"/>
+                    <circle cx="12" cy="12" r="2"/>
+                    <circle cx="12" cy="19" r="2"/>
+                  </svg>
+                  <span class="settings-action-title">更多功能</span>
+                  <span class="settings-action-desc">系数目标 · 目标/命令管理 · 显隐音效</span>
+                </button>
+
+
+            </div>
+
+
+
+            <!-- 根基文件 -->
+            <div class="settings-section">
+              <h3 class="weekly-section-title">查看根基文件</h3>
+              <div class="settings-docs-card">
+                <div class="settings-docs-reminder">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="12" y1="18" x2="12" y2="12"/>
+                    <line x1="9" y1="15" x2="15" y2="15"/>
+                  </svg>
+                  <strong>以总纲为宪法</strong>
+                  <span>其他文件不得与总纲冲突</span>
+                </div>
+                <ul class="settings-docs-list">
+                  <li>
+                    <span class="settings-doc-name">总纲 v3.2</span>
+                    <span class="settings-doc-role">最高裁决</span>
+                  </li>
+                  <li>
+                    <span class="settings-doc-name">国庆方案</span>
+                    <span class="settings-doc-role">9.25–10.7 逐日执行</span>
+                  </li>
+                  <li>
+                    <span class="settings-doc-name">书单 v1.2</span>
+                    <span class="settings-doc-role">买书/资料优先</span>
+                  </li>
+                  <li>
+                    <span class="settings-doc-name">技能清单 v2.0</span>
+                    <span class="settings-doc-role">岗位/研究生技能</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 关于工作台（批次 17） -->
+            <div class="settings-section">
+              <h3 class="weekly-section-title">关于工作台</h3>
+              <div class="about-workbench-card" id="about-workbench-card">
+                <!-- 由 renderAboutCard() 动态渲染 -->
+              </div>
+            </div>
+
+            <!-- 危险操作 -->
+            <div class="settings-section">
+              <h3 class="weekly-section-title">危险操作</h3>
+              <div class="settings-danger-card">
+                <div class="settings-danger-text">
+                  <strong>清空所有数据</strong>
+                  <span>将删除所有打卡记录和自定义目标，设置项会被保留。此操作不可恢复。</span>
+                </div>
+                <button class="settings-danger-btn" id="clear-data-btn" type="button">清空所有数据</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- 移动端底部固定导航 -->
+    <nav class="bottom-nav" aria-label="底部导航">
+      <button class="nav-item active" data-tab="today" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        今日作战
+      </button>
+      <button class="nav-item" data-tab="progress" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        进度看板
+      </button>
+      <button class="nav-item" data-tab="weekly" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        周报复盘
+      </button>
+      <button class="nav-item" data-tab="settings" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        我的设置
+      </button>
+    </nav>
+  </div>
+
+  <!-- 阶段回顾页（批次 4） -->
+<div class="stage-review-page" id="stage-review-page" style="display:none;">
+  <div class="stage-review-shell">
+    <header class="stage-review-header">
+      <div class="stage-review-header-text">
+        <h2 class="stage-review-title" id="stage-review-title">📜 阶段回顾</h2>
+        <p class="stage-review-subtitle" id="stage-review-subtitle">--</p>
+      </div>
+      <div class="stage-review-header-actions">
+        <select class="stage-review-select" id="stage-review-select"></select>
+        <button type="button" class="stage-review-close-btn" id="stage-review-close-btn">&times;</button>
+      </div>
+    </header>
+    <div class="stage-review-body" id="stage-review-body">
+      <!-- 由 renderStageReviewPage() 动态渲染 -->
+    </div>
+    <footer class="stage-review-footer">
+      <button type="button" class="stage-review-back-btn" id="stage-review-back-btn">↩ 返回实时世界</button>
+    </footer>
+  </div>
+</div>
+
+<!-- 全局累计统计页（批次 5） -->
+<div class="global-stats-page" id="global-stats-page" style="display:none;">
+  <div class="global-stats-shell">
+    <header class="global-stats-header">
+      <div class="global-stats-header-text">
+        <h2 class="global-stats-title" id="global-stats-title">📊 全局累计统计</h2>
+        <p class="global-stats-subtitle" id="global-stats-subtitle">跨所有阶段的累计投入与分布</p>
+      </div>
+      <div class="global-stats-header-actions">
+        <button type="button" class="global-stats-close-btn" id="global-stats-close-btn">&times;</button>
+      </div>
+    </header>
+    <div class="global-stats-body" id="global-stats-body">
+      <!-- 由 renderGlobalStatsPage() 动态渲染 -->
+    </div>
+    <footer class="global-stats-footer">
+      <button type="button" class="global-stats-back-btn" id="global-stats-back-btn">↩ 返回实时世界</button>
+    </footer>
+  </div>
+</div>
+
+<!-- 日历视图（批次17 R-5a 只读） -->
+<div class="global-stats-page" id="calendar-page" style="display:none;">
+  <div class="global-stats-shell">
+    <header class="global-stats-header">
+      <div class="global-stats-header-text">
+        <h2 class="global-stats-title">📅 日历视图</h2>
+        <p class="global-stats-subtitle">按日聚合 · 打卡 / 工时 / 阶段 · 只读</p>
+      </div>
+      <div class="global-stats-header-actions">
+        <button type="button" class="stage-review-back-btn" id="calendar-prev-btn">← 上月</button>
+        <button type="button" class="stage-review-back-btn" id="calendar-today-btn">今天</button>
+        <button type="button" class="stage-review-back-btn" id="calendar-next-btn">下月 →</button>
+        <button type="button" class="global-stats-close-btn" id="calendar-close-btn">&times;</button>
+      </div>
+    </header>
+    <div class="global-stats-body" id="calendar-body">
+      <!-- 由 renderCalendarPage() 动态渲染 -->
+    </div>
+    <footer class="global-stats-footer">
+      <button type="button" class="global-stats-back-btn" id="calendar-back-btn">↩ 返回实时世界</button>
+    </footer>
+  </div>
+</div>
+
+<!-- 导入导出页（批次21 R1） -->
+<div class="global-stats-page" id="io-page" style="display:none;">
+  <div class="global-stats-shell">
+    <header class="global-stats-header">
+      <div class="global-stats-header-text">
+        <h2 class="global-stats-title">📦 导入导出</h2>
+        <p class="global-stats-subtitle">备份恢复 · Markdown / CSV 导出</p>
+      </div>
+      <div class="global-stats-header-actions">
+        <button type="button" class="global-stats-close-btn" id="io-close-btn">&times;</button>
+      </div>
+    </header>
+    <div class="global-stats-body">
+      <div class="settings-actions-grid settings-actions-2col">
+                <button class="settings-action-card backup-btn-export settings-action-wide" id="backup-export-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  <span class="settings-action-title">导出备份</span>
+                  <span class="settings-action-desc">下载 JSON 备份文件</span>
+                </button>
+                <button class="settings-action-card backup-btn settings-action-wide" id="backup-import-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  <span class="settings-action-title">导入备份</span>
+                  <span class="settings-action-desc">从 JSON 文件恢复数据</span>
+                </button>
+                <button class="settings-action-card md-export-card" id="export-checkins-md-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                    <line x1="9" y1="12" x2="15" y2="12"/>
+                    <line x1="9" y1="16" x2="15" y2="16"/>
+                  </svg>
+                  <span class="settings-action-title">导出打卡明细</span>
+                  <span class="settings-action-desc">Markdown · 全部指标记录</span>
+                </button>
+                <button class="settings-action-card md-export-card" id="export-daily-md-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span class="settings-action-title">导出日卡</span>
+                  <span class="settings-action-desc">Markdown · 状态分记录</span>
+                </button>
+                <button class="settings-action-card md-export-card" id="export-weekly-md-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                  <span class="settings-action-title">导出周报</span>
+                  <span class="settings-action-desc">Markdown · 复盘记录</span>
+                </button>
+                <button class="settings-action-card csv-export-card" id="export-checkins-csv-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 0 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                    <line x1="8" y1="11" x2="16" y2="11"/>
+                    <line x1="8" y1="15" x2="16" y2="15"/>
+                    <line x1="8" y1="19" x2="12" y2="19"/>
+                  </svg>
+                  <span class="settings-action-title">导出打卡明细 CSV</span>
+                  <span class="settings-action-desc">Excel · 全部指标记录</span>
+                </button>
+                <button class="settings-action-card csv-export-card" id="export-daily-csv-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="8" y1="13" x2="16" y2="13"/>
+                    <line x1="8" y1="17" x2="16" y2="17"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                  </svg>
+                  <span class="settings-action-title">导出日卡 CSV</span>
+                  <span class="settings-action-desc">Excel · 状态分记录</span>
+                </button>
+                <button class="settings-action-card csv-export-card" id="export-weekly-csv-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="8" y1="13" x2="16" y2="13"/>
+                    <line x1="8" y1="17" x2="16" y2="17"/>
+                  </svg>
+                  <span class="settings-action-title">导出周报 CSV</span>
+                  <span class="settings-action-desc">Excel · 复盘记录</span>
+                </button>
+              <input type="file" class="backup-file-input" id="backup-file-input" accept=".json">
+              <div id="backup-reminder-wrapper"></div>
+      </div>
+    </div>
+    <footer class="global-stats-footer">
+      <button type="button" class="global-stats-back-btn" id="io-back-btn">↩ 返回设置</button>
+    </footer>
+  </div>
+</div>
+
+<!-- 更多功能页（批次21 R1） -->
+<div class="global-stats-page" id="more-features-page" style="display:none;">
+  <div class="global-stats-shell">
+    <header class="global-stats-header">
+      <div class="global-stats-header-text">
+        <h2 class="global-stats-title">🧰 更多功能</h2>
+        <p class="global-stats-subtitle">系数目标 · 目标/命令管理 · 显隐音效</p>
+      </div>
+      <div class="global-stats-header-actions">
+        <button type="button" class="global-stats-close-btn" id="more-close-btn">&times;</button>
+      </div>
+    </header>
+    <div class="global-stats-body">
+      <div class="settings-actions-grid settings-actions-2col">
+                <!-- 卡片系数与目标（点开独立页） -->
+                <button class="settings-action-card" id="coeff-open-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
+                    <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
+                    <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>
+                  </svg>
+                  <span class="settings-action-title">卡片系数与目标</span>
+                  <span class="settings-action-desc">折算系数 · 每日/总目标</span>
+                </button>
+                <button class="settings-action-card" id="new-goal-btn-settings" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  <span class="settings-action-title">新建学习目标</span>
+                  <span class="settings-action-desc">添加自定义进度目标</span>
+                </button>
+                <button class="settings-action-card delete-goal-card" id="delete-goal-btn-settings" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    <line x1="10" y1="11" x2="10" y2="17"/>
+                    <line x1="14" y1="11" x2="14" y2="17"/>
+                  </svg>
+                  <span class="settings-action-title">删除学习目标</span>
+                  <span class="settings-action-desc">移除自定义目标</span>
+                </button>
+                <button class="settings-action-card manage-cmd-card" id="manage-cmd-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="4 17 10 11 4 5"/>
+                    <line x1="12" y1="19" x2="20" y2="19"/>
+                  </svg>
+                  <span class="settings-action-title">管理自定义命令</span>
+                  <span class="settings-action-desc">命令面板 · 增删快捷操作</span>
+                </button>
+                <button class="settings-action-card trend-toggle-card" id="trend-toggle-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="trend-toggle-icon">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <span class="settings-action-title" id="trend-toggle-title">隐藏柱状图</span>
+                  <span class="settings-action-desc">当前：显示中</span>
+                </button>
+                <button class="settings-action-card sound-toggle-card" id="sound-toggle-btn" type="button">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="sound-toggle-icon">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  </svg>
+                  <span class="settings-action-title" id="sound-toggle-title">关闭音效</span>
+                  <span class="settings-action-desc">当前：已开启</span>
+                </button>
+      </div>
+    </div>
+    <footer class="global-stats-footer">
+      <button type="button" class="global-stats-back-btn" id="more-back-btn">↩ 返回设置</button>
+    </footer>
+  </div>
+</div>
+
+<!-- 卡片系数与目标独立页（批次21 R1） -->
+<div class="global-stats-page" id="coeff-page" style="display:none;">
+  <div class="global-stats-shell">
+    <header class="global-stats-header">
+      <div class="global-stats-header-text">
+        <h2 class="global-stats-title">🎚 卡片系数与目标</h2>
+        <p class="global-stats-subtitle">系数调整仅影响此后新打卡 · 历史按写入时封存</p>
+      </div>
+      <div class="global-stats-header-actions">
+        <button type="button" class="global-stats-close-btn" id="coeff-close-btn">&times;</button>
+      </div>
+    </header>
+    <div class="global-stats-body">
+            <!-- 卡片系数与目标（批次15 R-2a） -->
+            <div class="settings-section">
+              <h3 class="weekly-section-title">卡片系数与目标</h3>
+              <p class="settings-action-desc" style="margin: 0 0 10px;">系数调整仅影响此后新打卡；历史记录按写入时系数封存不变。留空项保持原值。</p>
+              <div id="coeff-settings-list"></div>
+              <button type="button" class="global-stats-save-btn" id="coeff-settings-save-btn" style="margin-top: 10px;">💾 保存系数与目标</button>
+            </div>
+    </div>
+    <footer class="global-stats-footer">
+      <button type="button" class="global-stats-back-btn" id="coeff-back-btn">↩ 返回更多功能</button>
+    </footer>
+  </div>
+</div>
+
+
+
+<!-- 阶段切换抽屉 -->
+  <div class="stage-drawer-overlay" id="stage-drawer-overlay">
+    <div class="stage-drawer" id="stage-drawer">
+      <div class="stage-drawer-header">
+        <h3 class="stage-drawer-title">📚 阶段切换</h3>
+        <button class="stage-drawer-close" id="stage-drawer-close" type="button">&times;</button>
+      </div>
+
+      <div class="stage-drawer-readonly-row">
+        <label class="stage-drawer-readonly-label">
+          <input type="checkbox" id="history-readonly-toggle" checked>
+          <span class="stage-drawer-readonly-text">历史阶段只读</span>
+        </label>
+      </div>
+
+      <ul class="stage-drawer-list" id="stage-drawer-list">
+        <!-- 由 renderStageDrawerList() 动态渲染 -->
+      </ul>
+
+      <div class="stage-drawer-footer">
+        <span class="stage-drawer-tip">点击阶段名切换到该阶段视图</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新建学习目标弹窗 -->
+  <div class="modal-overlay" id="new-goal-modal" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">新建学习目标</h3>
+        <button class="modal-close" id="modal-close-btn" type="button">&times;</button>
+      </div>
+      <form class="modal-form" id="new-goal-form">
+        <div class="form-group">
+          <label for="goal-name">目标名称</label>
+          <input type="text" id="goal-name" placeholder="例如：刷完张宇30讲" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group form-group-half">
+            <label for="goal-total">总量数字</label>
+            <input type="number" id="goal-total" placeholder="例如：30" min="1" required>
+          </div>
+          <div class="form-group form-group-half">
+            <label for="goal-unit">单位</label>
+            <select id="goal-unit">
+              <option value="个">个</option>
+              <option value="节">节</option>
+              <option value="页">页</option>
+              <option value="次">次</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group form-group-half">
+            <label for="goal-deadline">截止日</label>
+            <input type="date" id="goal-deadline" required>
+          </div>
+          <div class="form-group form-group-half">
+            <label for="goal-daily">每日建议量</label>
+            <input type="number" id="goal-daily" placeholder="例如：2" min="1" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="goal-rate">每单位折算时长（小时，选填）</label>
+          <input type="number" id="goal-rate" placeholder="例如：0.5 · 留空则不计入学时统计" min="0" step="any">
+        </div>
+        <div class="form-group">
+          <label for="goal-obstacle">最容易拦住我的障碍</label>
+          <input type="text" id="goal-obstacle" placeholder="例如：下午犯困">
+        </div>
+        <div class="form-group">
+          <label for="goal-counter">如果它出现我就</label>
+          <input type="text" id="goal-counter" placeholder="例如：立刻做10个深蹲+喝水">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="modal-btn modal-btn-secondary" id="modal-cancel-btn">取消</button>
+          <button type="submit" class="modal-btn modal-btn-primary">创建目标</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 管理自定义命令弹窗 -->
+<div class="modal-overlay" id="manage-cmd-modal" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">管理自定义命令</h3>
+      <button class="modal-close" id="manage-cmd-close-btn" type="button">&times;</button>
+    </div>
+    <div class="modal-form">
+      <div class="form-group">
+        <label for="cmd-label">命令名称</label>
+        <input type="text" id="cmd-label" placeholder="例如：打开哈工大研招网">
+      </div>
+      <div class="form-group">
+        <label for="cmd-keywords">搜索关键词（空格分隔）</label>
+        <input type="text" id="cmd-keywords" placeholder="例如：哈工大 研招 网站">
+      </div>
+      <div class="form-row">
+        <div class="form-group form-group-half">
+          <label for="cmd-type">类型</label>
+          <select id="cmd-type">
+            <option value="jump">跳转到卡片</option>
+            <option value="url">打开链接</option>
+            <option value="text">复制文本</option>
+          </select>
+        </div>
+        <div class="form-group form-group-half">
+          <label for="cmd-payload">目标（指标key / 网址 / 文本）</label>
+          <input type="text" id="cmd-payload" placeholder="例如：vocabulary 或 https://...">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-btn-primary" id="cmd-add-btn">+ 添加命令</button>
+      </div>
+      <div class="delete-goal-list" id="custom-cmd-list">
+        <!-- 由 renderCustomCommandsList() 动态渲染 -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 删除学习目标弹窗 -->
+  <div class="modal-overlay" id="delete-goal-modal" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">删除学习目标</h3>
+        <button class="modal-close" id="delete-goal-close-btn" type="button">&times;</button>
+      </div>
+      <div class="modal-form">
+        <p style="margin:0;font-size:13px;color:var(--text-secondary);line-height:1.5;">
+          点击目标右侧的「删除」按钮即可移除。删除时会同时清除该目标的所有打卡记录。<br>
+          删除后 60 秒内可通过 Toast 上的「撤销」或 Ctrl+Z 恢复。
+        </p>
+        <div class="delete-goal-list" id="delete-goal-list">
+          <!-- 由 renderDeleteGoalList() 动态渲染 -->
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="modal-btn modal-btn-secondary" id="delete-goal-cancel-btn">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 外观主题选择弹窗（批次 16） -->
+  <div class="modal-overlay" id="theme-modal" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">选择外观主题</h3>
+        <button class="modal-close" id="theme-modal-close-btn" type="button">&times;</button>
+      </div>
+      <div class="modal-form">
+        <div class="theme-picker-grid" id="theme-picker-grid">
+          <!-- 由 renderThemeOptions() 动态渲染 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <div style="padding:20px;background:#fee2e2;color:#b91c1c;text-align:center;">
+      请启用 JavaScript 以使用学习目标管理台的动态打卡功能。
+    </div>
+  </noscript>
+
+  <!-- Toast 通知容器 -->
+  <div class="heatmap-tooltip" id="heatmap-tooltip" aria-hidden="true"></div>
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Command Palette 命令面板（S8-1） -->
+  <div class="cmd-palette-overlay" id="cmd-palette-overlay">
+    <div class="cmd-palette" role="dialog" aria-modal="true" aria-label="命令面板">
+      <div class="cmd-palette-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="cmd-palette-input" id="cmd-palette-input" placeholder="输入命令名或关键词…" autocomplete="off" spellcheck="false">
+        <span class="cmd-palette-kbd">ESC</span>
+      </div>
+      <div class="cmd-palette-list" id="cmd-palette-list">
+        <!-- 由 renderCommandPaletteList() 动态渲染 -->
+      </div>
+      <div class="cmd-palette-footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd>切换</span>
+        <span><kbd>↵</kbd>执行</span>
+        <span><kbd>ESC</kbd>关闭</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+  <script>
+    // 注册 Service Worker（PWA）
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js").then((reg) => {
+          console.log("[PWA] Service Worker 已注册，scope:", reg.scope);
+        }).catch((err) => {
+          console.warn("[PWA] Service Worker 注册失败", err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

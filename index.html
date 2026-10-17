@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>学习目标管理台 · 仪表盘</title>
-  <meta name="theme-color" content="#9333ea">
+  <meta name="theme-color" content="#0f0a1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="作战台">
@@ -117,8 +117,11 @@
 
             <!-- 模块列表 -->
             <div class="module-list" id="module-list">
-              <h2 class="section-title">阶段0 模块周配额</h2>
-              <ul>
+              <div class="module-list-header">
+                <h2 class="section-title">阶段0 模块周配额</h2>
+                <button type="button" class="module-list-toggle" id="module-list-toggle" aria-expanded="true" aria-controls="module-list-body">收起</button>
+              </div>
+              <ul id="module-list-body">
                 <li class="module-item">
                   <span class="module-name">竞赛专项</span>
                   <span class="module-hours">12 h</span>
@@ -756,6 +759,8 @@
         <!-- Tab 2：进度看板 -->
         <section class="tab-panel" id="tab-progress" aria-label="进度看板">
           <div class="progress-dashboard">
+            <!-- 指挥舱形态专属：今日有效时长 Hero（经典形态 display:none，由 dashboard.js 填充） -->
+            <section class="deck-today-hero" id="deck-today-hero" aria-label="今日有效时长概览"></section>
             <header class="dashboard-header">
               <div class="dashboard-header-text">
                 <h2 class="section-title">全局进度总览</h2>
@@ -931,8 +936,8 @@
                     <circle cx="6.5" cy="10.5" r="2.5"/>
                     <path d="M12 2a10 10 0 0 0 0 20 2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 0 0-5z"/>
                   </svg>
-                  <span class="settings-action-title" id="theme-toggle-title">外观主题</span>
-                  <span class="settings-action-desc">当前：暗紫</span>
+                  <span class="settings-action-title" id="theme-toggle-title">主题与形态</span>
+                  <span class="settings-action-desc">当前：暗紫 · 经典工作台</span>
                 </button>
 
                 <!-- 更多功能（批次21 R1 聚合页） -->
@@ -1450,16 +1455,27 @@
     </div>
   </div>
 
-  <!-- 外观主题选择弹窗（批次 16） -->
+  <!-- 主题与形态选择弹窗（批次16 主题 / 批次24 双轴） -->
   <div class="modal-overlay" id="theme-modal" style="display:none;">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 class="modal-title">选择外观主题</h3>
+        <h3 class="modal-title">主题与形态</h3>
         <button class="modal-close" id="theme-modal-close-btn" type="button">&times;</button>
       </div>
       <div class="modal-form">
-        <div class="theme-picker-grid" id="theme-picker-grid">
-          <!-- 由 renderThemeOptions() 动态渲染 -->
+        <div class="appearance-segments" role="tablist" aria-label="外观维度">
+          <button class="appearance-segment is-active" id="appearance-segment-theme" type="button" role="tab">外观主题</button>
+          <button class="appearance-segment" id="appearance-segment-skin" type="button" role="tab">界面形态</button>
+        </div>
+        <div class="appearance-panel" id="appearance-panel-theme">
+          <div class="theme-picker-grid" id="theme-picker-grid">
+            <!-- 由 renderThemeOptions() 动态渲染 -->
+          </div>
+        </div>
+        <div class="appearance-panel" id="appearance-panel-skin" style="display:none;">
+          <div class="skin-picker-grid" id="skin-picker-grid">
+            <!-- 由 renderSkinOptions() 动态渲染 -->
+          </div>
         </div>
       </div>
     </div>

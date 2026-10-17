@@ -5,6 +5,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const ROOT = path.join(__dirname, ".."); // 2026-10-17 整理：资源根恒为 工作台代码\，与脚本所在子目录无关
 const vm = require("vm");
 
 const store = {};
@@ -17,7 +18,7 @@ const localStorageStub = {
 const ctx = vm.createContext({ localStorage: localStorageStub, console: console });
 // 批次19（ESM-a）：剥掉 module 语法（import/export）后按经典脚本供 vm 实跑
 function loadModuleSource(f) {
-  let src = fs.readFileSync(path.join(__dirname, f), "utf8");
+  let src = fs.readFileSync(path.join(ROOT, f), "utf8");
   src = src.replace(/^import\s[\s\S]*?from\s*"[^"]+";[^\S\r\n]*(\r?\n)?/gm, "");
   src = src.replace(/^export\s*\{[\s\S]*?\};[^\S\r\n]*(\r?\n)?/gm, "");
   return src;
@@ -35,8 +36,8 @@ vm.runInContext([
 // 批次20（ESM-b）：script.js 已整切为 js/main.js + js/ui/*.js，锚点改扫拼接源
 const UI_FILES = ["js/ui/base.js", "js/ui/daily-card.js", "js/ui/version.js", "js/ui/stage.js", "js/ui/checkin.js", "js/ui/charts.js", "js/ui/weekly.js", "js/ui/command.js", "js/ui/today.js", "js/ui/goals.js", "js/ui/dashboard.js", "js/ui/review.js", "js/ui/global-stats.js", "js/ui/settings.js", "js/main.js"];
 const scriptSrc = UI_FILES.map(function(f) { return loadModuleSource(f); }).join("\n");
-const indexSrc = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
-const storageSrc = fs.readFileSync(path.join(__dirname, "js/storage.js"), "utf8");
+const indexSrc = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+const storageSrc = fs.readFileSync(path.join(ROOT, "js/storage.js"), "utf8");
 
 let pass = 0, fail = 0;
 function check(label, actual, expected) {

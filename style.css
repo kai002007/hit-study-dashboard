@@ -7228,6 +7228,209 @@ body[data-theme="cyber-cyan-purple"] .pie-fill.status-danger {
 }
 
 
+/* ===== 批次 38：第 7 套主题 · 极光光谱（aurora-spectrum） ===== */
+/* 概念：深空蓝黑底 + 青→紫→品红全光谱。
+   多色但有序：主色（青）只负责"行动/焦点"，9 个指标色相负责"识别"，
+   背景用冷调极光光斑 + 细网格压底，保证多色不脏。 */
+body[data-theme="aurora-spectrum"] {
+  color-scheme: dark;
+  --bg-page: #05070e;
+  --bg-card: #0b1220;
+  --bg-subtle: #121a2e;
+  --purple-50: #0e1a2c;
+  --purple-100: #16263c;
+  --purple-200: #27455f;
+  --purple-300: #4c8aa8;
+  --purple-400: #63b8d4;
+  --purple-500: #22d3ee;
+  --purple-600: #67e8f9;
+  --purple-700: #a5f3fc;
+  --gradient-purple: linear-gradient(135deg, #22d3ee 0%, #818cf8 48%, #e879f9 100%);
+  --gradient-purple-soft: linear-gradient(135deg, #22d3ee 0%, #818cf8 100%);
+  --status-normal: #34d399;
+  --status-normal-bg: #0f2a20;
+  --status-warning: #fbbf24;
+  --status-warning-bg: #2d2210;
+  --status-danger: #fb7185;
+  --status-danger-bg: #331419;
+  --text-primary: #e8f0ff;
+  --text-secondary: #93a4c4;
+  --text-tertiary: #6b7fa3;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.55), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.65), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  --border-subtle: rgba(56, 189, 248, 0.15);
+  --input-bg: #142034;
+  --input-border: #26384f;
+  --focus-ring: rgba(34, 211, 238, 0.28);
+  --nav-bg: rgba(5, 7, 14, 0.92);
+  --nav-border: rgba(56, 189, 248, 0.14);
+  --nav-text: #8fa6c4;
+  --nav-text-hover: #dbe7f5;
+  --nav-active-text: #67e8f9;
+  --nav-active-bg: #0e1a2c;
+  --nav-active-indicator: #22d3ee;
+  --nav-shadow: 0 -4px 24px rgba(0, 0, 0, 0.6);
+  --sidebar-shadow: 4px 0 24px rgba(0, 0, 0, 0.55);
+  --highlight-top-soft: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --highlight-top-strong: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 极光光谱：热力图四色光谱（蓝 → 青 → 紫 → 粉） */
+body[data-theme="aurora-spectrum"] .heatmap-empty {
+  fill: #0d1524;
+  stroke: rgba(56, 189, 248, 0.12);
+}
+body[data-theme="aurora-spectrum"] .heatmap-l1 { fill: #1e3a8a; }
+body[data-theme="aurora-spectrum"] .heatmap-l2 { fill: #0ea5e9; }
+body[data-theme="aurora-spectrum"] .heatmap-l3 { fill: #a78bfa; }
+body[data-theme="aurora-spectrum"] .heatmap-l4 { fill: #f472b6; }
+
+/* 极光光谱：热力图图例 */
+body[data-theme="aurora-spectrum"] .year-heatmap-legend .heatmap-empty { background: #0d1524; }
+body[data-theme="aurora-spectrum"] .year-heatmap-legend .heatmap-l1 { background: #1e3a8a; }
+body[data-theme="aurora-spectrum"] .year-heatmap-legend .heatmap-l2 { background: #0ea5e9; }
+body[data-theme="aurora-spectrum"] .year-heatmap-legend .heatmap-l3 { background: #a78bfa; }
+body[data-theme="aurora-spectrum"] .year-heatmap-legend .heatmap-l4 { background: #f472b6; }
+
+/* 极光光谱：热力图气泡 */
+body[data-theme="aurora-spectrum"] .heatmap-tooltip {
+  background: rgba(11, 18, 32, 0.96);
+  border-color: rgba(34, 211, 238, 0.5);
+}
+body[data-theme="aurora-spectrum"] .heatmap-tooltip strong {
+  color: #67e8f9;
+}
+
+/* 极光光谱：饼图（danger 用青色，避免与紫/粉撞色） */
+body[data-theme="aurora-spectrum"] .pie-bg {
+  fill: #05070e;
+  stroke: rgba(34, 211, 238, 0.22);
+}
+body[data-theme="aurora-spectrum"] .pie-fill.status-danger {
+  fill: #22d3ee;
+  filter: drop-shadow(0 0 3px rgba(34, 211, 238, 0.7));
+}
+
+/* 极光光谱：达标进度条改为青蓝光谱（压过批次 E 的紫色渐变） */
+body[data-theme="aurora-spectrum"] .metric-bar-fill.status-normal {
+  background: linear-gradient(90deg, #0ea5e9, #22d3ee, #a5b4fc) !important;
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.4);
+}
+
+
+/* ===== 批次 38：第 8 套主题 · 极光静奢（aurora-quiet） ===== */
+/* 概念：雾面暗场 + 冰青/雾紫/香槟金三色；把"彩度"收进编码层，把"层次"交给材质与留白。
+   色只做编码不做装饰：状态/图标/热力有颜色，大面积全部中性。 */
+body[data-theme="aurora-quiet"] {
+  color-scheme: dark;
+  --bg-page: #07080c;
+  --bg-card: #0c1018;
+  --bg-subtle: #121724;
+  --purple-50: #121722;
+  --purple-100: #1a2232;
+  --purple-200: #26313f;
+  --purple-300: #5f7488;
+  --purple-400: #8fa9bd;
+  --purple-500: #9cc7db;
+  --purple-600: #bcdbe8;
+  --purple-700: #d9ebf2;
+  --gradient-purple: linear-gradient(135deg, #dfe8f2 0%, #9cc7db 46%, #b6a9d6 100%);
+  --gradient-purple-soft: linear-gradient(135deg, #9cc7db 0%, #b6a9d6 100%);
+  --status-normal: #8fbfa0;
+  --status-normal-bg: #10231b;
+  --status-warning: #d9c39a;
+  --status-warning-bg: #2a2417;
+  --status-danger: #c9a0a8;
+  --status-danger-bg: #2a1c20;
+  --text-primary: #e9edf4;
+  --text-secondary: #9aa7bb;
+  --text-tertiary: #5f6b7d;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.55);
+  --shadow-md: 0 6px 10px -2px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 14px 22px -6px rgba(0, 0, 0, 0.68), 0 4px 8px -2px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 24px 32px -8px rgba(0, 0, 0, 0.72), 0 10px 12px -6px rgba(0, 0, 0, 0.5);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --input-bg: #10151f;
+  --input-border: #222c3b;
+  --focus-ring: rgba(156, 199, 219, 0.25);
+  --nav-bg: rgba(7, 9, 13, 0.94);
+  --nav-border: rgba(255, 255, 255, 0.06);
+  --nav-text: #8d9aab;
+  --nav-text-hover: #d7e1ec;
+  --nav-active-text: #cfe0ea;
+  --nav-active-bg: #10151f;
+  --nav-active-indicator: #9cc7db;
+  --nav-shadow: 0 -4px 26px rgba(0, 0, 0, 0.72);
+  --sidebar-shadow: 4px 0 26px rgba(0, 0, 0, 0.68);
+  --highlight-top-soft: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --highlight-top-strong: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+/* 极光静奢：热力图单色冰蓝四阶（彩度收进"强度"，不铺彩虹） */
+body[data-theme="aurora-quiet"] .heatmap-empty {
+  fill: #141c27;
+  stroke: rgba(156, 199, 219, 0.08);
+}
+body[data-theme="aurora-quiet"] .heatmap-l1 { fill: #22303f; }
+body[data-theme="aurora-quiet"] .heatmap-l2 { fill: #33566f; }
+body[data-theme="aurora-quiet"] .heatmap-l3 { fill: #5a8ba6; }
+body[data-theme="aurora-quiet"] .heatmap-l4 { fill: #9cbccd; }
+
+/* 极光静奢：热力图图例 */
+body[data-theme="aurora-quiet"] .year-heatmap-legend .heatmap-empty { background: #141c27; }
+body[data-theme="aurora-quiet"] .year-heatmap-legend .heatmap-l1 { background: #22303f; }
+body[data-theme="aurora-quiet"] .year-heatmap-legend .heatmap-l2 { background: #33566f; }
+body[data-theme="aurora-quiet"] .year-heatmap-legend .heatmap-l3 { background: #5a8ba6; }
+body[data-theme="aurora-quiet"] .year-heatmap-legend .heatmap-l4 { background: #9cbccd; }
+
+/* 极光静奢：热力图气泡 */
+body[data-theme="aurora-quiet"] .heatmap-tooltip {
+  background: rgba(12, 16, 24, 0.97);
+  border-color: rgba(156, 199, 219, 0.45);
+}
+body[data-theme="aurora-quiet"] .heatmap-tooltip strong {
+  color: #cfe0ea;
+}
+
+/* 极光静奢：饼图三态全部改用雾面三色（绿 / 香槟金 / 冰青） */
+body[data-theme="aurora-quiet"] .pie-bg {
+  fill: #07080c;
+  stroke: rgba(156, 199, 219, 0.2);
+}
+body[data-theme="aurora-quiet"] .pie-fill.status-normal {
+  fill: #8fbfa0;
+  filter: drop-shadow(0 0 2px rgba(143, 191, 160, 0.35));
+}
+body[data-theme="aurora-quiet"] .pie-fill.status-warning {
+  fill: #d9c39a;
+  filter: drop-shadow(0 0 2px rgba(217, 195, 154, 0.35));
+}
+body[data-theme="aurora-quiet"] .pie-fill.status-danger {
+  fill: #9cc7db;
+  filter: drop-shadow(0 0 2px rgba(156, 199, 219, 0.4));
+}
+
+/* 极光静奢：达标进度条冰蓝（压过批次 E 的紫色渐变） */
+body[data-theme="aurora-quiet"] .metric-bar-fill.status-normal {
+  background: linear-gradient(90deg, #33566f, #5a8ba6, #9cc7db) !important;
+  box-shadow: 0 0 10px rgba(156, 199, 219, 0.22);
+}
+
+/* 极光静奢：指标图标去饱和（保留色相识别，不抢视觉） */
+body[data-theme="aurora-quiet"] [data-metric="weekly-capacity"] .metric-icon { color: #c9a86a; }
+body[data-theme="aurora-quiet"] [data-metric="weekly-check"] .metric-icon { color: #8fbfa0; }
+body[data-theme="aurora-quiet"] [data-metric="cmc"] .metric-icon { color: #a99ed6; }
+body[data-theme="aurora-quiet"] [data-metric="advanced-math"] .metric-icon { color: #93aed2; }
+body[data-theme="aurora-quiet"] [data-metric="vocabulary"] .metric-icon { color: #8d9ec2; }
+body[data-theme="aurora-quiet"] [data-metric="listening"] .metric-icon { color: #8fc3b8; }
+body[data-theme="aurora-quiet"] [data-metric="mock-exams"] .metric-icon { color: #c9a0a8; }
+body[data-theme="aurora-quiet"] [data-metric="final-courses"] .metric-icon { color: #c9a87a; }
+body[data-theme="aurora-quiet"] [data-metric="sleep"] .metric-icon { color: #9aa6cf; }
+body[data-theme="aurora-quiet"] .top-tasks-title .metric-icon { color: #c9a86a; }
+
+
 /* ===== 外观主题选择弹窗（批次 16） ===== */
 
 .theme-picker-grid {
@@ -8237,3 +8440,956 @@ body[data-theme="minimal-white"] .pie-percent {
 /* 批次22 修正（用户终审）：io 页六导出键形状完全一致 + 备份提醒卡横占两列 */
 #io-page .md-export-card, #io-page .csv-export-card { min-height: 104px; }
 #io-page #backup-reminder-wrapper { grid-column: 1 / -1; }
+
+
+/* ==================== 批次 38：极光双主题背景层 ==================== */
+/* 说明：批次 C 的时间色温规则会给 body 注入紫色 --bg-spot-1，且写在主题块之后。
+   本段放在文件末尾，让两套极光主题的背景保持主题 identity，不被时辰改色。
+   极光光谱 = 冷调极光光斑 + 疏网格；极光静奢 = 更弱光斑 + 更疏网格 + 更重暗角。 */
+body[data-theme="aurora-spectrum"] {
+  --bg-spot-1: rgba(34, 211, 238, 0.20);
+  --bg-spot-2: rgba(168, 85, 247, 0.14);
+  --bg-grid-color: rgba(56, 189, 248, 0.055);
+  --bg-vignette: rgba(0, 0, 0, 0.35);
+  background-size: auto, auto, 40px 40px, 40px 40px, auto, auto;
+}
+
+body[data-theme="aurora-quiet"] {
+  --bg-spot-1: rgba(143, 214, 232, 0.11);
+  --bg-spot-2: rgba(169, 158, 214, 0.07);
+  --bg-grid-color: rgba(170, 190, 215, 0.03);
+  --bg-vignette: rgba(0, 0, 0, 0.45);
+  background-size: auto, auto, 44px 44px, 44px 44px, auto, auto;
+}
+
+/* 极光静奢：颗粒感略强（雾面暗场质感），光泽更弱更收敛 */
+body[data-theme="aurora-quiet"]::before {
+  opacity: 0.055;
+}
+
+/* ==================== 批次 38 补充：子页面写死紫色组件的主题对齐 ==================== */
+/* 说明：阶段回顾页 / 全局累计统计页 / 日历 / 导入导出 / 系数页里有一批历史组件把
+   紫色渐变写死在声明里（不随主题变量走），对两套新主题会露出不属于本主题的紫调。
+   本段只对 aurora-spectrum / aurora-quiet 做作用域覆盖，既有 6 套主题零影响。 */
+
+/* —— 极光光谱：CTA 与进度条统一为青→靛蓝光谱 —— */
+body[data-theme="aurora-spectrum"] .stage-review-back-btn,
+body[data-theme="aurora-spectrum"] .global-stats-back-btn,
+body[data-theme="aurora-spectrum"] .global-stats-save-btn {
+  background: linear-gradient(135deg, #22d3ee 0%, #60a5fa 55%, #818cf8 100%);
+  color: #04121a;
+  text-shadow: none;
+}
+body[data-theme="aurora-spectrum"] .stage-review-back-btn:hover,
+body[data-theme="aurora-spectrum"] .global-stats-back-btn:hover,
+body[data-theme="aurora-spectrum"] .global-stats-save-btn:hover {
+  box-shadow: 0 4px 14px rgba(34, 211, 238, 0.35);
+}
+body[data-theme="aurora-spectrum"] .stage-review-open-btn {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.16) 0%, rgba(129, 140, 248, 0.16) 100%);
+  color: var(--purple-600);
+  border-color: rgba(34, 211, 238, 0.45);
+}
+body[data-theme="aurora-spectrum"] .stage-review-open-btn:hover {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.30) 0%, rgba(129, 140, 248, 0.30) 100%);
+  border-color: var(--purple-500);
+  box-shadow: 0 4px 10px rgba(34, 211, 238, 0.22);
+}
+body[data-theme="aurora-spectrum"] .global-stats-progress-fill,
+body[data-theme="aurora-spectrum"] .global-stats-bar-fill {
+  background: linear-gradient(90deg, #0ea5e9 0%, #22d3ee 100%);
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.35);
+}
+body[data-theme="aurora-spectrum"] .metric-bar-fill.status-danger {
+  background: linear-gradient(90deg, #0ea5e9, #a78bfa);
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.35);
+}
+body[data-theme="aurora-spectrum"] .kpta-try .kpta-badge {
+  background: linear-gradient(135deg, #22d3ee, #818cf8);
+}
+
+/* —— 极光静奢：CTA 统一为银→冰青→香槟金，危险进度条降为哑光藕粉 —— */
+body[data-theme="aurora-quiet"] .stage-review-back-btn,
+body[data-theme="aurora-quiet"] .global-stats-back-btn,
+body[data-theme="aurora-quiet"] .global-stats-save-btn {
+  background: linear-gradient(135deg, #e6eef6 0%, #9cc7db 48%, #c9a86a 100%);
+  color: #0a1016;
+  text-shadow: none;
+}
+body[data-theme="aurora-quiet"] .stage-review-back-btn:hover,
+body[data-theme="aurora-quiet"] .global-stats-back-btn:hover,
+body[data-theme="aurora-quiet"] .global-stats-save-btn:hover {
+  box-shadow: 0 4px 14px rgba(156, 199, 219, 0.30);
+}
+body[data-theme="aurora-quiet"] .stage-review-open-btn {
+  background: linear-gradient(135deg, rgba(156, 199, 219, 0.14) 0%, rgba(201, 168, 106, 0.12) 100%);
+  color: var(--purple-600);
+  border-color: rgba(156, 199, 219, 0.38);
+}
+body[data-theme="aurora-quiet"] .stage-review-open-btn:hover {
+  background: linear-gradient(135deg, rgba(156, 199, 219, 0.26) 0%, rgba(201, 168, 106, 0.22) 100%);
+  border-color: var(--purple-500);
+  box-shadow: 0 4px 10px rgba(156, 199, 219, 0.18);
+}
+body[data-theme="aurora-quiet"] .global-stats-progress-fill,
+body[data-theme="aurora-quiet"] .global-stats-bar-fill {
+  background: linear-gradient(90deg, #33566f 0%, #9cc7db 100%);
+  box-shadow: 0 0 8px rgba(156, 199, 219, 0.30);
+}
+body[data-theme="aurora-quiet"] .metric-bar-fill.status-danger {
+  background: linear-gradient(90deg, #8f6f7c, #c9a0a8);
+  box-shadow: 0 0 14px rgba(201, 160, 168, 0.28);
+}
+body[data-theme="aurora-quiet"] .kpta-try .kpta-badge {
+  background: linear-gradient(135deg, #9cc7db, #c9a86a);
+}
+
+/* ==================== 批次 24 修正：今日配额两卡单排两列（经典/指挥舱同规则） ==================== */
+/* 依据：用户 2026-10-17 指令——「本周总配额」「本周已用学时」不许上下两排，
+   须一排两列、均匀占满、不留空背景；两种形态同规则。 */
+.quota-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: var(--gap-sm) !important;
+  margin-bottom: var(--gap-md) !important;
+}
+.quota-card { min-width: 0; }
+
+/* 批次 24 修正：九个指标色相令牌（仅供指挥舱形态层引用；经典形态仍用自带图标色） */
+:root {
+  --metric-hue-weekly-capacity: #fbbf24;
+  --metric-hue-weekly-check: #4ade80;
+  --metric-hue-cmc: #c084fc;
+  --metric-hue-advanced-math: #60a5fa;
+  --metric-hue-vocabulary: #818cf8;
+  --metric-hue-listening: #34d399;
+  --metric-hue-mock-exams: #f472b6;
+  --metric-hue-final-courses: #fb923c;
+  --metric-hue-sleep: #a78bfa;
+}
+
+/* 批次 24 修正：进度条卡内的横向进度条仅指挥舱显示（经典形态保留扇形图） */
+.dashboard-card-bar { display: none; }
+
+/* ==================== 批次 24：界面形态轴 · 指挥舱（skin=deck） ==================== */
+/* 契约：形态层只写布局/结构/中性叠层；颜色一律取自主题 token（var(--...)）或中性 rgba。
+   全部选择器带 body[data-skin="deck"] 前缀 → 经典形态（classic）零规则命中，与 8 套主题正交。 */
+
+body[data-skin="deck"] {
+  --deck-radius: 16px;
+  --deck-line: rgba(255, 255, 255, 0.07);
+  --deck-line-strong: rgba(255, 255, 255, 0.112);
+  --deck-tint: rgba(255, 255, 255, 0.035);
+  --deck-tint-2: rgba(255, 255, 255, 0.06);
+  --deck-grid-color: rgba(255, 255, 255, 0.028);
+  --deck-label: 11px;
+}
+
+/* 浅色主题：白色叠层翻成黑色叠层（形态层不认主题名以外的任何颜色） */
+body[data-skin="deck"][data-theme="warm-cream"],
+body[data-skin="deck"][data-theme="matcha-green"],
+body[data-skin="deck"][data-theme="minimal-white"] {
+  --deck-line: rgba(0, 0, 0, 0.08);
+  --deck-line-strong: rgba(0, 0, 0, 0.14);
+  --deck-tint: rgba(0, 0, 0, 0.03);
+  --deck-tint-2: rgba(0, 0, 0, 0.05);
+  --deck-grid-color: rgba(0, 0, 0, 0.035);
+}
+
+/* 背景签名：底部网格 + 顶部柔光（画在内容之下的固定层，不拦截点击） */
+body[data-skin="deck"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(820px 300px at 50% -6%, var(--deck-tint-2), transparent 72%),
+    repeating-linear-gradient(0deg, transparent 0 43px, var(--deck-grid-color) 43px 44px),
+    repeating-linear-gradient(90deg, transparent 0 43px, var(--deck-grid-color) 43px 44px);
+  opacity: 0.85;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 68%, transparent 100%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 68%, transparent 100%);
+}
+
+/* ---------- 通用卡铬：发光顶线 + 半透哑光面 ---------- */
+body[data-skin="deck"] :is(
+  .stage-header, .quota-card, .daily-card, .top-tasks-card, .metric-card,
+  .dashboard-header, .year-heatmap, .weekly-hours-trend, .monthly-scores,
+  .weekly-section, .weekly-review-header, .settings-docs-card, .settings-action-card,
+  .module-list
+) {
+  position: relative;
+  border: 1px solid var(--deck-line);
+  border-radius: var(--deck-radius);
+  background:
+    linear-gradient(90deg, transparent, var(--purple-500), transparent) top center / 100% 1px no-repeat,
+    linear-gradient(180deg, var(--deck-tint-2), transparent 36%) top center / 100% 100% no-repeat,
+    var(--bg-card);
+  box-shadow: 0 18px 40px -30px rgba(0, 0, 0, 0.8);
+}
+
+body[data-skin="deck"] .metric-card:hover {
+  transform: none;
+  box-shadow: 0 18px 40px -30px rgba(0, 0, 0, 0.8);
+}
+
+/* 桌面端：内容居中收窄，留出呼吸感 */
+@media (min-width: 900px) {
+  body[data-skin="deck"] .tab-panel {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+}
+
+/* ---------- 今日作战：指挥条 + Hero 配额 + 任务流 ---------- */
+body[data-skin="deck"] .stage-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+  row-gap: 8px;
+  align-items: start;
+  padding: 12px 14px 14px;
+  margin-bottom: 12px;
+}
+body[data-skin="deck"] .stage-switcher-bar { grid-area: 1 / 2 / 2 / 3; justify-self: end; }
+body[data-skin="deck"] .stage-badge { display: none; }
+body[data-skin="deck"] .stage-title {
+  grid-area: 2 / 1 / 3 / 3;
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+body[data-skin="deck"] .stage-meta { grid-area: 3 / 1 / 4 / 3; margin: 0; font-size: 12px; }
+body[data-skin="deck"] .today-line {
+  grid-area: 4 / 1 / 5 / 3;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--deck-tint);
+  border: 1px solid var(--deck-line);
+}
+body[data-skin="deck"] .next-milestone {
+  grid-area: 5 / 1 / 6 / 3;
+  margin: 0;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+body[data-skin="deck"] .stage-doc-link {
+  grid-area: 6 / 1 / 7 / 3;
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.72;
+}
+
+body[data-skin="deck"] .quota-section { margin-bottom: 14px; }
+body[data-skin="deck"] .quota-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+body[data-skin="deck"] .quota-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  margin: 0;
+}
+body[data-skin="deck"] .quota-label {
+  font-size: var(--deck-label);
+  letter-spacing: 0.16em;
+  color: var(--text-tertiary);
+  font-weight: 700;
+}
+body[data-skin="deck"] .quota-value {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+body[data-skin="deck"] .quota-progress {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--deck-tint-2);
+  overflow: hidden;
+}
+body[data-skin="deck"] .quota-progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--gradient-purple);
+}
+body[data-skin="deck"] .quota-note { font-size: 11px; color: var(--text-tertiary); }
+
+body[data-skin="deck"] .module-list { margin-top: 12px; padding: 14px; }
+body[data-skin="deck"] .module-list .section-title {
+  margin: 0 0 4px;
+  font-size: var(--deck-label);
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: var(--text-tertiary);
+}
+body[data-skin="deck"] .module-list ul { margin: 0; padding: 0; list-style: none; }
+body[data-skin="deck"] .module-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--deck-line);
+}
+body[data-skin="deck"] .module-item:last-child { border-bottom: 0; }
+body[data-skin="deck"] .module-name { font-size: 13px; font-weight: 600; }
+body[data-skin="deck"] .module-hours { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--purple-600); }
+body[data-skin="deck"] .module-note {
+  flex-basis: 100%;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-tertiary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body[data-skin="deck"] .daily-card,
+body[data-skin="deck"] .top-tasks-card { padding: 14px; margin-top: 12px; }
+body[data-skin="deck"] .daily-card-title,
+body[data-skin="deck"] .top-tasks-title { font-size: 13px; }
+
+body[data-skin="deck"] .metrics-grid { gap: 10px; margin-top: 12px; }
+body[data-skin="deck"] .metric-card { padding: 14px; border-radius: var(--deck-radius); }
+body[data-skin="deck"] .metric-name { font-size: 14px; }
+body[data-skin="deck"] :is(.metric-current, .metric-value) {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+@media (min-width: 720px) {
+  body[data-skin="deck"] .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- 进度看板：Hero 总览 + 核心指标 + 双栏图表（预览图样式落地） ---------- */
+body[data-skin="deck"] .progress-dashboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+body[data-skin="deck"] .dashboard-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 18px 16px;
+  margin: 0;
+}
+body[data-skin="deck"] .dashboard-header::before { display: none; }
+body[data-skin="deck"] .dashboard-header .section-title { margin: 0; font-size: 19px; }
+body[data-skin="deck"] .dashboard-subtitle { margin: 4px 0 0; font-size: 12px; color: var(--text-tertiary); }
+body[data-skin="deck"] .dashboard-summary { display: flex; gap: 30px; margin-top: 6px; }
+body[data-skin="deck"] .dashboard-summary-item { display: flex; flex-direction: column; gap: 2px; }
+body[data-skin="deck"] .dashboard-summary-item strong {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  background: var(--gradient-purple);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--purple-500);
+}
+body[data-skin="deck"] .dashboard-summary-item span {
+  font-size: var(--deck-label);
+  letter-spacing: 0.12em;
+  color: var(--text-tertiary);
+}
+body[data-skin="deck"] .dashboard-header .stage-review-open-btn {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin-left: 0;
+}
+body[data-skin="deck"] :is(.year-heatmap, .weekly-hours-trend, .monthly-scores) {
+  padding: 16px;
+  margin: 0;
+}
+body[data-skin="deck"] .dashboard-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 32px;
+}
+body[data-skin="deck"] .dashboard-grid::before {
+  content: "核心指标";
+  position: absolute;
+  top: -24px;
+  left: 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--purple-500);
+  font-size: var(--deck-label);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-tertiary);
+}
+body[data-skin="deck"] .dashboard-grid > * {
+  border: 1px solid var(--deck-line);
+  border-radius: var(--deck-radius);
+  background:
+    linear-gradient(180deg, var(--deck-tint-2), transparent 40%) top center / 100% 100% no-repeat,
+    var(--bg-card);
+  padding: 14px;
+}
+@media (min-width: 720px) {
+  body[data-skin="deck"] .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
+  body[data-skin="deck"] .progress-dashboard { grid-template-columns: 1fr 1fr; }
+  body[data-skin="deck"] .progress-dashboard > .dashboard-header { grid-column: 1 / -1; }
+  body[data-skin="deck"] .progress-dashboard > .year-heatmap { grid-column: 1; }
+  body[data-skin="deck"] .progress-dashboard > .weekly-hours-trend { grid-column: 2; }
+  body[data-skin="deck"] .progress-dashboard > .dashboard-grid { grid-column: 1 / -1; }
+  body[data-skin="deck"] .progress-dashboard > .monthly-scores { grid-column: 1 / -1; }
+}
+
+/* ---------- 周报复盘：Hero 头 + 分区卡 ---------- */
+body[data-skin="deck"] .weekly-review {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+body[data-skin="deck"] .weekly-review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 18px 16px;
+  margin: 0;
+}
+body[data-skin="deck"] .weekly-review-header .section-title { margin: 0; font-size: 19px; }
+body[data-skin="deck"] .weekly-section { padding: 16px; margin: 0; }
+body[data-skin="deck"] .weekly-section-title {
+  margin: 0 0 4px;
+  font-size: var(--deck-label);
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: var(--text-tertiary);
+}
+body[data-skin="deck"] .weekly-report-btn {
+  background: var(--gradient-purple);
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 700;
+  color: var(--bg-page);
+}
+@media (min-width: 900px) {
+  body[data-skin="deck"] .weekly-review { grid-template-columns: 1fr 1fr; }
+  body[data-skin="deck"] .weekly-review > .weekly-review-header { grid-column: 1 / -1; }
+  body[data-skin="deck"] .weekly-review > .weekly-section:first-of-type { grid-column: 1 / -1; }
+}
+
+/* ---------- 我的设置：快捷操作 5 排单列（手机/桌面一致，用户 2026-10-17 令） ---------- */
+body[data-skin="deck"] .settings-actions-grid.settings-actions-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+body[data-skin="deck"] .settings-actions-main .settings-action-card {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  row-gap: 2px;
+  align-items: center;
+  min-height: 0;
+  padding: 14px 16px;
+  text-align: left;
+}
+body[data-skin="deck"] .settings-actions-main .settings-action-card svg {
+  grid-row: 1 / 3;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  color: var(--purple-500);
+}
+body[data-skin="deck"] .settings-actions-main .settings-action-title { grid-column: 2; font-size: 14px; font-weight: 700; }
+body[data-skin="deck"] .settings-actions-main .settings-action-desc { grid-column: 2; font-size: 11px; line-height: 1.4; }
+
+/* ---------- 导航：指挥舱模式下导航条与侧栏的收边 ---------- */
+body[data-skin="deck"] .bottom-nav {
+  border-top: 1px solid var(--deck-line-strong);
+  box-shadow: 0 20px 44px -22px rgba(0, 0, 0, 0.85);
+}
+body[data-skin="deck"] .bottom-nav .nav-item.active::before {
+  background: var(--deck-tint-2);
+  box-shadow: inset 0 1px 0 var(--purple-500);
+}
+body[data-skin="deck"] .sidebar-nav .nav-item.active {
+  background: var(--deck-tint-2);
+  border-radius: 12px;
+}
+
+/* ---------- 弹窗双段切换 + 形态预览卡（批次 24） ---------- */
+.appearance-segments {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  margin-bottom: 14px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+.appearance-segment {
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.appearance-segment:hover { color: var(--text-primary); }
+.appearance-segment.is-active {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.skin-picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .skin-picker-grid { grid-template-columns: 1fr; } }
+.skin-picker-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-page);
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.skin-picker-item:hover { border-color: var(--purple-400); transform: translateY(-2px); }
+.skin-picker-item.is-active { border-color: var(--purple-500); box-shadow: 0 0 0 3px var(--focus-ring); }
+.skin-picker-preview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  height: 96px;
+  padding: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--bg-card);
+}
+.skin-blk { display: block; border-radius: 6px; }
+.skin-blk-nav {
+  grid-column: 1 / -1;
+  height: 10px;
+  background: linear-gradient(90deg, var(--purple-400), var(--purple-600));
+  opacity: 0.85;
+}
+.skin-blk-hero {
+  grid-column: 1 / -1;
+  height: 28px;
+  background: linear-gradient(120deg, var(--purple-500), var(--purple-300));
+  opacity: 0.55;
+}
+.skin-line { display: flex; gap: 4px; }
+.skin-line i {
+  flex: 1;
+  height: 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 5px;
+  background: var(--bg-subtle);
+}
+.skin-blk-wide {
+  grid-column: 1 / -1;
+  height: 16px;
+  border: 1px dashed var(--border-subtle);
+  background: var(--bg-subtle);
+}
+.skin-preview-classic { grid-template-columns: 1fr; }
+.skin-preview-classic .skin-line i { height: 11px; }
+.skin-preview-deck .skin-blk-hero { height: 32px; }
+.skin-picker-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.skin-picker-label .theme-picker-check { color: var(--purple-500); opacity: 0; }
+.skin-picker-item.is-active .skin-picker-label .theme-picker-check { opacity: 1; }
+.skin-picker-desc { font-size: 11px; color: var(--text-tertiary); }
+
+/* ==================== 批次 24 补充：指挥舱窄屏横向溢出修复 ==================== */
+/* 原因：1fr 轨道最小值默认 auto，会被内容 min-content 撑开；热力图 SVG 无 width 属性时
+   会按容器比例放大，导致 336px 竖屏下进度看板/周报轨道被撑到 546px 并横向裁切。
+   修法：窄屏轨道改 minmax(0,1fr)、子项 min-width:0、热力图 SVG 在指挥舱下铺满卡片。 */
+@media (max-width: 899px) {
+  body[data-skin="deck"] .progress-dashboard,
+  body[data-skin="deck"] .weekly-review {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+body[data-skin="deck"] .progress-dashboard > *,
+body[data-skin="deck"] .weekly-review > * {
+  min-width: 0;
+}
+body[data-skin="deck"] .year-heatmap-chart svg[data-heatmap-mode="short"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+/* 窄屏 Hero 头改单列：标题 → 9/2 汇总 → 阶段回顾按钮，避免按钮被挤出卡片 */
+@media (max-width: 899px) {
+  body[data-skin="deck"] .dashboard-header { grid-template-columns: minmax(0, 1fr); }
+  body[data-skin="deck"] .dashboard-header .dashboard-summary { grid-column: 1; margin-top: 12px; }
+  body[data-skin="deck"] .dashboard-header .stage-review-open-btn {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin: 12px 0 0;
+  }
+}
+/* 图例色块：基础样式只给了 empty 尺寸，指挥舱补齐四阶色块尺寸并右对齐 */
+body[data-skin="deck"] .year-heatmap-legend > span:not(:first-child):not(:last-child) {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* ==================== 批次 24 修正：指挥舱 · 进度看板九卡改「进度条卡」 ==================== */
+/* 依据：用户 2026-10-17 指令——形态二进度看板 1:1 复刻设计稿，
+   九卡不再用扇形图，改为「标题+大数字+细进度条+注释」；扇形图仅经典形态保留。
+   本段 scoped 到 data-skin=deck，颜色全部走令牌（无十六进制），符合形态层契约。 */
+
+/* 页面内 modules 顺序：Hero → 九卡 → 年度热力 → 周学时趋势 → 月测（对齐设计稿） */
+body[data-skin="deck"] .progress-dashboard > .dashboard-header { order: 1; }
+body[data-skin="deck"] .progress-dashboard > .dashboard-grid { order: 2; }
+body[data-skin="deck"] .progress-dashboard > .year-heatmap { order: 3; }
+body[data-skin="deck"] .progress-dashboard > .weekly-hours-trend { order: 4; }
+body[data-skin="deck"] .progress-dashboard > .monthly-scores { order: 5; }
+
+body[data-skin="deck"] .dashboard-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (min-width: 900px) {
+  body[data-skin="deck"] .dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+body[data-skin="deck"] .dashboard-card {
+  padding: 14px;
+  gap: 6px;
+  min-height: 116px;
+}
+body[data-skin="deck"] .dashboard-card-pie { display: none; }
+body[data-skin="deck"] .dashboard-card-header { align-items: center; gap: 6px; }
+body[data-skin="deck"] .dashboard-card-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+body[data-skin="deck"] .dashboard-card-name .metric-icon { width: 18px; height: 18px; }
+body[data-skin="deck"] .dashboard-card-header .metric-status {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+body[data-skin="deck"] .dashboard-card-numbers {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 2px 0 0;
+  align-items: baseline;
+  gap: 3px;
+  color: var(--text-primary);
+}
+body[data-skin="deck"] .dashboard-card-numbers .metric-separator {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+body[data-skin="deck"] .dashboard-card-numbers .target {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+body[data-skin="deck"] .dashboard-card-bar {
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--deck-tint-2);
+  overflow: hidden;
+  margin: 2px 0 0;
+}
+body[data-skin="deck"] .dashboard-card-bar > span {
+  display: block;
+  height: 100%;
+  min-width: 3px;
+  border-radius: 999px;
+  background: var(--gradient-purple);
+}
+body[data-skin="deck"] .dashboard-card-meta {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* 九卡色相：与经典形态图标同色系，仅经 :root 令牌进入形态层 */
+body[data-skin="deck"] .dashboard-card[data-metric="weekly-capacity"] .dashboard-card-bar > span { background: var(--metric-hue-weekly-capacity); }
+body[data-skin="deck"] .dashboard-card[data-metric="weekly-check"] .dashboard-card-bar > span { background: var(--metric-hue-weekly-check); }
+body[data-skin="deck"] .dashboard-card[data-metric="cmc"] .dashboard-card-bar > span { background: var(--metric-hue-cmc); }
+body[data-skin="deck"] .dashboard-card[data-metric="advanced-math"] .dashboard-card-bar > span { background: var(--metric-hue-advanced-math); }
+body[data-skin="deck"] .dashboard-card[data-metric="vocabulary"] .dashboard-card-bar > span { background: var(--metric-hue-vocabulary); }
+body[data-skin="deck"] .dashboard-card[data-metric="listening"] .dashboard-card-bar > span { background: var(--metric-hue-listening); }
+body[data-skin="deck"] .dashboard-card[data-metric="mock-exams"] .dashboard-card-bar > span { background: var(--metric-hue-mock-exams); }
+body[data-skin="deck"] .dashboard-card[data-metric="final-courses"] .dashboard-card-bar > span { background: var(--metric-hue-final-courses); }
+body[data-skin="deck"] .dashboard-card[data-metric="sleep"] .dashboard-card-bar > span { background: var(--metric-hue-sleep); }
+
+/* ==================== 批次 24 二次补正：指挥舱视觉收敛（仅形态二） ==================== */
+/* 依据：用户 2026-10-17 验收反馈——①进度看板要更像预览图：新增「今日有效时长」Hero，
+   卡片更厚、进度条更短更柔、桌面不拥挤；②今日作战两张汇总卡改上下两排；
+   ③周报 KPTA 与四栏表单改上下排列，KPTA 内部 2×2；④进度条色彩收敛。
+   本段仍全部 scoped 到 data-skin=deck，颜色只走令牌（形态层零十六进制契约不破）。 */
+
+/* ---- 0. Hero 容器：仅指挥舱显示（渲染逻辑在 dashboard.js，不产生形态一视觉） ---- */
+.deck-today-hero { display: none; }
+
+/* ---- 1. 进度看板 Hero：今日有效时长（对齐设计稿大横条卡） ---- */
+body[data-skin="deck"] .deck-today-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid var(--deck-line);
+  border-radius: var(--deck-radius);
+  background:
+    linear-gradient(180deg, var(--deck-tint), transparent 55%) top center / 100% 100% no-repeat,
+    var(--bg-card);
+  box-shadow: var(--shadow-md);
+}
+body[data-skin="deck"] .deck-hero-label {
+  display: block;
+  font-size: var(--deck-label);
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: var(--text-tertiary);
+}
+body[data-skin="deck"] .deck-hero-number {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+}
+body[data-skin="deck"] .deck-hero-number strong {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: var(--gradient-purple);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--purple-500);
+}
+body[data-skin="deck"] .deck-hero-number span { font-size: 12px; font-weight: 600; color: var(--text-tertiary); }
+body[data-skin="deck"] .deck-hero-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--deck-tint-2);
+  overflow: hidden;
+  margin: 12px 0 10px;
+}
+body[data-skin="deck"] .deck-hero-track span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--gradient-purple);
+}
+body[data-skin="deck"] .deck-hero-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+body[data-skin="deck"] .deck-hero-chips span {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--deck-line);
+  background: var(--deck-tint-2);
+  color: var(--text-secondary);
+}
+body[data-skin="deck"] .deck-hero-ring {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+}
+body[data-skin="deck"] .deck-hero-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(var(--purple-500) calc(var(--ring-p, 0) * 1%), var(--deck-tint-2) 0);
+  -webkit-mask: radial-gradient(closest-side, transparent 68%, rgba(0, 0, 0, 1) 69%);
+  mask: radial-gradient(closest-side, transparent 68%, rgba(0, 0, 0, 1) 69%);
+}
+body[data-skin="deck"] .deck-hero-ring-inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 2px;
+  text-align: center;
+}
+body[data-skin="deck"] .deck-hero-ring-inner strong { font-size: 17px; font-weight: 800; color: var(--text-primary); }
+body[data-skin="deck"] .deck-hero-ring-inner span { font-size: 9px; color: var(--text-tertiary); letter-spacing: 0.06em; }
+
+/* ---- 2. 进度看板：页序补 Hero；卡片更厚、信息更匀、进度条更短更柔 ---- */
+body[data-skin="deck"] .progress-dashboard > .dashboard-header { order: 1; }
+body[data-skin="deck"] .progress-dashboard > .dashboard-grid { order: 2; }
+body[data-skin="deck"] .progress-dashboard > .deck-today-hero { order: 3; }
+body[data-skin="deck"] .progress-dashboard > .year-heatmap { order: 4; }
+body[data-skin="deck"] .progress-dashboard > .weekly-hours-trend { order: 5; }
+body[data-skin="deck"] .progress-dashboard > .monthly-scores { order: 6; }
+
+body[data-skin="deck"] .dashboard-card {
+  padding: 16px;
+  min-height: 152px;
+  gap: 7px;
+  justify-content: flex-start;
+}
+body[data-skin="deck"] .dashboard-card-numbers { font-size: 30px; }
+body[data-skin="deck"] .dashboard-card-meta { margin-top: auto; }
+body[data-skin="deck"] .dashboard-card-bar {
+  width: 100%;
+  height: 3px;
+  margin-top: 3px;
+}
+body[data-skin="deck"] .dashboard-card-bar > span {
+  opacity: 0.68;
+  filter: saturate(0.72);
+}
+@media (min-width: 900px) {
+  body[data-skin="deck"] .dashboard-grid { gap: 14px; }
+  body[data-skin="deck"] .dashboard-card { min-height: 170px; }
+}
+
+/* ---- 3. 今日作战：周有效产能 / 阶段0周检5数字两张汇总卡改上下两排 ---- */
+body[data-skin="deck"] .metrics-grid .metric-card-summary { grid-column: 1 / -1; }
+
+/* ---- 4. 周报复盘：KPTA 与四栏表单上下排列；KPTA 2×2 仅桌面端（手机端保持原单列） ---- */
+body[data-skin="deck"] .weekly-review { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) {
+  body[data-skin="deck"] .kpta-card { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+
+/* ---- 5. 周学时趋势：内容上下匀称（标题顶 / 图居中 / 图例底），消灭下半卡空置 ---- */
+body[data-skin="deck"] .weekly-hours-trend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: space-between;
+}
+body[data-skin="deck"] .weekly-hours-trend .weekly-hours-chart-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body[data-skin="deck"] .weekly-hours-trend .weekly-hours-legend { margin-top: auto; }
+
+/* ---- 6. 桌面/窄屏复核补丁：Hero 通栏、周检 5 数字不挤压、KPTA 与表单常驻 2×2 ---- */
+body[data-skin="deck"] .dashboard-grid > .deck-today-hero { grid-column: 1 / -1; }
+body[data-skin="deck"] .deck-today-hero { min-width: 0; }
+
+body[data-skin="deck"] .weekly-check-grid { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) {
+  body[data-skin="deck"] .weekly-check-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  body[data-skin="deck"] .weekly-check-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  body[data-skin="deck"] .weekly-check-card { grid-column: span 2; }
+  body[data-skin="deck"] .weekly-check-grid > :nth-child(4) { grid-column: 2 / 4; }
+  body[data-skin="deck"] .weekly-check-grid > :nth-child(5) { grid-column: 4 / 6; }
+}
+body[data-skin="deck"] .weekly-check-card { padding: 14px; gap: 10px; }
+body[data-skin="deck"] .weekly-check-label { line-height: 1.4; }
+
+/* ==========================================================================
+   批次24 补正6：今日作战 · 模块周配额 收起/展开（两形态通用）
+   ========================================================================== */
+.module-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: var(--gap-md);
+}
+
+.module-list-header .section-title { margin: 0; }
+
+.module-list-toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 5px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.module-list-toggle:hover {
+  border-color: var(--purple-400);
+  color: var(--purple-600);
+}
+
+.module-list-toggle::before {
+  content: "▴";
+  font-size: 9px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.module-list.is-collapsed .module-list-toggle::before { content: "▾"; }
+.module-list.is-collapsed ul { display: none; }
+
+/* 收起态：只留「阶段0 模块周配额」一条，做成加厚的横条，下方内容自动上收 */
+.module-list.is-collapsed .module-list-header {
+  min-height: 68px;
+  padding: 6px 2px;
+}
+
+body[data-skin="deck"] .module-list-header { gap: 10px; padding-bottom: 4px; }
+body[data-skin="deck"] .module-list-toggle {
+  min-height: 30px;
+  padding: 4px 12px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+body[data-skin="deck"] .module-list.is-collapsed .module-list-header { min-height: 62px; }

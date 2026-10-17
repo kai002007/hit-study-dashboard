@@ -1,7 +1,7 @@
 // ==================== js/ui/settings.js ====================
 // 批次20（ESM-b）自 script.js 整切：设置页域（主题六套/CSV 导出/自定义命令/热力图气泡绑定）。函数体逐字节不变。
-import { DAILY_CAP, METRIC_CONFIGS, THEME_ORDER } from "../config.js";
-import { WEEKLY_REVIEW_STORAGE_KEY, getCheckins, getCustomCommands, getDailyCards, getTheme, loadCustomGoals, loadData, saveCustomCommands, setTheme } from "../storage.js";
+import { DAILY_CAP, METRIC_CONFIGS, SKIN_ORDER, THEME_ORDER } from "../config.js";
+import { WEEKLY_REVIEW_STORAGE_KEY, getCheckins, getCustomCommands, getDailyCards, getSkin, getTheme, loadCustomGoals, loadData, saveCustomCommands, setSkin, setTheme } from "../storage.js";
 import { getDailyHours } from "../aggregation.js";
 import { SoundKit, bindClick, notify } from "./base.js";
 import { getExportTimestamp } from "./command.js";
@@ -56,7 +56,32 @@ const THEME_NAMES = {
   "cyber-cyan-purple": "赛博青紫",
   "warm-cream": "米黄",
   "matcha-green": "抹茶",
-  "minimal-white": "极简白"
+  "minimal-white": "极简白",
+  "aurora-spectrum": "极光光谱",
+  "aurora-quiet": "极光静奢"
+};
+
+// 批次 24：界面形态轴（形态=布局，主题=配色，两轴正交）
+const SKIN_NAMES = {
+  classic: "经典工作台",
+  deck: "指挥舱"
+};
+
+const SKIN_DESCS = {
+  classic: "现行排布 · 信息密度优先",
+  deck: "卡片指挥台 · 模块分区"
+};
+
+// 批次 38：移动端浏览器顶栏/状态栏色随主题走（与 style.css 中主题 --bg-page 对齐）
+const THEME_META_COLORS = {
+  "dark-purple": "#0f0a1a",
+  "midnight-blue": "#0a1020",
+  "cyber-cyan-purple": "#0d0d18",
+  "warm-cream": "#f5ecd7",
+  "matcha-green": "#eef2e6",
+  "minimal-white": "#fafafa",
+  "aurora-spectrum": "#05070e",
+  "aurora-quiet": "#07080c"
 };
 
 // 已迁移至 js/storage.js（批次8）
@@ -68,6 +93,8 @@ function applyTheme() {
   } else {
     document.body.dataset.theme = theme;
   }
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", THEME_META_COLORS[theme] || "#0f0a1a");
 }
 
 function renderThemeToggle() {
@@ -76,8 +103,19 @@ function renderThemeToggle() {
   const desc = btn ? btn.querySelector(".settings-action-desc") : null;
   if (!btn || !title) return;
   const theme = getTheme();
-  title.textContent = "外观主题";
-  if (desc) desc.textContent = `当前：${THEME_NAMES[theme] || "暗紫"}`;
+  const skin = getSkin();
+  title.textContent = "主题与形态";
+  if (desc) desc.textContent = `当前：${THEME_NAMES[theme] || "暗紫"} · ${SKIN_NAMES[skin] || "经典工作台"}`;
+}
+
+// 批次 24：形态应用（classic 移除 data-skin，CSS 里经典形态零规则命中）
+function applySkin() {
+  const skin = getSkin();
+  if (skin === "classic") {
+    document.body.removeAttribute("data-skin");
+  } else {
+    document.body.dataset.skin = skin;
+  }
 }
 
 function handleThemeToggle() {
@@ -92,7 +130,9 @@ const THEME_PREVIEW_COLORS = {
   "cyber-cyan-purple": { bg: "#0d0d18", card: "#16162a", accent: "#22d3ee", accent2: "#a855f7", normal: "#34d399", warning: "#fbbf24", text: "#e8e8f8", scheme: "深色" },
   "warm-cream":        { bg: "#f5ecd7", card: "#fdf9ef", accent: "#b45309", accent2: "#d97706", normal: "#15803d", warning: "#b45309", text: "#3a2e1f", scheme: "浅色" },
   "matcha-green":      { bg: "#eef2e6", card: "#f7faf0", accent: "#4a7c59", accent2: "#3a6347", normal: "#4a7c59", warning: "#b8763a", text: "#2d3a2a", scheme: "浅色" },
-  "minimal-white":     { bg: "#fafafa", card: "#ffffff", accent: "#7c3aed", accent2: "#6d28d9", normal: "#16a34a", warning: "#d97706", text: "#111111", scheme: "浅色" }
+  "minimal-white":     { bg: "#fafafa", card: "#ffffff", accent: "#7c3aed", accent2: "#6d28d9", normal: "#16a34a", warning: "#d97706", text: "#111111", scheme: "浅色" },
+  "aurora-spectrum":   { bg: "#05070e", card: "#0b1220", accent: "#22d3ee", accent2: "#a78bfa", normal: "#34d399", warning: "#fbbf24", text: "#e8f0ff", scheme: "深色" },
+  "aurora-quiet":      { bg: "#07080c", card: "#0c1018", accent: "#9cc7db", accent2: "#c9a86a", normal: "#8fbfa0", warning: "#d9c39a", text: "#e9edf4", scheme: "深色" }
 };
 
 function renderThemeOptions() {
@@ -154,8 +194,78 @@ function openThemeModal() {
   const modal = document.getElementById("theme-modal");
   if (!modal) return;
   renderThemeOptions();
+  renderSkinOptions();
+  setAppearanceSegment("theme");
   modal.style.display = "flex";
   if (typeof SoundKit !== "undefined") SoundKit.pop();
+}
+
+// ---------- 形态选择（批次 24，与主题共用同一个弹窗） ----------
+
+function renderSkinOptions() {
+  const grid = document.getElementById("skin-picker-grid");
+  if (!grid) return;
+  const current = getSkin();
+  const items = [
+    { key: "classic", name: SKIN_NAMES.classic, desc: SKIN_DESCS.classic },
+    { key: "deck", name: SKIN_NAMES.deck, desc: SKIN_DESCS.deck }
+  ];
+  grid.innerHTML = items.map(it => {
+    const on = it.key === current;
+    return `
+      <button type="button" class="skin-picker-item${on ? " is-active" : ""}" data-skin-key="${it.key}">
+        <div class="skin-picker-preview skin-preview-${it.key}">
+          <span class="skin-blk skin-blk-nav"></span>
+          <span class="skin-blk skin-blk-hero"></span>
+          <span class="skin-line"><i></i><i></i></span>
+          <span class="skin-line"><i></i><i></i></span>
+          <span class="skin-blk skin-blk-wide"></span>
+        </div>
+        <div class="skin-picker-label">
+          <span>${it.name}<span class="theme-picker-scheme-tag">${on ? "现行" : "可切换"}</span></span>
+          <span class="theme-picker-check">✓</span>
+        </div>
+        <div class="skin-picker-desc">${it.desc}</div>
+      </button>
+    `;
+  }).join("");
+
+  grid.querySelectorAll(".skin-picker-item").forEach(btn => {
+    btn.addEventListener("click", () => {
+      handleSelectSkin(btn.dataset.skinKey);
+    });
+  });
+}
+
+function handleSelectSkin(skinKey) {
+  if (!SKIN_ORDER.includes(skinKey)) return;
+  if (skinKey === getSkin()) return;
+  setSkin(skinKey);
+  applySkin();
+  renderThemeToggle();
+  renderSkinOptions();
+  notify(`已切换到「${SKIN_NAMES[skinKey]}」形态`, "success");
+}
+
+function setAppearanceSegment(seg) {
+  const themeBtn = document.getElementById("appearance-segment-theme");
+  const skinBtn = document.getElementById("appearance-segment-skin");
+  const themePanel = document.getElementById("appearance-panel-theme");
+  const skinPanel = document.getElementById("appearance-panel-skin");
+  if (!themeBtn || !skinBtn || !themePanel || !skinPanel) return;
+  const isTheme = seg !== "skin";
+  themeBtn.classList.toggle("is-active", isTheme);
+  skinBtn.classList.toggle("is-active", !isTheme);
+  themePanel.style.display = isTheme ? "" : "none";
+  skinPanel.style.display = isTheme ? "none" : "";
+  if (!isTheme) renderSkinOptions();
+}
+
+function bindAppearanceSegments() {
+  if (document._appearanceSegBound) return;
+  document._appearanceSegBound = true;
+  bindClick("appearance-segment-theme", () => setAppearanceSegment("theme"));
+  bindClick("appearance-segment-skin", () => setAppearanceSegment("skin"));
 }
 
 function closeThemeModal() {
@@ -169,6 +279,7 @@ function bindThemeModalEvents() {
   document._themeModalBound = true;
 
   bindClick("theme-modal-close-btn", closeThemeModal);
+  bindAppearanceSegments();
 
   const modal = document.getElementById("theme-modal");
   if (modal) {
@@ -459,7 +570,7 @@ function handleAddCmdSubmit() {
 
 // ==================== ESM 导出（批次20） ====================
 export {
-  applyTheme, bindHeatmapTooltip, bindThemeModalEvents, closeCoeffPage, closeIoPage, closeManageCmdModal, closeMoreFeaturesPage, exportCheckinsCSV,
+  applySkin, applyTheme, bindHeatmapTooltip, bindThemeModalEvents, closeCoeffPage, closeIoPage, closeManageCmdModal, closeMoreFeaturesPage, exportCheckinsCSV,
     exportDailyCardsCSV, exportWeeklyReviewsCSV, handleAddCmdSubmit, handleThemeToggle, openCoeffPage, openIoPage, openManageCmdModal, openMoreFeaturesPage,
     renderThemeToggle
 };

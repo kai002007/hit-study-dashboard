@@ -8,6 +8,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const ROOT = path.join(__dirname, ".."); // 2026-10-17 整理：资源根恒为 工作台代码\，与脚本所在子目录无关
 const vm = require("vm");
 
 const store = {};
@@ -20,7 +21,7 @@ const localStorageStub = {
 const ctx = vm.createContext({ localStorage: localStorageStub, console: console });
 // 批次19（ESM-a）：剥掉 module 语法（import/export）后按经典脚本供 vm 实跑
 function loadModuleSource(f) {
-  let src = fs.readFileSync(path.join(__dirname, f), "utf8");
+  let src = fs.readFileSync(path.join(ROOT, f), "utf8");
   src = src.replace(/^import\s[\s\S]*?from\s*"[^"]+";[^\S\r\n]*(\r?\n)?/gm, "");
   src = src.replace(/^export\s*\{[\s\S]*?\};[^\S\r\n]*(\r?\n)?/gm, "");
   return src;

@@ -793,8 +793,23 @@ function handleSaveCoeffSettings() {
 // 已迁移至 js/storage.js（批次8）
 
 
+// ==================== 14. 模块周配额 收起/展开（批次24 补正5） ====================
+
+function bindModuleListToggle() {
+  const listEl = document.getElementById("module-list");
+  const toggleBtn = document.getElementById("module-list-toggle");
+  if (!listEl || !toggleBtn || toggleBtn.dataset.bound === "1") return;
+  toggleBtn.dataset.bound = "1";
+  toggleBtn.addEventListener("click", () => {
+    const collapsed = listEl.classList.toggle("is-collapsed");
+    toggleBtn.textContent = collapsed ? "展开" : "收起";
+    toggleBtn.setAttribute("aria-expanded", String(!collapsed));
+  });
+}
+
 // ==================== ESM 导出（批次20） ====================
 export {
+  bindModuleListToggle,
   fillTodayCheckin, getEstimatedCompletion, getLastWeekCheckItems, getRecentAverage, getStreak, getSuggestedToday, getWeeklyCheckItems, handleCheckin,
     handleMakeup, handleProgressCheckin, handleProgressMakeup, handleQuickCheckin, handleSaveCoeffSettings, isYesterdayMissed, openAdjustPlan, renderCoeffSettings,
     renderQuotas, toggleMakeup, updateHabitCard, updateProgressCard, updateVocabularyCard, updateWeeklyCapacityCard, updateWeeklyCheckCard

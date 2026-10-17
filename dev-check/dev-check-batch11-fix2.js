@@ -5,6 +5,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const ROOT = path.join(__dirname, ".."); // 2026-10-17 整理：资源根恒为 工作台代码\，与脚本所在子目录无关
 const vm = require("vm");
 
 const store = {};
@@ -39,7 +40,7 @@ class FakeDate extends RealDate {
 const ctx = vm.createContext({ localStorage: localStorageStub, document: documentStub, console: console, Date: FakeDate });
 // 批次19（ESM-a）：剥掉 module 语法（import/export）后按经典脚本供 vm 实跑
 function loadModuleSource(f) {
-  let src = fs.readFileSync(path.join(__dirname, f), "utf8");
+  let src = fs.readFileSync(path.join(ROOT, f), "utf8");
   src = src.replace(/^import\s[\s\S]*?from\s*"[^"]+";[^\S\r\n]*(\r?\n)?/gm, "");
   src = src.replace(/^export\s*\{[\s\S]*?\};[^\S\r\n]*(\r?\n)?/gm, "");
   return src;
@@ -112,7 +113,7 @@ check("断言8 阶段0正常出svg且无负viewBox", heatmapEl.innerHTML.indexOf
 // ---- 结构守卫 ----
 const src = UI_FILES.map(function(f) { return loadModuleSource(f); }).join("\n");
 check("断言9 单词例外恰好2处", (src.match(/key !== "vocabulary"/g) || []).length, 2);
-const storageSrc = fs.readFileSync(path.join(__dirname, "js/storage.js"), "utf8");
+const storageSrc = fs.readFileSync(path.join(ROOT, "js/storage.js"), "utf8");
 check("断言10 storage指纹字段6处", (storageSrc.match(/draftK|draftP/g) || []).length, 6);
 
 // ---- 批次11修正令4：单词7/7例外全量收编 + 周报文本人工栏注记 ----

@@ -1,6 +1,6 @@
 // ==================== js/ui/dashboard.js ====================
 // 批次20（ESM-b）自 script.js 整切：进度看板域（Tab2 扇形路径/卡片图标/顺序/双列/看板渲染）。函数体逐字节不变。
-import { METRIC_CONFIGS } from "../config.js";
+import { DAILY_CAP, METRIC_CONFIGS } from "../config.js";
 import { getCheckinValue, getTotalCompleted, loadCustomGoals } from "../storage.js";
 import { fmtHours, getDailyHours, getWeeklyStats } from "../aggregation.js";
 import { daysBetween, formatDateCN, formatDateISO, getToday, parseDate, parseSleepTime, setText } from "./base.js";
@@ -267,10 +267,53 @@ function buildDashboardItems() {
   return items;
 }
 
+// ==================== 15.09 指挥舱 · 今日有效时长 Hero（批次24 二次补正） ====================
+// 仅「指挥舱」形态展示：日卡口径（getDailyHours 有效时长 × DAILY_CAP 当日上限），
+// 右侧环=本周达成率（周有效学时 / 周配额）。经典形态容器 display:none，零视觉影响。
+function renderDeckTodayHero() {
+  const el = document.getElementById("deck-today-hero");
+  if (!el) return;
+
+  const todayStr = getToday();
+  const todayHours = getDailyHours(todayStr).hours;
+  const cap = Number(DAILY_CAP[(new Date().getDay() + 6) % 7]) || 0;
+  const dayPercent = cap > 0 ? Math.min(100, Math.round((todayHours / cap) * 100)) : 0;
+
+  const weekly = getWeeklyStats();
+  const weeklyCfg = METRIC_CONFIGS["weekly-capacity"] || {};
+  const weekTarget = Number(weeklyCfg.target) || 0;
+  const weekPercent = weekTarget > 0 ? Math.min(100, Math.round((weekly.totalHours / weekTarget) * 100)) : 0;
+  const remain = Math.max(0, cap - todayHours);
+
+  el.innerHTML = `
+    <div class="deck-hero-main">
+      <span class="deck-hero-label">今日有效时长</span>
+      <div class="deck-hero-number"><strong>${fmtHours(todayHours)}</strong><span>/ ${fmtHours(cap)} h 上限</span></div>
+      <div class="deck-hero-track"><span style="width: ${dayPercent}%;"></span></div>
+      <div class="deck-hero-chips">
+        <span>已用 ${dayPercent}%</span>
+        <span>剩余 ${fmtHours(remain)}h</span>
+        <span>本周已用 ${fmtHours(weekly.totalHours)}h</span>
+      </div>
+    </div>
+    <div class="deck-hero-ring" style="--ring-p: ${weekPercent};" aria-label="本周达成率 ${weekPercent}%">
+      <span class="deck-hero-ring-inner"><strong>${weekPercent}%</strong><span>本周达成率</span></span>
+    </div>
+  `;
+}
+
 function renderProgressDashboard() {
   const grid = document.getElementById("progress-dashboard-grid");
   if (!grid) return;
 
+  // 批次24 补正5：Hero 作为九卡网格首行渲染（「核心指标」标签与第一排卡片之间）；
+  // 重渲染前先把 Hero 移出网格，避免被下方 innerHTML 清掉。
+  const heroEl = document.getElementById("deck-today-hero");
+  if (heroEl && heroEl.parentElement === grid) {
+    grid.parentElement.insertBefore(heroEl, grid);
+  }
+
+  renderDeckTodayHero();
   renderMonthlyScores();
   renderYearHeatmap();
   renderWeeklyHoursTrend();
@@ -294,6 +337,7 @@ function renderProgressDashboard() {
         <p>在「今日作战」Tab 中新建目标后，这里会自动汇总</p>
       </div>
     `;
+    if (heroEl) grid.insertBefore(heroEl, grid.firstChild);
     return;
   }
 
@@ -301,6 +345,7 @@ function renderProgressDashboard() {
     const iconHTML = getDashboardCardIconHTML(item.key);
     const isWide = DASHBOARD_WIDE_KEYS.indexOf(item.key) !== -1;
     const wideClass = isWide ? " dashboard-card-wide" : "";
+    const barPct = Math.max(2, Math.min(100, Math.round(item.percent)));
     return `
       <article class="dashboard-card${wideClass}" data-dashboard-key="${item.key}" data-metric="${item.key}">
         <div class="dashboard-card-header">
@@ -320,10 +365,14 @@ function renderProgressDashboard() {
         <div class="dashboard-card-numbers">
           ${item.current}<span class="metric-separator">/</span><span class="target">${item.target} ${item.unit}</span>
         </div>
+        <div class="dashboard-card-bar"><span style="width: ${barPct}%"></span></div>
         <div class="dashboard-card-meta">${item.estimateText}</div>
       </article>
     `;
   }).join("");
+
+  // Hero 插到九卡最前面：紧贴「核心指标」标签之下、第一排卡片之上
+  if (heroEl) grid.insertBefore(heroEl, grid.firstChild);
 }
 
 

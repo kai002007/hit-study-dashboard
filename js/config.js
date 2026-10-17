@@ -242,7 +242,11 @@ const MONTHLY_SUBJECTS = {
 
 // ==================== 主题顺序（批次 10） ====================
 
-const THEME_ORDER = ["dark-purple", "midnight-blue", "cyber-cyan-purple", "warm-cream", "matcha-green", "minimal-white"];
+const THEME_ORDER = ["dark-purple", "midnight-blue", "cyber-cyan-purple", "warm-cream", "matcha-green", "minimal-white", "aurora-spectrum", "aurora-quiet"];
+
+// ==================== 界面形态顺序（批次 24） ====================
+// 形态轴只管布局/结构，主题轴只管配色/材质，两轴正交（8 主题 × 2 形态 = 浏览器里相乘，代码只写 8+2 块）
+const SKIN_ORDER = ["classic", "deck"];
 
 // ==================== 批次7 新增配置（本批只定义不接线） ====================
 
@@ -283,6 +287,7 @@ export {
   MILESTONES,
   MONTHLY_SUBJECTS,
   THEME_ORDER,
+  SKIN_ORDER,
   CAPACITY_DAILY_THRESHOLD,
   SLEEP_PLAN,
   STAGE_CHECK_RULES

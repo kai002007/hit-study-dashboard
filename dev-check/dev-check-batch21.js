@@ -3,14 +3,15 @@
 // 运行：node dev-check-batch21.js
 const fs = require("fs");
 const path = require("path");
-const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
-const css = fs.readFileSync(path.join(__dirname, "style.css"), "utf8");
-const reviewSrc = fs.readFileSync(path.join(__dirname, "js/ui/review.js"), "utf8");
-const settingsSrc = fs.readFileSync(path.join(__dirname, "js/ui/settings.js"), "utf8");
-const goalsSrc = fs.readFileSync(path.join(__dirname, "js/ui/goals.js"), "utf8");
-const storageSrc = fs.readFileSync(path.join(__dirname, "js/storage.js"), "utf8");
-const swSrc = fs.readFileSync(path.join(__dirname, "service-worker.js"), "utf8");
-const ver = JSON.parse(fs.readFileSync(path.join(__dirname, "version.json"), "utf8"));
+const ROOT = path.join(__dirname, ".."); // 2026-10-17 整理：资源根恒为 工作台代码\，与脚本所在子目录无关
+const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+const css = fs.readFileSync(path.join(ROOT, "style.css"), "utf8");
+const reviewSrc = fs.readFileSync(path.join(ROOT, "js/ui/review.js"), "utf8");
+const settingsSrc = fs.readFileSync(path.join(ROOT, "js/ui/settings.js"), "utf8");
+const goalsSrc = fs.readFileSync(path.join(ROOT, "js/ui/goals.js"), "utf8");
+const storageSrc = fs.readFileSync(path.join(ROOT, "js/storage.js"), "utf8");
+const swSrc = fs.readFileSync(path.join(ROOT, "service-worker.js"), "utf8");
+const ver = JSON.parse(fs.readFileSync(path.join(ROOT, "version.json"), "utf8"));
 
 let pass = 0, fail = 0;
 function check(label, actual, expected) {
@@ -83,7 +84,10 @@ check("断言13 schema 常量=6", (storageSrc.match(/const CURRENT_SCHEMA_VERSIO
 
 // ---- 修正令2 · 快捷区五键统一 + modal 层级 + 九卡两行式 + 日历导航防竖排 ----
 check("断言14 modal 层级=3700", (css.match(/\.modal-overlay\s*\{[^}]*\}/) || [""])[0].indexOf("z-index: 3700") !== -1 && (css.match(/z-index:\s*2000/g) || []).length === 0, true);
-check("断言15 旧排序/旧装饰清零", (css.match(/order:\s*-2/g) || []).length === 0 && (css.match(/order:\s*-1/g) || []).length === 0 && (css.match(/\{\s*order:\s*/g) || []).length === 0 && (css.match(/global-stats-card/g) || []).length === 0 && (css.match(/\.settings-actions-grid \.sound-toggle-card/g) || []).length === 0 && (css.match(/\.settings-action-card\.theme-toggle-card\s*\{/g) || []).length === 0, true);
+// 断言15：基础层旧排序/旧装饰清零；「界面形态轴」（批次24 起）允许用 order 做形态重排，故只检查形态层之前的基础段
+const deckMarkerIdx = css.indexOf("批次 24：界面形态轴");
+const baseCss = deckMarkerIdx === -1 ? css : css.slice(0, deckMarkerIdx);
+check("断言15 旧排序/旧装饰清零", (baseCss.match(/order:\s*-2/g) || []).length === 0 && (baseCss.match(/order:\s*-1/g) || []).length === 0 && (baseCss.match(/\{\s*order:\s*/g) || []).length === 0 && (baseCss.match(/global-stats-card/g) || []).length === 0 && (baseCss.match(/\.settings-actions-grid \.sound-toggle-card/g) || []).length === 0 && (baseCss.match(/\.settings-action-card\.theme-toggle-card\s*\{/g) || []).length === 0, true);
 check("断言16 快捷区 DOM 序", html.indexOf("io-open-btn") < html.indexOf("theme-toggle-btn") && html.indexOf("theme-toggle-btn") < html.indexOf("more-open-btn") && html.indexOf("global-stats-open-btn") < html.indexOf("calendar-open-btn") && html.indexOf("calendar-open-btn") < html.indexOf("io-open-btn"), true);
 check("断言17 九卡两行式 + 日历导航锚点", css.indexOf(".stage-review-card-row { flex-direction: column") !== -1 && css.indexOf(".global-stats-header-actions .stage-review-back-btn") !== -1, true);
 

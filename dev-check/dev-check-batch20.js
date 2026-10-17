@@ -6,11 +6,12 @@
 
 const fs = require("fs");
 const path = require("path");
+const ROOT = path.join(__dirname, ".."); // 2026-10-17 整理：资源根恒为 工作台代码\，与脚本所在子目录无关
 const vm = require("vm");
 
 function loadModuleSource(f) {
   // 批次19/20 共用：剥掉 module 语法（import/export）后按经典脚本供 vm 实跑
-  let src = fs.readFileSync(path.join(__dirname, f), "utf8");
+  let src = fs.readFileSync(path.join(ROOT, f), "utf8");
   src = src.replace(/^import\s[\s\S]*?from\s*"[^"]+";[^\S\r\n]*(\r?\n)?/gm, "");
   src = src.replace(/^export\s*\{[\s\S]*?\};[^\S\r\n]*(\r?\n)?/gm, "");
   return src;
@@ -28,9 +29,9 @@ function check(label, actual, expected) {
 
 // ---- 断言1：整切后文件存在性（18 在位 + 2 删除）----
 check("断言1 十八运行时在位且 bridge/script 已删",
-  RUNTIME_FILES.every(function(f) { return fs.existsSync(path.join(__dirname, f)); }) &&
-  !fs.existsSync(path.join(__dirname, "js/bridge.js")) &&
-  !fs.existsSync(path.join(__dirname, "script.js")), true);
+  RUNTIME_FILES.every(function(f) { return fs.existsSync(path.join(ROOT, f)); }) &&
+  !fs.existsSync(path.join(ROOT, "js/bridge.js")) &&
+  !fs.existsSync(path.join(ROOT, "script.js")), true);
 
 // ---- 断言2/3：静态闭包校验（机器防漏名 / 防漏 export）----
 const declRe = /^(?:async\s+)?function\s+([A-Za-z_$][\w$]*)|^(?:const|let|var)\s+([A-Za-z_$][\w$]*)/;
@@ -38,7 +39,7 @@ const owner = {};
 const stripped = {};
 const raw = {};
 for (const f of RUNTIME_FILES) {
-  raw[f] = fs.readFileSync(path.join(__dirname, f), "utf8");
+  raw[f] = fs.readFileSync(path.join(ROOT, f), "utf8");
   stripped[f] = loadModuleSource(f);
 }
 function stripComments(s) {
@@ -124,7 +125,7 @@ check("断言4 行为等价：finalReviewHours=3 + 日记往返 + 阶段判断 +
   run('formatDateISO(parseDate("2026-10-12"))') === "2026-10-12", true);
 
 // ---- 断言5：index.html 单入口整切 ----
-const idxSrc = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
+const idxSrc = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
 check("断言5 index 仅 main.js 一个 module 标签",
   idxSrc.indexOf('<script type="module" src="js/main.js"></script>') !== -1 &&
   idxSrc.indexOf('src="script.js"') === -1 &&
@@ -132,8 +133,8 @@ check("断言5 index 仅 main.js 一个 module 标签",
   (idxSrc.match(/<script type="module"/g) || []).length === 1, true);
 
 // ---- 断言6：SW 整切资产（动态对齐 version.json）----
-const swSrc = fs.readFileSync(path.join(__dirname, "service-worker.js"), "utf8");
-const vjson = JSON.parse(fs.readFileSync(path.join(__dirname, "version.json"), "utf8"));
+const swSrc = fs.readFileSync(path.join(ROOT, "service-worker.js"), "utf8");
+const vjson = JSON.parse(fs.readFileSync(path.join(ROOT, "version.json"), "utf8"));
 check("断言6 SW 同步且 22 项资产整切在位",
   swSrc.indexOf('"study-dashboard-' + vjson.cacheVersion + '"') !== -1 &&
   swSrc.indexOf('"./js/main.js"') !== -1 &&
@@ -193,7 +194,7 @@ for (const f of RUNTIME_FILES) {
   let m;
   while ((m = importRe.exec(raw[f]))) {
     importTotal++;
-    if (!fs.existsSync(path.resolve(__dirname, path.dirname(f), m[1]))) badPath.push(f + " → " + m[1]);
+    if (!fs.existsSync(path.resolve(ROOT, path.dirname(f), m[1]))) badPath.push(f + " → " + m[1]);
   }
 }
 check("断言14 import 路径存在性（共 " + importTotal + " 条，缺失：" + (badPath.join("；") || "无") + "）", badPath.length, 0);

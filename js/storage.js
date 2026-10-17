@@ -2,7 +2,7 @@
 // 数据层（批次8 从 script.js 抽取）：键注册表/读写/schema迁移/备份导入导出
 // 本文件禁止访问 DOM（notify 等 UI 函数仅作运行时调用，批次20 起经 ESM import 引入）
 // 依赖：js/config.js（批次19 起 ESM import）
-import { THEME_ORDER, METRIC_CONFIGS, DEFAULT_CONFIGS } from "./config.js";
+import { THEME_ORDER, SKIN_ORDER, METRIC_CONFIGS, DEFAULT_CONFIGS } from "./config.js";
 import { notify } from "./ui/base.js";
 import { getDailyAutoHours } from "./aggregation.js";
 import { formatDateISO } from "./ui/base.js";
@@ -276,6 +276,26 @@ function setTheme(theme) {
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   } catch (e) {
     console.warn("[Theme] 保存失败", e);
+  }
+}
+
+// ==================== 偏好键：界面形态切换（批次 24） ====================
+// 与主题轴独立存储、独立回退：非法值一律回落到经典形态，保证存量用户零感知。
+const SKIN_STORAGE_KEY = "study_dashboard_skin";
+
+function getSkin() {
+  try {
+    const raw = localStorage.getItem(SKIN_STORAGE_KEY);
+    if (raw && SKIN_ORDER.indexOf(raw) >= 0) return raw;
+  } catch (e) { /* ignore */ }
+  return "classic";
+}
+
+function setSkin(skin) {
+  try {
+    localStorage.setItem(SKIN_STORAGE_KEY, skin);
+  } catch (e) {
+    console.warn("[Skin] 保存失败", e);
   }
 }
 
@@ -837,6 +857,9 @@ export {
   THEME_STORAGE_KEY,
   getTheme,
   setTheme,
+  SKIN_STORAGE_KEY,
+  getSkin,
+  setSkin,
   CUSTOM_CMD_STORAGE_KEY,
   getCustomCommands,
   saveCustomCommands,

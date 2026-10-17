@@ -3,17 +3,18 @@
 // 运行：node dev-check-batch22.js
 const fs = require("fs");
 const path = require("path");
-const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
-const css = fs.readFileSync(path.join(__dirname, "style.css"), "utf8");
-const configSrc = fs.readFileSync(path.join(__dirname, "js/config.js"), "utf8");
-const dailySrc = fs.readFileSync(path.join(__dirname, "js/ui/daily-card.js"), "utf8");
-const settingsSrc = fs.readFileSync(path.join(__dirname, "js/ui/settings.js"), "utf8");
-const commandSrc = fs.readFileSync(path.join(__dirname, "js/ui/command.js"), "utf8");
-const chartsSrc = fs.readFileSync(path.join(__dirname, "js/ui/charts.js"), "utf8");
-const gsSrc = fs.readFileSync(path.join(__dirname, "js/ui/global-stats.js"), "utf8");
-const storageSrc = fs.readFileSync(path.join(__dirname, "js/storage.js"), "utf8");
-const swSrc = fs.readFileSync(path.join(__dirname, "service-worker.js"), "utf8");
-const ver = JSON.parse(fs.readFileSync(path.join(__dirname, "version.json"), "utf8"));
+const ROOT = path.join(__dirname, ".."); // 2026-10-17 整理：资源根恒为 工作台代码\，与脚本所在子目录无关
+const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+const css = fs.readFileSync(path.join(ROOT, "style.css"), "utf8");
+const configSrc = fs.readFileSync(path.join(ROOT, "js/config.js"), "utf8");
+const dailySrc = fs.readFileSync(path.join(ROOT, "js/ui/daily-card.js"), "utf8");
+const settingsSrc = fs.readFileSync(path.join(ROOT, "js/ui/settings.js"), "utf8");
+const commandSrc = fs.readFileSync(path.join(ROOT, "js/ui/command.js"), "utf8");
+const chartsSrc = fs.readFileSync(path.join(ROOT, "js/ui/charts.js"), "utf8");
+const gsSrc = fs.readFileSync(path.join(ROOT, "js/ui/global-stats.js"), "utf8");
+const storageSrc = fs.readFileSync(path.join(ROOT, "js/storage.js"), "utf8");
+const swSrc = fs.readFileSync(path.join(ROOT, "service-worker.js"), "utf8");
+const ver = JSON.parse(fs.readFileSync(path.join(ROOT, "version.json"), "utf8"));
 
 let pass = 0, fail = 0;
 function check(label, actual, expected) {
@@ -73,7 +74,7 @@ check("断言11 系数页呼吸感+热力图默认13周",
 
 check("断言12 SW 与 version.json 版本同步（动态互查，禁止硬编码版本值）",
   swSrc.indexOf('study-dashboard-' + ver.cacheVersion) !== -1
-  && ver.buildBatch.replace(/\s/g, "") === "批次37", true);
+  && ver.buildBatch.replace(/\s/g, "") === "批次39", true);
 
 check("断言13 schema 常量=6（本批零迁移）", (storageSrc.match(/const CURRENT_SCHEMA_VERSION = (\d+)/) || [])[1], "6");
 

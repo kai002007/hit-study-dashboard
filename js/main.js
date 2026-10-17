@@ -5,14 +5,14 @@ import { loadSettings, migrateData } from "./storage.js";
 import { applyTrendHiddenState, formatDateISO, renderSoundToggle, startTimePhaseTimer } from "./ui/base.js";
 import { loadVersionInfo, renderAboutCard, renderBackupReminder, renderVersionStamp } from "./ui/version.js";
 import { applyViewModeClass, getCurrentStage, renderHistoryReadonlyToggle, renderStageDrawerList } from "./ui/stage.js";
-import { renderCoeffSettings, renderQuotas } from "./ui/checkin.js";
+import { bindModuleListToggle, renderCoeffSettings, renderQuotas } from "./ui/checkin.js";
 import { scrollDashboardChartsToRight } from "./ui/charts.js";
 import { bindWeeklyReviewEvents } from "./ui/weekly.js";
 import { updateAllCards } from "./ui/today.js";
 import { bindAllEvents, renderAllCustomGoals } from "./ui/goals.js";
 import { renderStageReviewPage } from "./ui/review.js";
 import { renderGlobalStatsPage } from "./ui/global-stats.js";
-import { applyTheme, renderThemeToggle } from "./ui/settings.js";
+import { applySkin, applyTheme, renderThemeToggle } from "./ui/settings.js";
 
 // ==================== 14. 初始化 ====================
 
@@ -41,6 +41,7 @@ function initDashboard() {
 
   bindAllEvents();
   bindWeeklyReviewEvents();
+  bindModuleListToggle();
   renderAllCustomGoals();
   updateAllCards();
   renderBackupReminder();
@@ -58,6 +59,8 @@ function initDashboard() {
 
   // 批次 10：应用保存的主题 + 更新主题切换卡片文案
   applyTheme();
+  // 批次 24：应用保存的界面形态（classic 时移除 data-skin，经典形态零污染）
+  applySkin();
   renderThemeToggle();
 
   // 批次 C：启动时间色温

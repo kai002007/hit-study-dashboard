@@ -10,6 +10,8 @@ const storageSrc = fs.readFileSync(path.join(ROOT, "js/storage.js"), "utf8");
 const settingsSrc = fs.readFileSync(path.join(ROOT, "js/ui/settings.js"), "utf8");
 const mainSrc = fs.readFileSync(path.join(ROOT, "js/main.js"), "utf8");
 const dashboardSrc = fs.readFileSync(path.join(ROOT, "js/ui/dashboard.js"), "utf8");
+const chartsSrc = fs.readFileSync(path.join(ROOT, "js/ui/charts.js"), "utf8");
+const globalStatsSrc = fs.readFileSync(path.join(ROOT, "js/ui/global-stats.js"), "utf8");
 const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
 const swSrc = fs.readFileSync(path.join(ROOT, "service-worker.js"), "utf8");
 const ver = JSON.parse(fs.readFileSync(path.join(ROOT, "version.json"), "utf8"));
@@ -79,7 +81,9 @@ check("断言12 启动时应用形态（main.js 导入并调用 applySkin）",
 
 // ---------- 4. style.css 形态层：只许布局 + 中性叠层，禁止写死色值 ----------
 const deckStart = css.indexOf("批次 24：界面形态轴");
-const deckCss = deckStart === -1 ? "" : css.slice(deckStart);
+// 形态层只截到「批次 24 补正7」之前：补正7 起是主题令牌层（允许十六进制主题色），不属于形态层
+const deckEnd = css.indexOf("批次 24 补正7");
+const deckCss = deckStart === -1 ? "" : css.slice(deckStart, deckEnd === -1 ? undefined : deckEnd);
 check("断言13 形态层段落在册且规则量达标（>=60 条 deck 命中）",
   deckStart !== -1 && (deckCss.match(/body\[data-skin="deck"\]/g) || []).length >= 60, true);
 
@@ -159,6 +163,45 @@ check("断言26 今日作战：模块周配额 收起/展开（按钮 + 绑定�
   && css.indexOf(".module-list-toggle {\n  display: inline-flex;") !== -1
   && /\.module-list\.is-collapsed ul \{[^}]*display: none;/.test(css)
   && css.indexOf(".module-list.is-collapsed .module-list-header {") !== -1, true);
+
+// ---------- 9. 批次24 补正7（用户 2026-10-17 20:53 第八轮 9 条：主题化收口） ----------
+const orderMatch = (configSrc.match(/const THEME_ORDER = \[([^\]]*)\]/) || [])[1] || "";
+check("断言27 主题卡顺序：极光光谱/极光静奢置顶，其余 6 套相对顺序不变",
+  orderMatch.trim() === '"aurora-spectrum", "aurora-quiet", "dark-purple", "midnight-blue", "cyber-cyan-purple", "warm-cream", "matcha-green", "minimal-white"', true);
+
+check("断言28 月测卡「撤回最近一次」：存储函数 + 导出 + 按钮/科目菜单/撤回逻辑",
+  /function removeLastMonthlyScore\(subject\)/.test(storageSrc)
+  && /removeLastMonthlyScore,/.test(storageSrc.split("export {")[1] || "")
+  && chartsSrc.indexOf('id="monthly-undo-btn"') !== -1
+  && chartsSrc.indexOf('data-subject="math"') !== -1
+  && chartsSrc.indexOf('data-subject="english"') !== -1
+  && chartsSrc.indexOf("removeLastMonthlyScore(subject)") !== -1, true);
+
+check("断言29 主题化①：月度投入柱图渐变走主题令牌 + 子页面 CTA 走主题渐变（极简白保持原紫）",
+  globalStatsSrc.indexOf('style="stop-color: var(--purple-300)"') !== -1
+  && globalStatsSrc.indexOf("stop-color: var(--purple-600)") !== -1
+  && css.indexOf(".stage-review-save-btn,\n.stage-review-back-btn,\n.global-stats-back-btn,\n.global-stats-save-btn {\n  background: var(--gradient-purple);") !== -1
+  && css.indexOf('body[data-theme="minimal-white"] .stage-review-save-btn,') !== -1, true);
+
+check("断言30 主题化②③：主题/形态卡窄屏 2 列适配 + 经典热力图图例四阶色卡尺寸",
+  css.indexOf(".theme-picker-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }") !== -1
+  && css.indexOf(".year-heatmap-legend .heatmap-l1,") !== -1
+  && css.indexOf("width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  flex: 0 0 auto;") !== -1, true);
+
+check("断言31 主题化⑤⑥：周趋势两条悬浮标签跟随主题 + 日历四个按键跟随主题",
+  css.indexOf(".weekly-hours-chart-label {\n  background: color-mix(in srgb, var(--purple-500) 20%, var(--bg-card));") !== -1
+  && css.indexOf(".weekly-hours-chart-label-bottom {\n  background: color-mix(in srgb, var(--purple-300) 22%, var(--bg-card));") !== -1
+  && css.indexOf(".global-stats-close-btn {\n  background: color-mix(in srgb, var(--purple-500) 14%, var(--bg-card));") !== -1, true);
+
+check("断言32 主题化⑦：漏打卡提醒卡与「以总纲为宪法」子卡跟主题（保留警示左边条）",
+  css.indexOf(".missed-banner {\n  background: linear-gradient(135deg,") !== -1
+  && css.indexOf("border-left: 4px solid var(--status-warning);") !== -1
+  && css.indexOf(".settings-docs-reminder {\n  background: linear-gradient(135deg,") !== -1, true);
+
+check("断言33 主题化⑧：抹茶主题提高绿色占比与浓度（页面/卡片底纹更绿，不加深成深绿）",
+  css.indexOf('body[data-theme="matcha-green"] {\n  --bg-page: #e2ead1;') !== -1
+  && css.indexOf('body[data-theme="matcha-green"]::before { opacity: 0.09; }') !== -1
+  && css.indexOf("body[data-theme=\"matcha-green\"] .today-line {") !== -1, true);
 
 console.log(fail === 0 ? "回归通过 " + pass + "/" + (pass + fail) + " 项" : "回归失败 " + fail + " 项");
 process.exit(fail === 0 ? 0 : 1);

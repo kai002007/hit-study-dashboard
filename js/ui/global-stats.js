@@ -377,9 +377,10 @@ function renderGlobalStatsMonthlyChart(container, stats) {
     <div class="global-stats-monthly-wrap">
       <svg class="global-stats-monthly-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
         <defs>
+          <!-- 批次24 补正7（第八轮①）：柱图渐变改为跟随主题令牌，极简白仍是紫色 -->
           <linearGradient id="globalStatsMonthlyGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#c084fc"/>
-            <stop offset="100%" stop-color="#9333ea"/>
+            <stop offset="0%" style="stop-color: var(--purple-300)"/>
+            <stop offset="100%" style="stop-color: var(--purple-600)"/>
           </linearGradient>
         </defs>
         ${yLabels}${bars}${xLabels}

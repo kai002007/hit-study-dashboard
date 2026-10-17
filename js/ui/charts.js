@@ -1,7 +1,7 @@
 // ==================== js/ui/charts.js ====================
 // 批次20（ESM-b）自 script.js 整切：图表域（14天趋势/周学时趋势/月测分双曲线/全年热力图）。函数体逐字节不变。
 import { METRIC_CONFIGS, MONTHLY_SUBJECTS } from "../config.js";
-import { STORAGE_KEYS, addMonthlyScore, getCheckinValue, getMonthlyScores, getProgressIncrement, loadCustomGoals } from "../storage.js";
+import { STORAGE_KEYS, addMonthlyScore, getCheckinValue, getMonthlyScores, getProgressIncrement, loadCustomGoals, removeLastMonthlyScore } from "../storage.js";
 import { fmtHours, getDailyHours } from "../aggregation.js";
 import { SoundKit, formatDateISO, getToday, notify, parseSleepTime, pushUndo } from "./base.js";
 import { getSuggestedToday } from "./checkin.js";
@@ -383,7 +383,15 @@ function renderMonthlyScores() {
       ${renderMonthlyTrack("english")}
     </div>
     <div class="monthly-scores-footer">
-      <button type="button" class="monthly-add-btn" id="monthly-add-btn">+ 录入成绩</button>
+      <div class="monthly-score-actions">
+        <button type="button" class="monthly-add-btn" id="monthly-add-btn">+ 录入成绩</button>
+        <button type="button" class="monthly-undo-btn" id="monthly-undo-btn" aria-expanded="false">↩ 撤回最近一次</button>
+        <div class="monthly-undo-menu" id="monthly-undo-menu" hidden>
+          <span class="monthly-undo-menu-tip">撤回哪一题？</span>
+          <button type="button" class="monthly-undo-subject" data-subject="math">数学一</button>
+          <button type="button" class="monthly-undo-subject" data-subject="english">英语一</button>
+        </div>
+      </div>
       <form class="monthly-add-form" id="monthly-add-form">
         <select id="monthly-subject">
           <option value="math">数学一</option>
@@ -445,6 +453,32 @@ function bindMonthlyScoreEvents() {
       pushUndo("录入月测分", { [STORAGE_KEYS.monthlyScores]: before });
 
       renderMonthlyScores();
+    });
+  }
+
+  // 批次24 补正7（第八轮④）：撤回最近一次录入 —— 先选科目，再撤该曲线最新点
+  const undoBtn = document.getElementById("monthly-undo-btn");
+  const undoMenu = document.getElementById("monthly-undo-menu");
+  if (undoBtn && undoMenu) {
+    undoBtn.addEventListener("click", () => {
+      const willOpen = undoMenu.hidden;
+      undoMenu.hidden = !willOpen;
+      undoBtn.setAttribute("aria-expanded", String(willOpen));
+      undoBtn.classList.toggle("is-open", willOpen);
+      SoundKit.tick();
+    });
+    undoMenu.querySelectorAll(".monthly-undo-subject").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const subject = btn.dataset.subject;
+        const removed = removeLastMonthlyScore(subject);
+        if (!removed) {
+          notify("该科目暂无成绩可撤回", "warning");
+          return;
+        }
+        const subjName = (MONTHLY_SUBJECTS[subject] || {}).name || subject;
+        notify(`已撤回 ${subjName} ${removed.date} · ${removed.score} 分`, "success");
+        renderMonthlyScores();
+      });
     });
   }
 }

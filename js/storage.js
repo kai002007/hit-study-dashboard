@@ -547,6 +547,18 @@ function addMonthlyScore(subject, dateStr, score, note) {
   setMonthlyScores(all);
 }
 
+// 批次24 补正7（第八轮④）：撤回最近一次录入 —— 按科目撤掉该曲线最新的点
+// 返回被撤回的记录；无记录时返回 null
+function removeLastMonthlyScore(subject) {
+  const all = getMonthlyScores();
+  const list = all[subject];
+  if (!Array.isArray(list) || list.length === 0) return null;
+  list.sort((a, b) => a.date.localeCompare(b.date));
+  const removed = list.pop();
+  setMonthlyScores(all);
+  return removed;
+}
+
 // ==================== 自定义学习目标（2 函数） ====================
 
 function loadCustomGoals() {
@@ -888,6 +900,7 @@ export {
   getMonthlyScores,
   setMonthlyScores,
   addMonthlyScore,
+  removeLastMonthlyScore,
   loadCustomGoals,
   saveCustomGoals,
   saveSettings,

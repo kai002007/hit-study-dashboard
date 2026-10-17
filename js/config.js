@@ -240,9 +240,9 @@ const MONTHLY_SUBJECTS = {
   english: { key: "english", name: "英语一", max: 100, target: 70, fallback: 60 }
 };
 
-// ==================== 主题顺序（批次 10） ====================
-
-const THEME_ORDER = ["dark-purple", "midnight-blue", "cyber-cyan-purple", "warm-cream", "matcha-green", "minimal-white", "aurora-spectrum", "aurora-quiet"];
+// ==================== 主题顺序（批次 10；批次24 补正7 调整） ====================
+// 第八轮②：新增的极光光谱 / 极光静奢排到第 1、2 位，其余 6 套保持原有相对顺序
+const THEME_ORDER = ["aurora-spectrum", "aurora-quiet", "dark-purple", "midnight-blue", "cyber-cyan-purple", "warm-cream", "matcha-green", "minimal-white"];
 
 // ==================== 界面形态顺序（批次 24） ====================
 // 形态轴只管布局/结构，主题轴只管配色/材质，两轴正交（8 主题 × 2 形态 = 浏览器里相乘，代码只写 8+2 块）

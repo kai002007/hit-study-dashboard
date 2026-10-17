@@ -9393,3 +9393,231 @@ body[data-skin="deck"] .module-list-toggle {
   letter-spacing: 0.02em;
 }
 body[data-skin="deck"] .module-list.is-collapsed .module-list-header { min-height: 62px; }
+
+/* ==================== 批次 24 补正7（第八轮 9 条：主题化收口） ==================== */
+/* 口径：①③⑤⑥⑦ 把写死的紫色/暖色改为主题令牌（--purple-* / --gradient-purple / --status-*），
+   极简白主题的令牌本身就是紫系，视觉保持原紫；② 主题/形态卡窄屏适配 + 极光两卡置顶（配置 THEME_ORDER 已改）；
+   ④ 月测卡新增「撤回最近一次」按钮与数学/英语二选一小菜单；⑧ 抹茶主题只提高绿色占比与浓度，不加深成深绿。 */
+
+/* ---------- ① 子页面 CTA（保存笔记 / 返回实时世界 / 全局统计保存）改走主题渐变 ---------- */
+.stage-review-save-btn,
+.stage-review-back-btn,
+.global-stats-back-btn,
+.global-stats-save-btn {
+  background: var(--gradient-purple);
+  color: #fff;
+}
+.stage-review-save-btn:hover,
+.stage-review-back-btn:hover,
+.global-stats-back-btn:hover,
+.global-stats-save-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--purple-500) 32%, transparent);
+}
+/* 极简白：保持原来的紫色渐变（不随令牌微调产生色差） */
+body[data-theme="minimal-white"] .stage-review-save-btn,
+body[data-theme="minimal-white"] .stage-review-back-btn,
+body[data-theme="minimal-white"] .global-stats-back-btn,
+body[data-theme="minimal-white"] .global-stats-save-btn {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+}
+/* 极光两套：保存笔记与既有 CTA 覆盖保持同一光谱语言 */
+body[data-theme="aurora-spectrum"] .stage-review-save-btn {
+  background: linear-gradient(135deg, #22d3ee 0%, #60a5fa 55%, #818cf8 100%);
+  color: #04121a;
+}
+body[data-theme="aurora-quiet"] .stage-review-save-btn {
+  background: linear-gradient(135deg, #e6eef6 0%, #9cc7db 48%, #c9a86a 100%);
+  color: #0a1016;
+}
+
+/* ---------- ① 全局累计统计·月度投入柱图：跟随主题（JS 里 stop-color 已改 var） ---------- */
+.global-stats-monthly-bar {
+  fill: url(#globalStatsMonthlyGrad);
+}
+
+/* ---------- ② 主题 / 形态选择卡：窄屏适配（2 列紧凑，不再溢出） ---------- */
+@media (max-width: 640px) {
+  .modal-overlay { padding: 10px; }
+  .modal-card { max-width: calc(100vw - 20px); max-height: 88vh; }
+  .modal-form { padding: 12px; gap: 12px; }
+  .appearance-segments { gap: 6px; }
+  .appearance-segment { padding: 9px 10px; font-size: 12px; }
+  .theme-picker-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .theme-picker-item { padding: 8px; gap: 6px; min-width: 0; }
+  .theme-picker-preview { height: 40px; padding: 0 6px; gap: 6px; border-radius: 6px; }
+  .theme-picker-label { font-size: 12px; gap: 4px; }
+  .theme-picker-scheme-tag { font-size: 9px; padding: 0 4px; }
+  .skin-picker-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .skin-picker-item { padding: 8px; gap: 6px; min-width: 0; }
+  .skin-picker-preview { height: 72px; padding: 6px; gap: 4px; }
+  .skin-picker-label { font-size: 12px; }
+  .skin-picker-desc { font-size: 10px; line-height: 1.35; }
+}
+
+/* ---------- ③ 形态一（经典）热力图图例：补上「少→多」四阶小色卡尺寸（原来只有 fill 没有尺寸） ---------- */
+.year-heatmap-legend .heatmap-cell,
+.year-heatmap-legend .heatmap-empty,
+.year-heatmap-legend .heatmap-l1,
+.year-heatmap-legend .heatmap-l2,
+.year-heatmap-legend .heatmap-l3,
+.year-heatmap-legend .heatmap-l4 {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+  display: inline-block;
+}
+
+/* ---------- ④ 月测分曲线：录入成绩旁的「撤回最近一次」与科目小菜单 ---------- */
+.monthly-scores-footer { border-top-color: color-mix(in srgb, var(--purple-500) 12%, transparent); }
+.monthly-score-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.monthly-undo-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 38px;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.monthly-undo-btn:hover,
+.monthly-undo-btn.is-open {
+  border-color: var(--purple-400);
+  color: var(--purple-600);
+  background: color-mix(in srgb, var(--purple-500) 10%, transparent);
+}
+.monthly-undo-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px dashed color-mix(in srgb, var(--purple-400) 50%, transparent);
+  background: var(--bg-subtle);
+}
+.monthly-undo-menu[hidden] { display: none; }
+.monthly-undo-menu-tip { font-size: 12px; color: var(--text-tertiary); }
+.monthly-undo-subject {
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 30px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.monthly-undo-subject:hover {
+  border-color: var(--purple-400);
+  color: var(--purple-600);
+}
+
+/* ---------- ⑤ 周学时趋势：目标/底线两条悬浮标签的底板与文字跟随主题，且保证可读 ---------- */
+.weekly-hours-chart-label {
+  background: color-mix(in srgb, var(--purple-500) 20%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--purple-500) 42%, transparent);
+  color: var(--purple-700);
+}
+.weekly-hours-chart-label-target {
+  color: color-mix(in srgb, var(--purple-700) 82%, var(--text-primary));
+  border-color: color-mix(in srgb, var(--purple-500) 55%, transparent);
+}
+.weekly-hours-chart-label-bottom {
+  background: color-mix(in srgb, var(--purple-300) 22%, var(--bg-card));
+  color: color-mix(in srgb, var(--purple-700) 62%, var(--text-primary));
+}
+
+/* ---------- ⑥ 日历视图四个按键（上月 / 今天 / 下月 / 关闭）跟随主题 ---------- */
+.global-stats-close-btn {
+  background: color-mix(in srgb, var(--purple-500) 14%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--purple-500) 40%, transparent);
+  color: var(--purple-600);
+}
+.global-stats-close-btn:hover {
+  background: color-mix(in srgb, var(--purple-500) 26%, var(--bg-card));
+  color: var(--purple-700);
+}
+
+/* ---------- ⑦ 今日作战「漏打卡」提醒卡：主题色打底 + 警示色保留提醒强度 ---------- */
+.missed-banner {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--purple-500) 16%, var(--bg-card)) 0%,
+    color-mix(in srgb, var(--status-warning) 13%, var(--bg-card)) 100%);
+  border: 1px solid color-mix(in srgb, var(--status-warning) 52%, transparent);
+  border-left: 4px solid var(--status-warning);
+}
+.missed-icon {
+  background: color-mix(in srgb, var(--status-warning) 20%, var(--bg-card));
+  color: color-mix(in srgb, var(--status-warning) 78%, var(--purple-700));
+}
+.missed-text strong { color: color-mix(in srgb, var(--status-warning) 68%, var(--text-primary)); }
+.missed-text span { color: var(--text-secondary); }
+.missed-btn {
+  border: 1px solid color-mix(in srgb, var(--status-warning) 50%, transparent);
+  background: var(--bg-card);
+  color: color-mix(in srgb, var(--status-warning) 72%, var(--text-primary));
+}
+.missed-btn:hover { background: color-mix(in srgb, var(--status-warning) 14%, var(--bg-card)); }
+.missed-btn-primary {
+  background: linear-gradient(135deg, var(--status-warning) 0%, color-mix(in srgb, var(--status-warning) 70%, #7c2d12) 100%);
+  color: #fff;
+  border: none;
+}
+.missed-btn-primary:hover { box-shadow: 0 4px 10px color-mix(in srgb, var(--status-warning) 30%, transparent); }
+
+/* ---------- ⑦ 设置页「以总纲为宪法」子卡：主题色描边/底纹（不再是固定琥珀底） ---------- */
+.settings-docs-reminder {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--purple-500) 16%, var(--bg-card)) 0%,
+    color-mix(in srgb, var(--purple-300) 10%, var(--bg-card)) 100%);
+  border: 1px solid color-mix(in srgb, var(--purple-500) 48%, transparent);
+  color: var(--text-primary);
+}
+.settings-docs-reminder svg { stroke: var(--purple-600); }
+.settings-docs-reminder strong { color: var(--purple-600); }
+.settings-docs-reminder span { color: var(--text-secondary); }
+
+/* ---------- ⑧ 抹茶护眼主题：提高绿色在画面中的占比与浓度（不加深成深绿） ---------- */
+body[data-theme="matcha-green"] {
+  --bg-page: #e2ead1;
+  --bg-card: #f2f7e6;
+  --bg-subtle: #d2dfbf;
+  --border-subtle: rgba(74, 124, 89, 0.26);
+  background: linear-gradient(180deg, #dce8c7 0%, #e8f0d8 44%, #e1ecd0 100%) fixed;
+}
+body[data-theme="matcha-green"]::before { opacity: 0.09; }
+body[data-theme="matcha-green"] .metric-card,
+body[data-theme="matcha-green"] .dashboard-card,
+body[data-theme="matcha-green"] .dept-card,
+body[data-theme="matcha-green"] .weekly-review-section,
+body[data-theme="matcha-green"] .module-list,
+body[data-theme="matcha-green"] .settings-action-card,
+body[data-theme="matcha-green"] .settings-docs-card {
+  border-color: rgba(74, 124, 89, 0.3);
+}
+body[data-theme="matcha-green"] .today-line {
+  background: linear-gradient(135deg, rgba(74, 124, 89, 0.16) 0%, rgba(122, 148, 96, 0.09) 100%);
+}
+body[data-theme="matcha-green"] .missed-icon { background: rgba(74, 124, 89, 0.18); }
+
+/* ---------- ⑧① 极简白：所有按键一律保持紫系（含漏打卡提醒卡的两个操作键） ---------- */
+body[data-theme="minimal-white"] .missed-btn-primary {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  color: #fff;
+  border: none;
+}
+body[data-theme="minimal-white"] .missed-btn {
+  color: #7c3aed;
+  border-color: rgba(124, 58, 237, 0.42);
+}
+body[data-theme="minimal-white"] .missed-btn:hover { background: #f3e8ff; }
+body[data-theme="minimal-white"] .missed-icon { background: #f3e8ff; color: #9333ea; }
+body[data-theme="minimal-white"] .missed-text strong { color: #7c3aed; }

@@ -3,7 +3,7 @@
 import { MELTDOWN_THRESHOLD, STAGE0_START_DATE, STATUS_DROP_THRESHOLD, DAILY_CAP } from "../config.js";
 import { STORAGE_KEYS, getDailyCard, getDailyCards, saveDailyCard } from "../storage.js";
 import { fmtHours, getDailyHours } from "../aggregation.js";
-import { bindClick, daysBetween, formatDateISO, getToday, notify, parseDate, pushUndo } from "./base.js";
+import { bindClick, daysBetween, formatDateCN, formatDateISO, getToday, notify, parseDate, pushUndo } from "./base.js";
 
 // ==================== 0.3 日卡系统（S4-1） ====================
 
@@ -263,10 +263,136 @@ function bindDailyCardEvents() {
   });
 
   bindClick("daily-save-btn", handleSaveDailyCard);
+  bindDailyMakeupEvents();
+}
+
+// ==================== 0.4 补记日卡（批次25 需求③） ====================
+// 目的：防「忘记打卡导致日卡空缺」。补记只写 dailyCards（状态分/卡点），
+// 不改当日打卡数据；该日学习时长仍按当时已有记录由 getDailyHours 自动折算。
+
+const MAKEUP_MAX_DAYS = 30; // 只允许补最近 30 天，避免误改太久远历史
+
+function getMakeupDateOptions() {
+  const opts = [];
+  const today = new Date();
+  for (let i = 1; i <= MAKEUP_MAX_DAYS; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const ds = formatDateISO(d);
+    const card = getDailyCard(ds);
+    const hasCard = !!(card && card.statusScore > 0);
+    opts.push({ dateStr: ds, hasCard });
+  }
+  return opts;
+}
+
+function renderMakeupDateOptions() {
+  const sel = document.getElementById("daily-makeup-date");
+  if (!sel) return;
+  const opts = getMakeupDateOptions();
+  sel.innerHTML = opts.map(o =>
+    `<option value="${o.dateStr}">${formatDateCN(o.dateStr)} 周${"日一二三四五六"[parseDate(o.dateStr).getDay()]}${o.hasCard ? "（已填）" : "（未填）"}</option>`
+  ).join("");
+}
+
+function paintMakeupPreview() {
+  const sel = document.getElementById("daily-makeup-date");
+  const box = document.getElementById("daily-makeup-preview");
+  const picker = document.getElementById("daily-makeup-score-picker");
+  const blocker = document.getElementById("daily-makeup-blocker");
+  if (!sel || !box) return;
+  const ds = sel.value;
+  if (!ds) { box.textContent = "该日学习时长：--"; return; }
+  const dh = getDailyHours(ds);
+  const card = getDailyCard(ds);
+  const score = card && card.statusScore > 0 ? ` · 状态分 ${card.statusScore}` : " · 未记录状态分";
+  box.textContent = `该日学习时长：${fmtHours(dh.hours)} h${score}`;
+  if (picker) {
+    picker.querySelectorAll(".status-score-btn").forEach(b => {
+      b.classList.toggle("active", !!(card && Number(b.dataset.score) === card.statusScore));
+    });
+  }
+  if (blocker) blocker.value = card && card.blocker ? card.blocker : "";
+}
+
+function openDailyMakeupModal() {
+  const modal = document.getElementById("daily-makeup-modal");
+  if (!modal) return;
+  renderMakeupDateOptions();
+  paintMakeupPreview();
+  modal.style.display = "flex";
+}
+
+function closeDailyMakeupModal() {
+  const modal = document.getElementById("daily-makeup-modal");
+  if (modal) modal.style.display = "none";
+}
+
+function handleSaveMakeupDailyCard() {
+  const sel = document.getElementById("daily-makeup-date");
+  const picker = document.getElementById("daily-makeup-score-picker");
+  const blocker = document.getElementById("daily-makeup-blocker");
+  if (!sel) return;
+  const dateStr = sel.value;
+  if (!dateStr) { notify("请选择补记日期"); return; }
+  if (dateStr === getToday()) { notify("当天日卡请用主卡保存，补记只处理往日"); return; }
+
+  const active = picker ? picker.querySelector(".status-score-btn.active") : null;
+  const statusScore = active ? Number(active.dataset.score) : 0;
+  if (statusScore <= 0) { notify("请先选择状态分（1–5）"); return; }
+
+  const prev = getDailyCard(dateStr) || {};
+  const before = getDailyCards();
+  // 关键：补记不动打卡数据，也不改学习时长口径——planHours 保 0、adjustment 沿用原值
+  saveDailyCard(dateStr, {
+    planHours: 0,
+    adjustment: Number(prev.adjustment) || 0,
+    statusScore: statusScore,
+    blocker: blocker ? blocker.value : ""
+  });
+  pushUndo(`补记日卡 ${formatDateCN(dateStr)}`, { [STORAGE_KEYS.dailyCards]: before });
+  notify(`已补记 ${formatDateCN(dateStr)} 的日卡`, "success");
+
+  closeDailyMakeupModal();
+  renderDailyCard();
+}
+
+function bindDailyMakeupEvents() {
+  bindClick("daily-makeup-btn", openDailyMakeupModal);
+  bindClick("daily-makeup-close-btn", closeDailyMakeupModal);
+  bindClick("daily-makeup-cancel-btn", closeDailyMakeupModal);
+  bindClick("daily-makeup-save-btn", handleSaveMakeupDailyCard);
+
+  const modal = document.getElementById("daily-makeup-modal");
+  if (modal && !modal.dataset.bound) {
+    modal.dataset.bound = "1";
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeDailyMakeupModal();
+    });
+  }
+
+  const sel = document.getElementById("daily-makeup-date");
+  if (sel && !sel.dataset.bound) {
+    sel.dataset.bound = "1";
+    sel.addEventListener("change", paintMakeupPreview);
+  }
+
+  const picker = document.getElementById("daily-makeup-score-picker");
+  if (picker && !picker.dataset.bound) {
+    picker.dataset.bound = "1";
+    picker.querySelectorAll(".status-score-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        picker.querySelectorAll(".status-score-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+  }
 }
 
 
 // ==================== ESM 导出（批次20） ====================
 export {
-  bindDailyCardEvents, getStatusScoreTrend, handleSaveDailyCard, isReduceWeek, isSundayAfternoon, renderDailyCard
+  bindDailyCardEvents, getStatusScoreTrend, handleSaveDailyCard, isReduceWeek, isSundayAfternoon, renderDailyCard,
+  // 批次25 需求③
+  getMakeupDateOptions, openDailyMakeupModal, closeDailyMakeupModal, handleSaveMakeupDailyCard, paintMakeupPreview
 };

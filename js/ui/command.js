@@ -26,6 +26,12 @@ const CMD_ICON = {
 function getCommandPaletteCommands() {
   const list = [];
 
+  // 0. 动作（批次25：动作组置顶，「撤销上一步操作」为该组首条）
+  list.push({ group: "动作", label: "撤销上一步操作", subtitle: "Ctrl+Z", keywords: "undo 撤销 回退", icon: CMD_ICON.undo, run: () => { performUndo(); } });
+  list.push({ group: "动作", label: "新建学习目标", subtitle: "打开新建弹窗", keywords: "new goal 新建 目标", icon: CMD_ICON.action, run: () => { openNewGoalModal(); } });
+  list.push({ group: "动作", label: "保存今日日卡", subtitle: "提交状态分 / 计划 / 实际", keywords: "save daily 保存 日卡", icon: CMD_ICON.action, run: () => { handleSaveDailyCard(); } });
+  list.push({ group: "动作", label: "一键生成周报文本", subtitle: "含自动洞察", keywords: "weekly report 生成 周报", icon: CMD_ICON.report, run: () => { switchTabExternal("weekly"); setTimeout(() => handleGenerateWeeklyReport(), 220); } });
+
   // 1. 切换 Tab
   list.push({ group: "导航", label: "切换到 今日作战", subtitle: "Tab 1", keywords: "tab today 今日", icon: CMD_ICON.tab, run: () => { switchTabExternal("today"); } });
   list.push({ group: "导航", label: "切换到 进度看板", subtitle: "Tab 2", keywords: "tab progress 进度 看板 热力图", icon: CMD_ICON.tab, run: () => { switchTabExternal("progress"); } });
@@ -66,11 +72,7 @@ function getCommandPaletteCommands() {
   list.push({ group: "跳转区块", label: "跳转到 月测分曲线", subtitle: "数学 / 英语", keywords: "score 月测分 曲线", icon: CMD_ICON.jump, run: () => { switchTabExternal("progress"); setTimeout(() => scrollToElement("monthly-scores"), 220); } });
   list.push({ group: "跳转区块", label: "跳转到 周学时趋势", subtitle: "进度看板", keywords: "weekly trend 周学时 趋势", icon: CMD_ICON.jump, run: () => { switchTabExternal("progress"); setTimeout(() => scrollToElement("weekly-hours-trend"), 220); } });
 
-  // 5. 动作
-  list.push({ group: "动作", label: "新建学习目标", subtitle: "打开新建弹窗", keywords: "new goal 新建 目标", icon: CMD_ICON.action, run: () => { openNewGoalModal(); } });
-  list.push({ group: "动作", label: "保存今日日卡", subtitle: "提交状态分 / 计划 / 实际", keywords: "save daily 保存 日卡", icon: CMD_ICON.action, run: () => { handleSaveDailyCard(); } });
-  list.push({ group: "动作", label: "一键生成周报文本", subtitle: "含自动洞察", keywords: "weekly report 生成 周报", icon: CMD_ICON.report, run: () => { switchTabExternal("weekly"); setTimeout(() => handleGenerateWeeklyReport(), 220); } });
-  list.push({ group: "动作", label: "撤销上一步操作", subtitle: "Ctrl+Z", keywords: "undo 撤销 回退", icon: CMD_ICON.undo, run: () => { performUndo(); } });
+  // 5. 动作（批次25：已移至命令列表最前，见函数开头）
 
   // 6. 数据
   list.push({ group: "数据", label: "导出备份 JSON", subtitle: "下载到本地", keywords: "export backup 导出 备份", icon: CMD_ICON.backup, run: () => { exportBackup(); } });

@@ -1,7 +1,7 @@
 // 学习作战台 Service Worker
 // 策略：network-first，离线时回退到 cache
 
-const CACHE_NAME = "study-dashboard-v31";
+const CACHE_NAME = "study-dashboard-v32";
 const CORE_ASSETS = [
   "./",
   "./index.html",

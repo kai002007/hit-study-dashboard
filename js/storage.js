@@ -299,6 +299,26 @@ function setSkin(skin) {
   }
 }
 
+// ==================== 偏好键：模块周配额收起状态（批次 25） ====================
+// 只存 collapsed / expanded 两种合法值；非法值或未存过则回退为展开（存量用户零感知）。
+const MODULE_COLLAPSED_KEY = "study_dashboard_module_collapsed";
+
+function getModuleCollapsed() {
+  try {
+    return localStorage.getItem(MODULE_COLLAPSED_KEY) === "collapsed";
+  } catch (e) {
+    return false;
+  }
+}
+
+function setModuleCollapsed(collapsed) {
+  try {
+    localStorage.setItem(MODULE_COLLAPSED_KEY, collapsed ? "collapsed" : "expanded");
+  } catch (e) {
+    console.warn("[ModuleList] 保存失败", e);
+  }
+}
+
 // ==================== 偏好键：自定义命令（批次 13） ====================
 
 const CUSTOM_CMD_STORAGE_KEY = "study_dashboard_custom_commands";
@@ -831,7 +851,8 @@ const STORAGE_REGISTRY = [
   { id: "globalHoursGoal",    key: "study_dashboard_global_hours_goal",      type: "string", backup: true  },
   { id: "theme",              key: "study_dashboard_theme",                  type: "string", backup: true  },
   { id: "customCommands",     key: "study_dashboard_custom_commands",        type: "array",  backup: true  },
-  { id: "dayDiary",           key: "study_dashboard_day_diary",              type: "object", backup: true  }
+  { id: "dayDiary",           key: "study_dashboard_day_diary",              type: "object", backup: true  },
+  { id: "moduleCollapsed",    key: "study_dashboard_module_collapsed",       type: "string", backup: true  }
 ];
 
 // ==================== ESM 导出（批次19） ====================
@@ -872,6 +893,9 @@ export {
   SKIN_STORAGE_KEY,
   getSkin,
   setSkin,
+  MODULE_COLLAPSED_KEY,
+  getModuleCollapsed,
+  setModuleCollapsed,
   CUSTOM_CMD_STORAGE_KEY,
   getCustomCommands,
   saveCustomCommands,

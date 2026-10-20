@@ -1,7 +1,7 @@
 // ==================== js/ui/checkin.js ====================
 // 批次20（ESM-b）自 script.js 整切：打卡主交互域（打卡推算/周检五数字/配额区/九卡更新/交互事件/系数设置）。函数体逐字节不变。
 import { METRIC_CONFIGS, QUOTAS } from "../config.js";
-import { STORAGE_KEYS, addCheckin, getCheckinValue, getCheckins, getProgressIncrement, getTotalCompleted, hasCheckin, isProgressType, loadData, saveSettings } from "../storage.js";
+import { STORAGE_KEYS, addCheckin, getCheckinValue, getCheckins, getModuleCollapsed, getProgressIncrement, getTotalCompleted, hasCheckin, isProgressType, loadCustomGoals, loadData, saveCustomGoals, saveSettings, setModuleCollapsed } from "../storage.js";
 import { fmtHours, getCoeffEditableMetricKeys, getDailyHours, getWeeklyStats } from "../aggregation.js";
 import { animateNumber, daysBetween, formatDate, formatDateCN, formatDateISO, getToday, getYesterday, normalizeHours, notify, parseDate, parseSleepTime, pulseCardSuccess, pushUndo, setBarProgress, setClass, setHTML, setRingProgress, setText, setWidth } from "./base.js";
 import { getStageIdByDate } from "./stage.js";
@@ -719,7 +719,14 @@ function openAdjustPlan(metricKey) {
 
 // 已迁移至 js/storage.js（批次8）
 
-// ---------- 卡片系数与目标设置页（批次15 R-2a） ----------
+// ---------- 卡片系数与目标设置页（批次15 R-2a / 批次25 扩自定义目标） ----------
+
+// 需求④：自定义目标（goal_*）同样可在此页调整折算系数与数量目标
+function escapeCoeffHtml(s) {
+  return String(s === undefined || s === null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
 function renderCoeffSettings() {
   const list = document.getElementById("coeff-settings-list");
@@ -740,6 +747,24 @@ function renderCoeffSettings() {
       ${goalInput}
     </div>`;
   });
+
+  // 需求④：自定义学习目标行（系数=每单位折算工时，数量=建议每日推进 / 总目标）
+  const goals = loadCustomGoals();
+  if (goals.length > 0) {
+    rows.push(`<div class="coeff-section-title">自定义学习目标</div>`);
+    goals.forEach(goal => {
+      const rate = typeof goal.hoursPerUnit === "number" ? goal.hoursPerUnit : "";
+      const daily = typeof goal.daily === "number" ? goal.daily : "";
+      const total = typeof goal.total === "number" ? goal.total : "";
+      rows.push(`<div class="global-stats-goal-form" style="margin-bottom: 8px; flex-wrap: wrap;" data-goal-id="${escapeCoeffHtml(goal.id)}">
+      <span style="min-width: 110px;">${escapeCoeffHtml(goal.name)}（${escapeCoeffHtml(goal.unit)}）</span>
+      <input type="number" class="global-stats-goal-input" id="coeff-rate-${escapeCoeffHtml(goal.id)}" step="any" min="0" value="${rate}" data-original="${rate}" placeholder="系数 h/${escapeCoeffHtml(goal.unit)}（0=不计入学时）">
+      <input type="number" class="global-stats-goal-input" id="coeff-daily-${escapeCoeffHtml(goal.id)}" step="1" min="1" value="${daily}" data-original="${daily}" placeholder="每日推进">
+      <input type="number" class="global-stats-goal-input" id="coeff-goal-${escapeCoeffHtml(goal.id)}" step="1" min="1" value="${total}" data-original="${total}" placeholder="总目标">
+    </div>`);
+    });
+  }
+
   const sleepCfg = METRIC_CONFIGS.sleep;
   if (sleepCfg) {
     rows.push(`<div class="global-stats-goal-form" style="margin-bottom: 8px; opacity: 0.6;">
@@ -752,6 +777,8 @@ function renderCoeffSettings() {
 
 function handleSaveCoeffSettings() {
   const before = loadData(STORAGE_KEYS.settings, {});
+  // 快照需深拷贝：下方会原地修改 goal 对象，浅引用会让快照同步被改（撤销失效）
+  const beforeGoals = JSON.parse(JSON.stringify(loadCustomGoals()));
   let changed = false;
   const keys = getCoeffEditableMetricKeys();
   for (const key of keys) {
@@ -775,12 +802,45 @@ function handleSaveCoeffSettings() {
       changed = true;
     }
   }
+
+  // 需求④：自定义目标落盘走 saveCustomGoals（saveSettings 只存固定卡差异）
+  let goalsChanged = false;
+  const goals = loadCustomGoals();
+  for (const goal of goals) {
+    const spec = [
+      { id: `coeff-rate-${goal.id}`, key: "hoursPerUnit", min: 0, label: "折算系数", allowZero: true },
+      { id: `coeff-daily-${goal.id}`, key: "daily", min: 1, label: "每日推进" },
+      { id: `coeff-goal-${goal.id}`, key: "total", min: 1, label: "总目标" }
+    ];
+    for (const f of spec) {
+      const el = document.getElementById(f.id);
+      if (!el) continue;
+      const raw = el.value.trim();
+      if (raw === "" || raw === el.dataset.original) continue;
+      const v = Number(raw);
+      if (isNaN(v) || v < f.min) {
+        notify(`「${goal.name}」${f.label}输入无效`, "warning");
+        return;
+      }
+      if (f.allowZero && v === 0) {
+        if (goal.hoursPerUnit !== undefined) { delete goal.hoursPerUnit; goalsChanged = true; }
+      } else if (goal[f.key] !== v) {
+        goal[f.key] = v;
+        goalsChanged = true;
+      }
+    }
+  }
+  if (goalsChanged) {
+    saveCustomGoals(goals);
+    changed = true;
+  }
+
   if (!changed) {
     notify("没有改动", "info");
     return;
   }
-  saveSettings();
-  pushUndo("调整卡片系数与目标", { [STORAGE_KEYS.settings]: before });
+  if (keys.length) saveSettings();
+  pushUndo("调整卡片系数与目标", { [STORAGE_KEYS.settings]: before, [STORAGE_KEYS.customGoals]: beforeGoals });
   notify("已保存；新系数仅影响此后新打卡，历史记录封存不变", "success");
   updateAllCards();
   renderCoeffSettings();
@@ -793,17 +853,29 @@ function handleSaveCoeffSettings() {
 // 已迁移至 js/storage.js（批次8）
 
 
-// ==================== 14. 模块周配额 收起/展开（批次24 补正5） ====================
+// ==================== 14. 模块周配额 收起/展开（批次24 补正5 / 批次25 加记忆） ====================
+
+// 依据状态落盘口径：展开/收起状态写 storage，下次进入工作台恢复（需求⑤）
+function applyModuleListCollapsed(listEl, toggleBtn, collapsed) {
+  if (!listEl || !toggleBtn) return;
+  listEl.classList.toggle("is-collapsed", collapsed);
+  toggleBtn.textContent = collapsed ? "展开" : "收起";
+  toggleBtn.setAttribute("aria-expanded", String(!collapsed));
+}
 
 function bindModuleListToggle() {
   const listEl = document.getElementById("module-list");
   const toggleBtn = document.getElementById("module-list-toggle");
-  if (!listEl || !toggleBtn || toggleBtn.dataset.bound === "1") return;
+  if (!listEl || !toggleBtn) return;
+  // 每次进入都恢复上次状态（幂等），再绑定一次点击
+  applyModuleListCollapsed(listEl, toggleBtn, getModuleCollapsed());
+  if (toggleBtn.dataset.bound === "1") return;
   toggleBtn.dataset.bound = "1";
   toggleBtn.addEventListener("click", () => {
     const collapsed = listEl.classList.toggle("is-collapsed");
     toggleBtn.textContent = collapsed ? "展开" : "收起";
     toggleBtn.setAttribute("aria-expanded", String(!collapsed));
+    setModuleCollapsed(collapsed);
   });
 }
 

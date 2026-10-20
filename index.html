@@ -212,7 +212,12 @@
 
               <div class="daily-card-footer">
                 <div class="daily-card-insight" id="daily-card-insight">近 7 天状态分均值：--</div>
-                <button type="button" class="daily-save-btn" id="daily-save-btn">保存日卡</button>
+                <div class="daily-card-actions">
+                  <button type="button" class="daily-makeup-btn" id="daily-makeup-btn" title="补记日卡（补前几天漏打卡的状态分/卡点）" aria-label="补记日卡">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12h-6"/><path d="M18 9v6"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+                  </button>
+                  <button type="button" class="daily-save-btn" id="daily-save-btn">保存日卡</button>
+                </div>
               </div>
             </section>
 
@@ -1450,6 +1455,41 @@
         </div>
         <div class="modal-actions">
           <button type="button" class="modal-btn modal-btn-secondary" id="delete-goal-cancel-btn">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 补记日卡弹窗（批次25 需求③） -->
+  <div class="modal-overlay" id="daily-makeup-modal" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">补记日卡</h3>
+        <button class="modal-close" id="daily-makeup-close-btn" type="button">&times;</button>
+      </div>
+      <div class="modal-form">
+        <div class="form-group">
+          <label for="daily-makeup-date">补记日期</label>
+          <select id="daily-makeup-date"></select>
+        </div>
+        <div class="daily-makeup-preview" id="daily-makeup-preview">该日学习时长：--</div>
+        <div class="form-group">
+          <label>状态分（1–5）</label>
+          <div class="status-score-picker" id="daily-makeup-score-picker">
+            <button type="button" class="status-score-btn" data-score="1">1</button>
+            <button type="button" class="status-score-btn" data-score="2">2</button>
+            <button type="button" class="status-score-btn" data-score="3">3</button>
+            <button type="button" class="status-score-btn" data-score="4">4</button>
+            <button type="button" class="status-score-btn" data-score="5">5</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="daily-makeup-blocker">卡点（选填）</label>
+          <input type="text" id="daily-makeup-blocker" placeholder="那天卡在哪里……">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="modal-btn modal-btn-secondary" id="daily-makeup-cancel-btn">取消</button>
+          <button type="button" class="modal-btn modal-btn-primary" id="daily-makeup-save-btn">保存补记</button>
         </div>
       </div>
     </div>

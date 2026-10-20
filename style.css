@@ -9621,3 +9621,223 @@ body[data-theme="minimal-white"] .missed-btn {
 body[data-theme="minimal-white"] .missed-btn:hover { background: #f3e8ff; }
 body[data-theme="minimal-white"] .missed-icon { background: #f3e8ff; color: #9333ea; }
 body[data-theme="minimal-white"] .missed-text strong { color: #7c3aed; }
+
+/* ==========================================================================
+   批次 25（施工批次25 / 构建批次40 / v2.9）
+   六条需求：① deck 九卡按键溢出 ② 真机弹窗适配 ③ 补记日卡
+             ④ 系数页自定义目标 ⑤ 模块收起记忆 ⑥ 命令面板排序
+   契约：①②为布局修复，颜色一律走主题令牌；③为通用组件（经典/指挥舱共用，
+   故不加 skin 作用域）；④⑤⑥主要在 JS。
+   ========================================================================== */
+
+/* ---------- 需求③：日卡「补记」小图标 + 补记弹窗（经典/指挥舱共用） ---------- */
+.daily-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.daily-makeup-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.daily-makeup-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.daily-makeup-btn:hover {
+  color: var(--purple-600);
+  border-color: var(--purple-500);
+  background: color-mix(in srgb, var(--purple-500) 12%, var(--bg-subtle));
+  transform: translateY(-1px);
+}
+
+.daily-makeup-btn:active { transform: translateY(0); }
+
+/* 手机：footer 变纵向时，动作区改为「图标在左、保存按钮占满剩余」 */
+@media (max-width: 640px) {
+  .daily-card-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+  .daily-card-actions .daily-save-btn {
+    flex: 1 1 auto;
+  }
+}
+
+/* 弹窗内：日期下拉全宽 + 关键预览条 */
+#daily-makeup-date {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+}
+
+.daily-makeup-preview {
+  margin: 2px 0 12px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--purple-500) 9%, var(--bg-subtle));
+  border: 1px solid color-mix(in srgb, var(--purple-500) 26%, transparent);
+}
+
+/* 需求④：系数页自定义目标分区标题 */
+.coeff-section-title {
+  margin: 14px 0 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-subtle);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+#daily-makeup-score-picker { flex-wrap: wrap; }
+
+/* ---------- 需求①：指挥舱（形态二）九卡内部按键适配 ----------
+   病根：deck ≥720px 时九卡两列（单卡 ≈340–535px），但卡内 .metric-bar-grid 的
+   `140px 1fr` 与 `.metric-bar-actions{padding-left:160px}` 只在视口 ≤899px 才失效，
+   视口 ≥900px 时卡窄内宽却回宽版排版 → 输入框+两按钮被 overflow:hidden 裁掉。
+   修法：deck 作用域内一律容器宽度自适应——单列栅格 + actions 换行 + 输入框弹性，
+   与视口宽度解耦，窗口放大到任何节点都不再挤压。 */
+body[data-skin="deck"] .metric-bar-grid {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 8px;
+}
+
+body[data-skin="deck"] .metric-bar-info,
+body[data-skin="deck"] .metric-bar-content {
+  grid-column: 1 / -1;
+}
+
+body[data-skin="deck"] .metric-bar-info {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+body[data-skin="deck"] .metric-bar-content { grid-row: 2; }
+
+body[data-skin="deck"] .metric-bar-actions {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  padding-left: 0;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+body[data-skin="deck"] .metric-bar-actions .checkin-input {
+  width: auto;
+  flex: 1 1 110px;
+  min-width: 88px;
+  max-width: 180px;
+}
+
+body[data-skin="deck"] .metric-bar-action-btns {
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+body[data-skin="deck"] .metric-bar-action-btns .checkin-btn {
+  flex: 0 1 auto;
+  padding: 9px 14px;
+  white-space: nowrap;
+}
+
+/* 极窄 deck（≤400px 视口）：按钮组整行铺满，避免与输入框抢宽度 */
+@media (max-width: 400px) {
+  body[data-skin="deck"] .metric-bar-action-btns {
+    flex: 1 1 100%;
+    justify-content: stretch;
+  }
+  body[data-skin="deck"] .metric-bar-action-btns .checkin-btn { flex: 1 1 0; }
+  body[data-skin="deck"] .metric-bar-actions .checkin-input { max-width: none; }
+}
+
+/* ---------- 需求②：真机「主题与形态」弹窗适配 ----------
+   病根：.modal-overlay 用 align-items:center + .modal-card max-height:88vh。
+   真机 vh = 大视口（含浏览器地址栏收起后的高度），实际可视高度更小 →
+   卡片比可视区高且被居中，顶部（标题/关闭键）被推出屏幕、整页也无法滚动。
+   修法（仅窄屏生效，桌面观感零变化）：overlay 顶部对齐且可滚动，
+   卡片用 dvh 上限（浏览器不支持 dvh 时 vh 兜底），margin:auto 保证短卡片仍居中。 */
+@media (max-width: 640px) {
+  .modal-overlay {
+    align-items: flex-start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+  }
+
+  .modal-card {
+    max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px);
+    margin: auto;
+  }
+
+  /* 主题与形态弹窗：标题与分段栏常驻可见，卡片网格独立滚动 */
+  #theme-modal .modal-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #theme-modal .modal-header { flex: 0 0 auto; }
+  #theme-modal .modal-form {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #theme-modal .appearance-segments { flex: 0 0 auto; }
+
+  #theme-modal .appearance-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 2px;
+  }
+
+  /* 真机窄屏：主题卡再收一档，保证两列等宽不被内容顶开 */
+  #theme-modal .theme-picker-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  #theme-modal .theme-picker-item { padding: 7px; gap: 5px; }
+
+  #theme-modal .theme-picker-preview {
+    height: 36px;
+    padding: 0 5px;
+    gap: 5px;
+  }
+}
